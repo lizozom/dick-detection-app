@@ -1,0 +1,56 @@
+.app-page {
+  height: calc(100% - 10vh);
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+
+.take-pic {
+  height: 100%;
+  width: 100%;
+}
+
+.take-pic.no-perms {
+  display: none;
+}
+
+.media-container { 
+  position: relative;
+  height: calc(100% - 10vh);
+  width: 100%;
+  overflow: hidden;
+}
+
+.canvas-cont {
+  height: calc(100% - 10vh);
+  width: 100%;
+  overflow: hidden;
+}
+
+video.camera-input {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%,0);
+}
+
+.control-bar {
+  width: 100%;
+  height: 10vh;
+  align-self: flex-end;
+  /* background-color: black; */
+}
+
+.control-bar svg {
+  height: 9vh;
+  width: 9vh;
+}
+
+.snap-btn {
+  border: none;
+  all: unset;
+}
