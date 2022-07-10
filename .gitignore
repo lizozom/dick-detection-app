@@ -3,3 +3,4 @@ node_modules
 CMakeCache.txt
 Makefile
 cmake_install.cmake
+dist
