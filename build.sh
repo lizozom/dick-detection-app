@@ -1,0 +1,2 @@
+emcmake cmake
+emmake make
