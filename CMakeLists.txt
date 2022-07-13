@@ -22,7 +22,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -sEXPORTED_FUNCTIONS=['_yolo_ncnn'] --pr
 set(CMAKE_EXECUTBLE_LINKER_FLAGS "${CMAKE_EXECUTBLE_LINKER_FLAGS} -sEXPORTED_FUNCTIONS=['_yolo_ncnn'] --preload-file ${CMAKE_CURRENT_SOURCE_DIR}/cpp/assets@.")
 
 
-add_executable(yolo cpp/Yolo.cpp)
+add_executable(yolo cpp/Sample.cpp)
 # target_link_libraries(yolo ncnn pthread)
 target_link_libraries(yolo ncnn)
 

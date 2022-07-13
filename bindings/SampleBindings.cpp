@@ -4,8 +4,8 @@
 
 using namespace emscripten;
 
-EMSCRIPTEN_BINDINGS(Sample) {
-    function("add", optional_override([](int a, int b) -> int {
-        return Sample::add(a, b);
-    }));
+EMSCRIPTEN_BINDINGS(MyModule) {
+    function("detect_yolo", optional_override([](const unsigned char* rgba_data, int width, int height, std::vector<Object>& objects) -> int {
+        return detect_yolo(rgba_data, width, height, objects);
+    }), allow_raw_pointers());
 }

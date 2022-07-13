@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "*.vue": "javascript",
+        "thread": "cpp"
+    }
+}
