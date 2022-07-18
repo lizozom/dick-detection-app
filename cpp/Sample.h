@@ -1,4 +1,6 @@
 
+#include <vector>
+
 struct Object
 {
     float x;

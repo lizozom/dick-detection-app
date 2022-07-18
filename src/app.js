@@ -1,35 +1,49 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import Yolo from '../Sample.js';
-import YoloWASM from '../Sample.wasm';
+import React, { useEffect, useRef } from 'react';
+import { detectYolo } from './detect_yolo.js';
+
+import { useYolo } from './use_yolo.js';
+import Photo from '/public/dp1.jpg';
+
+const BASE_SIZE = 640;
 
 export function App() {
-  // Declare a new state variable, which we'll call "count"
-  const [count, setCount] = useState(0);
-  const [yoloCore, setYolo] = useState(undefined);
+  const loaded = useYolo();
+  const canvasRef = useRef();
 
   useEffect(() => {
-    const yolo = Yolo({
-        locateFile: () => {
-            return YoloWASM;
-        },
-    });
-    
-    yolo.then((core) => {
-        setYolo(core);
-    });
-  }, [])
+    const img = new Image();
+    img.src = Photo;
+    img.onload = () => {
+      const {width, height} = img;
+      let scaleWidth = BASE_SIZE;
+      let scaledHeight = BASE_SIZE;
+      if (width > height) {
+        const wpercent = BASE_SIZE / width;
+        scaledHeight = height * wpercent;
+      } else {
+        const hpercent = BASE_SIZE / height;
+        scaleWidth = width * hpercent;
+      }
+
+      const canvas = canvasRef.current;
+      const context = canvas.getContext("2d")
+      context.drawImage(img, 0, 0, scaleWidth, scaledHeight);
+    }
+  }, []);
 
   const onClick = (e) => {
-    setCount(count + 1);
-    console.log(yoloCore.detect_yolo(1, 2));
+    if (!loaded) console.log('not loaded');
+    const detections = detectYolo(canvasRef);
+    console.log(detections);
   };
+
 
   return (
     <div>
-      <p>You clicked {count} times</p>
       <button onClick={onClick}>
         Click me
       </button>
+      <canvas id="app-canvas" ref={canvasRef} width="640" height="640"></canvas>
     </div>
   );
 }

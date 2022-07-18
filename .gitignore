@@ -4,7 +4,8 @@ CMakeCache.txt
 Makefile
 cmake_install.cmake
 dist
-Sample.wasm
-Sample.js
-Sample.data
 cpp/ncnn
+public/Sample.wasm
+public/Sample.js
+public/Sample.data
+public/Sample.worker.js

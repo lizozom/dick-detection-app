@@ -10,6 +10,16 @@ module.exports = {
     externals: {
         fs: 'empty',
     },
+    externals: ['worker_threads','ws','perf_hooks', 'fs'], // exclude nodejs
+    devServer: {
+        static: {
+            directory: path.join(__dirname, 'public'),
+        },
+        headers: {
+            "Cross-Origin-Opener-Policy": "same-origin",
+            "Cross-Origin-Embedder-Policy": "require-corp",
+        },
+    },
     mode: 'development',
     module: {
         rules: [
@@ -20,6 +30,13 @@ module.exports = {
                 options: {
                     presets: ['@babel/preset-react'],
                 },
+            },
+            {
+                test: /\.(jpe?g|png|gif|svg)$/i, 
+                loader: 'file-loader',
+                options: {
+                    name: 'public/[name].[ext]'
+                }  
             },
             {
                 test: /\.(wasm)$/,
@@ -33,6 +50,7 @@ module.exports = {
         fallback: { 
             "crypto": require.resolve("crypto-browserify"),
             "stream": require.resolve("stream-browserify"),
+            "os": require.resolve("os-browserify/browser"),
         }
     },
 };

@@ -1,0 +1,16 @@
+## SETUP
+
+Build ncnn for Webassembly with simd and threads and copy the install folder into ncnn.
+
+cd ~/Projects/ncnn/emsdk
+
+./emsdk install latest
+./emsdk activate latest
+cd ..
+source emsdk/emsdk_env.sh
+
+
+## BUILD
+
+emcmake cmake
+emmake make

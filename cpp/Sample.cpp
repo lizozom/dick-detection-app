@@ -14,6 +14,8 @@ static ncnn::Net* yolo = 0;
 extern "C" {
 
 int detect_yolo(const unsigned char* rgba_data, int width, int height, std::vector<Object>& objects) {
+    fprintf(stdout, "input %d x %d\n", width, height);
+
     if (!yolo)
     {
         yolo = new ncnn::Net;
@@ -23,14 +25,13 @@ int detect_yolo(const unsigned char* rgba_data, int width, int height, std::vect
         yolo->opt.use_vulkan_compute = true;
         // yolo->opt.use_bf16_storage = true;
 
-
-
-        yolo->load_param("yolo-fastest-opt.param");
-        yolo->load_model("yolo-fastest-opt.bin");
+        yolo->load_param("duckpuc-fastest2-opt.param");
+        yolo->load_model("duckpuc-fastest2-opt.bin");
     }
 
-    const int target_size = 320;
+    fprintf(stdout, "initialized!");
 
+    const int target_size = 320;
 
     // letterbox pad to multiple of 32
     int w = width;
