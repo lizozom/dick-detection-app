@@ -18,9 +18,9 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fopenmp -s USE_PTHREADS=1 -s PTHREAD_POOL_S
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp -s USE_PTHREADS=1 -s PTHREAD_POOL_SIZE=15")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fopenmp -s USE_PTHREADS=1 -s PTHREAD_POOL_SIZE=15")
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -sEXPORTED_FUNCTIONS=['_detect_yolo','_free'] --preload-file ${CMAKE_CURRENT_SOURCE_DIR}/cpp/assets@.")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -sEXPORTED_FUNCTIONS=['_detect_yolo','_free'] --preload-file ${CMAKE_CURRENT_SOURCE_DIR}/cpp/assets@.")
-set(CMAKE_EXECUTBLE_LINKER_FLAGS "${CMAKE_EXECUTBLE_LINKER_FLAGS} -sEXPORTED_FUNCTIONS=['_detect_yolo','_free'] --preload-file ${CMAKE_CURRENT_SOURCE_DIR}/cpp/assets@.")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -sEXPORTED_FUNCTIONS=['_yolo_ncnn','_detect_yolo','_free'] --preload-file ${CMAKE_CURRENT_SOURCE_DIR}/cpp/assets@.")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -sEXPORTED_FUNCTIONS=['_yolo_ncnn','_detect_yolo','_free'] --preload-file ${CMAKE_CURRENT_SOURCE_DIR}/cpp/assets@.")
+set(CMAKE_EXECUTBLE_LINKER_FLAGS "${CMAKE_EXECUTBLE_LINKER_FLAGS} -sEXPORTED_FUNCTIONS=['_yolo_ncnn','_detect_yolo','_free'] --preload-file ${CMAKE_CURRENT_SOURCE_DIR}/cpp/assets@.")
 
 
 add_executable(Sample cpp/Sample.cpp)

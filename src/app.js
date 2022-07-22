@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { detectYolo } from './detect_yolo.js';
 
 import { useYolo } from './use_yolo.js';
-import Photo from '/public/dp1.jpg';
+import Photo from '/public/dp2.jpg';
 
 const BASE_SIZE = 640;
 
@@ -43,7 +43,7 @@ export function App() {
       <button onClick={onClick}>
         Click me
       </button>
-      <canvas id="app-canvas" ref={canvasRef} width="640" height="640"></canvas>
+      <canvas id="app-canvas" ref={canvasRef} width="640" height="640" style={{position:'absolute', top: 10000}}></canvas>
     </div>
   );
 }

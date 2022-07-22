@@ -17,7 +17,7 @@ function resultBufferToDetections(qaqarray) {
         var bbox_w = qaqarray[i * 6 + 4];
         var bbox_h = qaqarray[i * 6 + 5];
 
-        if (label == -233)
+        if (label == -233 || prob === 0)
             continue;
 
         console.log('qaq ' + label + ' = ' + prob);
@@ -34,7 +34,7 @@ function resultBufferToDetections(qaqarray) {
     return detections;
 }
 export function detectYolo(canvasRef) {
-    const detections = [];
+    let detections;
 
     if (!canvasRef.current) return;
 
@@ -46,9 +46,10 @@ export function detectYolo(canvasRef) {
 
   
     if (imgData) {
+        const { data } = imgData;
         // allocate memory
-        const dst = _malloc(imgData.length);
-        HEAPU8.set(imgData, dst);
+        const dst = _malloc(data.length);
+        HEAPU8.set(data, dst);
 
         // max 20 objects
         const resultarray = new Float32Array(SIZE_OF_RES * MAX_RESULTS);
@@ -56,11 +57,12 @@ export function detectYolo(canvasRef) {
         HEAPF32.set(resultarray, resultbuffer / Float32Array.BYTES_PER_ELEMENT);
 
         // detect
-        _detect_yolo(dst, width, height, resultbuffer);
+        _yolo_ncnn(dst, width, height, resultbuffer);
 
         // results
         const qaqarray = HEAPF32.subarray(resultbuffer / Float32Array.BYTES_PER_ELEMENT, resultbuffer / Float32Array.BYTES_PER_ELEMENT + SIZE_OF_RES * MAX_RESULTS);
-        const foundDet = resultBufferToDetections(qaqarray);
+        
+        detections = resultBufferToDetections(qaqarray);
 
         // free mem
         _free(resultbuffer);
