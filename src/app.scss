@@ -1,13 +1,16 @@
 
-video {
-    position:absolute;
-    height: 100%;
-}
-
 .app-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
   height: 100%;
+
+  .main {
+    video {
+        position:absolute;
+        height: 100%;
+    }
+  }
+  
 }

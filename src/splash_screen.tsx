@@ -6,11 +6,13 @@ import  { Navigate } from 'react-router-dom';
 
 // @ts-ignore
 import Logo from '/public/duckpuc-logo.png';
+import "./splash_screen.scss";
+import { Header } from './components';
 
 const SPLASH_TIMEOUT = 2000;
 
 export function SplashScreen() {
-    const loaded = useYolo();
+    const loaded = false;//useYolo();
     const [delayedDone, setDelayedDone] = useState(false);
 
     useEffect(() => {
@@ -25,7 +27,10 @@ export function SplashScreen() {
         );
     } else {
         return (
-            <img alt="logo" src={Logo} />
+            <div className="spash-screen">
+                <Header />
+                <img alt="logo" src={Logo} />
+            </div>
         );
     }
 

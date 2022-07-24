@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import type { MutableRefObject } from 'react';
 import { detectYolo, drawDetections, isWasmLoaded, loadScaledPhotoToCanvas } from './helpers';
-import  { Navigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import Webcam from "react-webcam";
 
 //@ts-ignore
@@ -10,12 +10,13 @@ import Photo from '/public/dp2.jpg';
 
 import "./app.scss";
 import { Detection } from './types.js';
+import { Header } from './components';
 
 const BASE_SIZE = 640;
 
 
 export function App() {
-  const loaded = true; 
+  const loaded = true;
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const webcamRef = useRef<Webcam>(null);
   const [detections, setDetections] = useState<Detection[]>([]);
@@ -43,11 +44,11 @@ export function App() {
 
   const videoFrameToCanvas = () => {
     if (
-      webcamRef.current === null || 
+      webcamRef.current === null ||
       webcamRef.current.video === null ||
-      canvasRef.current === null 
+      canvasRef.current === null
     ) return;
-    
+
     const { video } = webcamRef.current;
     const canvas = canvasRef.current;
 
@@ -66,9 +67,9 @@ export function App() {
     if (!video) return;
 
     const canvas = canvasRef.current;
-    let h = 480; 
+    let h = 480;
     let w = 640;
-    video.addEventListener('play', function(e) {
+    video.addEventListener('play', function (e) {
       // Adjust canvas size
       if (video.videoWidth > 0) h = video.videoHeight / (video.videoWidth / w);
       canvas.setAttribute('width', w.toString());
@@ -85,11 +86,14 @@ export function App() {
 
   return (
     <div className='app-container'>
-      <Webcam onUserMedia={onUserMedia} mirrored={true} ref={webcamRef}/>
-      <canvas id="app-canvas" ref={canvasRef} width="640" height="640"/>
-      <br/>
-      <button onClick={onDetectClick}>Detect</button>
-      <button onClick={onResetClick}>Reset</button>
+      <Header />
+      <div className='main'>
+        <Webcam onUserMedia={onUserMedia} mirrored={true} ref={webcamRef} />
+        <canvas id="app-canvas" ref={canvasRef} width="640" height="640" />
+        <br />
+        <button onClick={onDetectClick}>Detect</button>
+        <button onClick={onResetClick}>Reset</button>
+      </div>
     </div>
   );
 }
