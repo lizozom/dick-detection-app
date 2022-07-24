@@ -1,0 +1,11 @@
+$body-color: rgb(254,236,224);
+
+html, body {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  background-color: $body-color;
+}

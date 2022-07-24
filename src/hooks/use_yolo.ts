@@ -1,20 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import * as React from 'react';
+import { useState, useEffect } from 'react';
 import { simd, threads } from 'wasm-feature-detect';
-// import Yolo from '/public/Sample.js';
-// import YoloWASM from '/public/Sample.wasm';
+
+interface WasmModule {
+  onRuntimeInitialized?: () => void;
+  wasmBinary?: ArrayBuffer;
+}
 
 export function useYolo() {
     const [loaded, setLoaded] = useState(false);
 
     // wrap wasm
     useEffect(() => {
-      var Module = {};
-      var has_simd;
-      var has_threads;
-      let yolo_module_name;
+      var Module: WasmModule = {};
+      let has_simd: boolean = false;
+      let has_threads: boolean = false;
+      let yolo_module_name: string = '';
 
       var wasmModuleLoaded = false;
-      var wasmModuleLoadedCallbacks = [];
+      const wasmModuleLoadedCallbacks: Array<()=> void> = [];
 
       Module.onRuntimeInitialized = function() {
           wasmModuleLoaded = true;
@@ -28,7 +32,7 @@ export function useYolo() {
         threads().then(threadsSupported => {
           has_threads = threadsSupported;
 
-          if (has_simd & has_threads)
+          if (has_simd && has_threads)
           {
               yolo_module_name = 'Sample';
               console.log('simd&threads enabled.');

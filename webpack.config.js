@@ -2,7 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    entry: path.resolve(__dirname, 'index.js'),
+    entry: path.resolve(__dirname, 'index.tsx'),
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'bundle.js'
@@ -19,10 +19,27 @@ module.exports = {
             "Cross-Origin-Opener-Policy": "same-origin",
             "Cross-Origin-Embedder-Policy": "require-corp",
         },
+        historyApiFallback: true,
     },
     mode: 'development',
     module: {
         rules: [
+            {
+              test: /\.tsx?$/,
+              use: 'ts-loader',
+              exclude: /node_modules/,
+            },
+            {
+                test: /\.s[ac]ss$/i,
+                use: [
+                  // Creates `style` nodes from JS strings
+                  "style-loader",
+                  // Translates CSS into CommonJS
+                  "css-loader",
+                  // Compiles Sass to CSS
+                  "sass-loader",
+                ],
+              },
             {
                 include: [path.join(__dirname)],
                 test: /\.(js|jsx)$/,
@@ -47,6 +64,7 @@ module.exports = {
     },
     plugins: [new HtmlWebpackPlugin({ template: path.resolve(__dirname, 'index.html') })],
     resolve: {
+        extensions: ['.tsx', '.ts', '.js'],
         fallback: { 
             "crypto": require.resolve("crypto-browserify"),
             "stream": require.resolve("stream-browserify"),
