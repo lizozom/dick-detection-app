@@ -19,7 +19,7 @@ function resultBufferToDetections(qaqarray: Array<number>): Array<Detection> {
         if (label == -233 || prob === 0)
             continue;
 
-        console.log('qaq ' + label + ' = ' + prob);
+        // console.log('qaq ' + label + ' = ' + prob);
         detections.push({
             label,
             prob,

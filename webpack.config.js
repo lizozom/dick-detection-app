@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
 module.exports = {
     entry: path.resolve(__dirname, 'index.tsx'),
@@ -50,10 +51,13 @@ module.exports = {
             },
             {
                 test: /\.(jpe?g|png|gif|svg)$/i, 
-                loader: 'file-loader',
+                loader: 'url-loader',
                 options: {
-                    name: 'public/[name].[ext]'
-                }  
+                    // name: 'public/[name].[ext]',
+                    limit: 8000, // Convert images < 8kb to base64 strings
+                    // name: 'images/[hash]-[name].[ext]'
+                },
+                type: 'javascript/auto'
             },
             {
                 test: /\.(wasm)$/,
@@ -62,7 +66,26 @@ module.exports = {
             },
         ],
     },
-    plugins: [new HtmlWebpackPlugin({ template: path.resolve(__dirname, 'index.html') })],
+    plugins: [
+        new HtmlWebpackPlugin({ template: path.resolve(__dirname, 'index.html') }),
+        new FaviconsWebpackPlugin({
+            logo: './public/duckpuc-logo.svg', // svg works too!
+            mode: 'webapp', // optional can be 'webapp', 'light' or 'auto' - 'auto' by default
+            devMode: 'webapp', 
+            favicons: {
+                appName: 'duckpuc',
+                appDescription: 'Duckpuc - Fun & Concensual dickpics',
+                developerName: 'lizozom',
+                developerURL: null, // prevent retrieving from the nearest package.json
+                background: '#ddd',
+                theme_color: '#333',
+                icons: {
+                  coast: false,
+                  yandex: false
+                }
+              }
+        })
+    ],
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
         fallback: { 

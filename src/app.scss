@@ -7,9 +7,20 @@
   height: 100%;
 
   .main {
+    canvas {
+        // display: none;
+        // display: block;
+        // position: absolute;
+        // z-index: -5;
+        // top: 0;
+    }
     video {
-        position:absolute;
-        height: 100%;
+        display: block;
+        position: absolute;
+        z-index: -5;
+        // display: none;
+        // position:absolute;
+        // height: 100%;
     }
   }
   

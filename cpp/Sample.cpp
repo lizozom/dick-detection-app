@@ -14,7 +14,7 @@ static ncnn::Net* yolo = 0;
 extern "C" {
 
 int detect_yolo(const unsigned char* rgba_data, int width, int height, std::vector<Object>& objects) {
-    fprintf(stdout, "input %d x %d\n", width, height);
+    // fprintf(stdout, "input %d x %d\n", width, height);
 
     if (!yolo)
     {
@@ -29,7 +29,7 @@ int detect_yolo(const unsigned char* rgba_data, int width, int height, std::vect
         yolo->load_model("duckpuc-fastest2-opt.bin");
     }
 
-    fprintf(stdout, "initialized!\n");
+    // fprintf(stdout, "initialized!\n");
 
     const int target_size = 320;
 
@@ -52,7 +52,7 @@ int detect_yolo(const unsigned char* rgba_data, int width, int height, std::vect
 
     ncnn::Mat in = ncnn::Mat::from_pixels_resize(rgba_data, ncnn::Mat::PIXEL_RGBA2RGB, width, height, w, h);
 
-    fprintf(stdout, "scaled %d x %d\n", w, h);
+    // fprintf(stdout, "scaled %d x %d\n", w, h);
 
     // pad to target_size rectangle
     // yolo/utils/datasets.py letterbox
@@ -64,7 +64,7 @@ int detect_yolo(const unsigned char* rgba_data, int width, int height, std::vect
     const float norm_vals[3] = {1 / 255.f, 1 / 255.f, 1 / 255.f};
     in_pad.substract_mean_normalize(0, norm_vals);
 
-    fprintf(stdout, "normalized\n");
+    // fprintf(stdout, "normalized\n");
 
     ncnn::Extractor ex = yolo->create_extractor();
 
@@ -78,7 +78,7 @@ int detect_yolo(const unsigned char* rgba_data, int width, int height, std::vect
 //    std::vector<int> picked;
 //    nms_sorted_bboxes(proposals, picked, nms_threshold);
 
-    fprintf(stdout, "received %d items\n", count);
+    // fprintf(stdout, "received %d items\n", count);
     objects.resize(count);
     for (int i = 0; i < count; i++)
     {
@@ -96,8 +96,8 @@ int detect_yolo(const unsigned char* rgba_data, int width, int height, std::vect
         score = values[1];
         label = values[0];
 
-        fprintf(stdout, "item %d:\n", i);
-        fprintf(stdout, "x1 %f x2 %f y1 %f y2 %f score %f label %d \n", x1, x2, y1, y2, score, label);
+        // fprintf(stdout, "item %d:\n", i);
+        // fprintf(stdout, "x1 %f x2 %f y1 %f y2 %f score %f label %d \n", x1, x2, y1, y2, score, label);
 
         //处理坐标越界问题
         if(x1<0) x1=0;
@@ -117,7 +117,7 @@ int detect_yolo(const unsigned char* rgba_data, int width, int height, std::vect
         objects[i].w = x2 - x1;
         objects[i].h = y2 - y1;
 
-        fprintf(stdout, "x %f y %f w %f h %f\n", objects[i].x, objects[i].y, objects[i].w, objects[i].h);
+        // fprintf(stdout, "x %f y %f w %f h %f\n", objects[i].x, objects[i].y, objects[i].w, objects[i].h);
         
     }
     return 0;

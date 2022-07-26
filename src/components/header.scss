@@ -1,22 +1,22 @@
 .header {
-    width: 100%;
-    background-color: #f3c19d;
-    min-height: 8vh;
-    padding: 1vh;
+    position:absolute;
     display: flex;
     flex-direction: row;
-    align-items: left;
-    justify-content: left;
-    font-size: calc(10px + 2vmin);
-    color: white;
-    /* box-shadow: 0px 1px 4px #f3c19d; */
-  }
-  
-  .header .logo {
-    background-image: url('/public/duckpuc-logo.png');
-    height: 7vh;
-    width: 7vh;
-    background-position: center; /* Center the image */
-    background-repeat: no-repeat; /* Do not repeat the image */
-    background-size: cover; /* Resize the background image to cover the entire container */
-  }
+    align-items: center;
+    padding-top: 2vh;
+    width: 100%;
+    
+    font-size: calc(14px + 2vmin);
+    font-weight: 700;
+    font-style: normal;
+
+    .logo {
+      padding-left: 2vh;
+      padding-right: 1vh;
+      height: 4vh;
+      width: 4vh;
+      background-position: center; /* Center the image */
+      background-repeat: no-repeat; /* Do not repeat the image */
+      background-size: cover; /* Resize the background image to cover the entire container */
+    }  
+}

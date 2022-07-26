@@ -5,9 +5,6 @@ import { detectYolo, drawDetections, isWasmLoaded, loadScaledPhotoToCanvas } fro
 import { Navigate } from 'react-router-dom'
 import Webcam from "react-webcam";
 
-//@ts-ignore
-import Photo from '/public/dp2.jpg';
-
 import "./app.scss";
 import { Detection } from './types.js';
 import { Header } from './components';
@@ -19,16 +16,6 @@ export function App() {
   const loaded = true;
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const webcamRef = useRef<Webcam>(null);
-  const [detections, setDetections] = useState<Detection[]>([]);
-
-  useEffect(() => {
-    if (!canvasRef.current) return;
-    loadScaledPhotoToCanvas(canvasRef as MutableRefObject<HTMLCanvasElement>, Photo);
-  }, []);
-
-  useEffect(() => {
-    drawDetections(canvasRef as MutableRefObject<HTMLCanvasElement>, detections);
-  }, [detections]);
 
   const onResetClick = () => {
     if (!loaded) console.log('not loaded');
@@ -38,8 +25,7 @@ export function App() {
   const onDetectClick = () => {
     if (!loaded) console.log('not loaded');
     const detections = detectYolo(canvasRef as MutableRefObject<HTMLCanvasElement>);
-    console.log(detections);
-    setDetections(detections);
+    drawDetections(canvasRef as MutableRefObject<HTMLCanvasElement>, detections);
   };
 
   const videoFrameToCanvas = () => {
@@ -60,6 +46,19 @@ export function App() {
     ctx.drawImage(video, 0, 0, w, h);
   }
 
+  const detectOnFrame = () => {
+    videoFrameToCanvas();
+
+    const d = detectYolo(canvasRef as MutableRefObject<HTMLCanvasElement>);
+    drawDetections(canvasRef as MutableRefObject<HTMLCanvasElement>, d);
+
+    requestAnimationFrame(detectOnFrame);
+  }
+
+  const onUserMediaError = (e: string | DOMException) => {
+    console.error("No media devices found")
+  }
+
   const onUserMedia = (_: MediaStream) => {
     if (webcamRef.current === null || canvasRef.current === null) return;
 
@@ -67,15 +66,25 @@ export function App() {
     if (!video) return;
 
     const canvas = canvasRef.current;
-    let h = 480;
-    let w = 640;
     video.addEventListener('play', function (e) {
-      // Adjust canvas size
-      if (video.videoWidth > 0) h = video.videoHeight / (video.videoWidth / w);
-      canvas.setAttribute('width', w.toString());
-      canvas.setAttribute('height', h.toString());
+      const { videoHeight, videoWidth } = video;
+      const { clientHeight } = document.documentElement;
 
-      videoFrameToCanvas();
+      // Video should cover height and be centered
+      const vidElemHeight = clientHeight;
+      const vidElemWidth = Math.round(videoWidth * clientHeight / videoHeight);
+  
+      video.setAttribute('height', String(vidElemHeight));
+      video.setAttribute('width', String(vidElemWidth));
+
+      // Canvas should be cropped to visible area
+      let canvasHeight = vidElemHeight;
+      let canvasWidth = vidElemWidth; // Math.min(vidElemWidth, innerWidth);
+
+      canvas.setAttribute('width', canvasWidth.toString());
+      canvas.setAttribute('height', canvasHeight.toString());
+
+      detectOnFrame();
     });
     if (!loaded) console.log('not loaded');
   };
@@ -88,7 +97,11 @@ export function App() {
     <div className='app-container'>
       <Header />
       <div className='main'>
-        <Webcam onUserMedia={onUserMedia} mirrored={true} ref={webcamRef} />
+        <Webcam onUserMedia={onUserMedia} onUserMediaError={onUserMediaError} ref={webcamRef} videoConstraints={{
+          
+          facingMode: "environment",
+          height: { ideal: window.innerHeight}
+        }}/>
         <canvas id="app-canvas" ref={canvasRef} width="640" height="640" />
         <br />
         <button onClick={onDetectClick}>Detect</button>
