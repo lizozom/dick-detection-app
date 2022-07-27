@@ -6,3 +6,8 @@ export interface Detection {
     bbox_x: number;
     bbox_y: number;
 }
+
+export interface ScreenSize {
+    width: number;
+    height: number;
+}

@@ -57,7 +57,7 @@ module.exports = {
                     limit: 8000, // Convert images < 8kb to base64 strings
                     // name: 'images/[hash]-[name].[ext]'
                 },
-                type: 'javascript/auto'
+                // type: 'javascript/auto'
             },
             {
                 test: /\.(wasm)$/,

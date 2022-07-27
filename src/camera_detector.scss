@@ -1,0 +1,50 @@
+
+.camera-detector {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100%;
+
+  .main {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+
+    & > div, video, canvas {
+      position: absolute;
+      top: 0;
+    }
+
+    .overlay {  
+      background-color: rgb(254,236,224);
+      width:100%;
+      height: 100%;
+      clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 80% 100%, 80% 25%, 20% 25%, 20% 100%, 0% 100%);
+
+      text-align: center;
+
+      .overlay-text-1 {
+        padding-top: 8vh;
+        font-size: 3vh;
+      }
+
+      .overlay-text-2 {
+        padding-top: 2vh;
+        font-size: 2vh;
+        font-weight: lighter;
+      }
+
+    } 
+
+    .app-control {
+      right: calc(50% - 28px);
+      bottom: 0;
+      top: auto;
+      margin-bottom: 2vh;
+    }
+    
+  }
+  
+}
