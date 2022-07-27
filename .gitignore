@@ -5,10 +5,6 @@ Makefile
 cmake_install.cmake
 dist
 cpp/ncnn
-public/Sample.wasm
-public/Sample.js
-public/Sample.data
-public/Sample.worker.js
 .vscode/configurationCache.log
 .gitignore
 .vscode/targets.log
