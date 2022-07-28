@@ -1,3 +1,5 @@
+
+.gitignore
 CMakeFiles
 node_modules
 CMakeCache.txt
@@ -6,8 +8,6 @@ cmake_install.cmake
 dist
 cpp/ncnn
 .vscode/configurationCache.log
-.gitignore
 .vscode/targets.log
 cpp/Sample.cpp
-.gitignore
 .vscode/dryrun.log

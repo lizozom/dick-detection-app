@@ -39,7 +39,7 @@ export function useYolo() {
           }
           else
           {
-              // yolo_module_name = 'ios/yolo-ios';
+              yolo_module_name = 'ios/yolo-ios';
               console.error('cannot enable simd&threads.');
           }
 
