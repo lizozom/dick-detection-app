@@ -1,39 +1,45 @@
 runtime: nodejs16
-service: duckpuc-app
+service: default
 handlers:
 # favicon
 - url: /favicon.ico
   static_files: favicon.ico
   upload: favicon.ico
+  secure: always
 # Serve Sample files
 - url: /Sample.wasm
   static_files: public/Sample.wasm
   upload: public/Sample.wasm
   mime_type: application/wasm
+  secure: always
   http_headers:
     Cross-Origin-Opener-Policy: "same-origin"
     Cross-Origin-Embedder-Policy: "require-corp"
 - url: /Sample.js
   static_files: public/Sample.js
   upload: public/Sample.js
+  secure: always
   http_headers:
     Cross-Origin-Opener-Policy: "same-origin"
     Cross-Origin-Embedder-Policy: "require-corp"
 - url: /Sample.worker.js
   static_files: public/Sample.worker.js
   upload: public/Sample.worker.js
+  secure: always
   http_headers:
     Cross-Origin-Opener-Policy: "same-origin"
     Cross-Origin-Embedder-Policy: "require-corp"
 - url: /Sample.data
   static_files: public/Sample.data
   upload: public/Sample.data
+  secure: always
   http_headers:
     Cross-Origin-Opener-Policy: "same-origin"
     Cross-Origin-Embedder-Policy: "require-corp"
 - url: /Sample.js
   static_files: public/Sample.js
   upload: public/Sample.js
+  secure: always
   http_headers:
     Cross-Origin-Opener-Policy: "same-origin"
     Cross-Origin-Embedder-Policy: "require-corp"
@@ -41,6 +47,7 @@ handlers:
 - url: /(.*\..+)$
   static_files: dist/\1
   upload: dist/(.*\..+)$
+  secure: always
   http_headers:
     Cross-Origin-Opener-Policy: "same-origin"
     Cross-Origin-Embedder-Policy: "require-corp"
@@ -48,6 +55,7 @@ handlers:
 - url: /.*
   static_files: dist/index.html
   upload: dist/index.html
+  secure: always
   http_headers:
     Cross-Origin-Opener-Policy: "same-origin"
     Cross-Origin-Embedder-Policy: "require-corp"
