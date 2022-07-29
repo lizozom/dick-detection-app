@@ -32,10 +32,12 @@ export function SplashScreen() {
                     <img alt="logo" src={RubberDuck} />
                 </div>
                 <div className="engage-section">
-                    <div className="engage-1">Are you wearing pants?</div>
-                    <div className="engage-2">Take them off</div>
-                    <div className="engage-3">
-                        <Button disabled={!loaded} onClick={onNextClick}> I'm ready &gt;</Button>
+                    <div className="engage-wrap">
+                        <div className="engage-1">Are you wearing pants?</div>
+                        <div className="engage-2">Take them off</div>
+                        <div className="engage-3">
+                            <Button disabled={!loaded} onClick={onNextClick}> I'm ready &gt;</Button>
+                        </div>
                     </div>
                 </div>
             </div>
