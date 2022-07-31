@@ -1,5 +1,6 @@
 from PIL import Image
-# from pylab import *
+from PIL.Image import Resampling
+import sys
 
 import numpy as np
 import glob
@@ -14,8 +15,10 @@ for f in glob.glob("../public/filters/*.png"):
 
     region = im.crop(box)
     print('saving cropped ' + f)
-    region.save(f, 'png')
-    
+    region.thumbnail((1000, sys.maxsize), Resampling.LANCZOS)
+    region = region.convert("P", palette=Image.ADAPTIVE, colors=256)
+    region.save(f, optimize=True)
+
     # region_pix = np.asarray(region)
 
     # subplot(121)
