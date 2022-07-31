@@ -1,3 +1,5 @@
+@use '../mixins' as m;
+
 .splash-screen {
   display: flex;
   justify-content: flex-start;
@@ -16,7 +18,7 @@
     height: 100%;
     width: 100%;
     align-items: center;
-    border-radius: 6vh 6vh 0 0;
+    border-radius: m.$border-radius;
 
     .engage-wrap {
       padding: 5vh 10vw 0 10vw;

@@ -20,6 +20,7 @@ node_modules/
 cpp/
 CMakeFiles/
 src/
+tools/
 Makefile
 *.txt
 *.sh

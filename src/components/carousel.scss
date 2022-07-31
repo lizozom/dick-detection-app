@@ -1,0 +1,23 @@
+.carousel {
+  display: flex;
+  flex-direction: row;
+  height: 13vh;
+  width: 100%;
+  padding: 1vh;
+  overflow-x: scroll;
+
+  .item {
+    margin-right: 1vh;
+    padding: 2vh;
+    background-color: white;
+    display: flex; 
+    flex-direction: column; 
+    justify-content:center;
+    width: 9vh;
+    height: 9vh;
+    border-radius: 2vh;
+
+    &.item-retake img {}
+
+  }
+}

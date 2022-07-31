@@ -1,4 +1,4 @@
-$body-color: rgb(254,236,224);
+@use "mixins" as m;
 
 html, body {
   padding: 0;
@@ -16,5 +16,5 @@ html, body {
 }
 
 body {
-  background-color: $body-color;
+  background-color: m.$body-color;
 }

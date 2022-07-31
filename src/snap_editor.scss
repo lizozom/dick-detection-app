@@ -1,3 +1,5 @@
+@use "../mixins" as m;
+
 .snap-editor {
   display: flex;
   flex-direction: column;
@@ -10,13 +12,18 @@
     display: none;
   }
 
+  .overlay {
+    position: absolute;
+    top: 50%;
+  }
 
   .app-control {
     position: absolute;
-    right: calc(50% - 28px);
     bottom: 0;
     top: auto;
-    margin-bottom: 2vh;
+    width:100%;
+    background-color: m.$body-color;
+    //border-radius: m.$border-radius;
   }
   
 }

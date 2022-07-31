@@ -6,14 +6,14 @@ import { Navigate } from 'react-router-dom'
 import Webcam from "react-webcam";
 import { Header } from './components';
 import { Fab } from '@mui/material';
-import type { ScreenSize } from './types';
+import type { Detection, ScreenSize } from './types';
 
 import CameraIcon from '@mui/icons-material/Camera';
 import "./camera_detector.scss";
 
 export interface DetectorProps {
   screenSize: ScreenSize;
-  onSnap?: (imgData: string) => void;
+  onSnap?: (imgData: string, d: Array<Detection>) => void;
 }
 
 function configureVideoSize(screenSize: ScreenSize, video: HTMLVideoElement) {
@@ -76,7 +76,10 @@ export function CameraDetector(props: DetectorProps) {
       canvas.height = props.screenSize.height;
       copyVideoToCanvas(video, canvas);
       const data = canvas.toDataURL('image/png');
-      props.onSnap(data);
+
+      // detect
+      const d = detectYolo(canvasRef as MutableRefObject<HTMLCanvasElement>);
+      props.onSnap(data, d);
     }
   };
 
@@ -103,7 +106,6 @@ export function CameraDetector(props: DetectorProps) {
     <div className='camera-detector'>
       <div className='main'>
         <Webcam onUserMedia={onUserMedia} onUserMediaError={onUserMediaError} ref={webcamRef} videoConstraints={{
-          
           facingMode: "environment",
           height: { ideal: window.innerHeight}
         }}/>
