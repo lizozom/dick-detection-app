@@ -14,16 +14,19 @@ import Rain from '/public/filters/rain.png';
 // @ts-ignore
 import Grass from '/public/filters/grass.png';
 // @ts-ignore
+import Hearts from '/public/filters/hearts.png';
+// @ts-ignore
 import Retry from '/public/retry-icon.svg';
 
 
 import "./snap_editor.scss";
 import { Carousel, CarouselItem } from './components';
-import { Detection, getDetection, DICK_HEAD } from './helpers';
+import { Detection, getDetection, DICK, DICK_HEAD } from './helpers';
 
 export interface OverlayItem extends CarouselItem {
     left?: string;
     top?: string;
+    bottom?: string;
     width?: string;
     height?: string;
 }
@@ -57,28 +60,65 @@ export function SnapEditor(props: SnapEditorProps) {
         id: 'mustache',
         src: Mustache,
         handler: (item: CarouselItem) => {
-            debugger;
             const dickHead = getDetection(props.detections, DICK_HEAD);
-            const top = dickHead?.bbox_y || 0 + (dickHead?.bbox_y || 0);
+            const top = (dickHead?.bbox_y || 0) + (dickHead?.bbox_h || 0) * 0.5;
             setItem({
                 ...item,
                 top: top > 0 ? top + 'px' : '50%',
+                left: dickHead?.bbox_x + 'px' || 'auto',
                 width: dickHead?.bbox_w ? dickHead?.bbox_w + 'px' : '80%',
             });
-            
         }
     }, {
         id: 'glasses',
         src: Glasses,
+        handler: (item: CarouselItem) => {
+            const dickHead = getDetection(props.detections, DICK_HEAD);
+            const top = (dickHead?.bbox_y || 0) + (dickHead?.bbox_h || 0) * 0.3;
+            setItem({
+                ...item,
+                top: top > 0 ? top + 'px' : '50%',
+                left: dickHead?.bbox_x + 'px' || 'auto',
+                width: dickHead?.bbox_w ? dickHead?.bbox_w + 'px' : '80%',
+            });
+        }
     }, {
         id: 'frame',
         src: Frame,
+        handler: (item: CarouselItem) => {
+            const dick = getDetection(props.detections, DICK);
+            const aspectRatio = 568/654;
+
+            // Leave room for frame
+            const top = (dick?.bbox_y || 0) * 0.9;;
+            const height = dick?.bbox_h;
+            const width = (dick?.bbox_h || 0) * aspectRatio;
+            setItem({
+                ...item,
+                top: top ? top + 'px' : '0',
+                height: height ? height + 'px' : '100%',
+                width: width ? width + 'px' : 'auto',
+            });
+        }
     }, {
         id: 'rain',
         src: Rain,
     }, {
+        id: 'hearts',
+        src: Hearts,
+    },{
         id: 'grass',
         src: Grass,
+        handler: (item: CarouselItem) => {
+            const dick = getDetection(props.detections, DICK);
+            const top = dick?.bbox_y || 0 + (dick?.bbox_y || 0);
+            setItem({
+                ...item,
+                top: 'auto',
+                width: '100%',
+                bottom: '0px',
+            });
+        }
     }];
 
     const onCarouselClick = (item: CarouselItem) => {
@@ -102,7 +142,8 @@ export function SnapEditor(props: SnapEditorProps) {
                     style={{
                         left: item.left,
                         top: item.top,
-                        width: item.width,
+                        bottom: item.bottom,
+                        width: item.width || '100%',
                         height: item.height
                     }}
                 />}

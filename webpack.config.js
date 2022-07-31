@@ -6,6 +6,7 @@ const appName = 'Duckpuc';
 const duckpuckDescription = 'Duckpuc - Fun & Concensual dickpics';
 
 module.exports = {
+    devtool: "source-map",
     entry: path.resolve(__dirname, 'index.tsx'),
     output: {
         path: path.resolve(__dirname, 'dist'),

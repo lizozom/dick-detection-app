@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import type { MutableRefObject } from 'react';
 import { detectYolo, drawDetections, isWasmLoaded, loadScaledPhotoToCanvas } from './helpers';
 import { Navigate } from 'react-router-dom'
@@ -51,6 +51,7 @@ function getCanvasElement(canvasRef: React.MutableRefObject<HTMLCanvasElement | 
 export function CameraDetector(props: DetectorProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const webcamRef = useRef<Webcam>(null);
+  const [cameraEnabled, setCameraEnabled] = useState<boolean>(false);
 
   // Animation handler
   const detectOnFrame = () => {
@@ -94,8 +95,9 @@ export function CameraDetector(props: DetectorProps) {
     if (!video || !canvas) return;
     
     video.addEventListener('play', function (e) {
-      configureVideoSize(props.screenSize, video)
+      configureVideoSize(props.screenSize, video);
       detectOnFrame();
+      setCameraEnabled(true);
     });
   };
 
@@ -116,7 +118,7 @@ export function CameraDetector(props: DetectorProps) {
           <div className='overlay-text-2'>It will help align everything nicely. <br/>You're going to like it ;)</div>
         </div>
         <div className="app-control">
-          <Fab color="primary" aria-label="add" onClick={onSnap}>
+          <Fab color="primary" aria-label="add" disabled={!cameraEnabled} onClick={onSnap}>
             <CameraIcon />
           </Fab>
         </div>

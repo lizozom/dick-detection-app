@@ -17,4 +17,13 @@ html, body {
 
 body {
   background-color: m.$body-color;
+
+  #root {
+    height: 100%;
+
+    & > div {
+      height: 100%;
+
+    }
+  }
 }
