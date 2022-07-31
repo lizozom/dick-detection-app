@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import { CameraDetector } from './camera_detector';
 import { SnapEditor } from './snap_editor';
-import { Detection } from './types';
+import { Detection } from './helpers';
 
 export function App() {
     const [snap, setSnap] = useState<string | null>(null);

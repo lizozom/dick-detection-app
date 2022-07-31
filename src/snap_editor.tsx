@@ -1,10 +1,7 @@
 import * as React from 'react';
-import { useRef, useEffect, useState } from 'react';
-import type { Detection, ScreenSize } from './types';
+import { useRef, useState } from 'react';
+import type { ScreenSize } from './types';
 import { Header } from './components';
-import { Fab } from '@mui/material';
-import RestartAltIcon from '@mui/icons-material/RestartAlt';
-
 
 // @ts-ignore
 import Mustache from '/public/filters/mustache.png';
@@ -22,7 +19,14 @@ import Retry from '/public/retry-icon.svg';
 
 import "./snap_editor.scss";
 import { Carousel, CarouselItem } from './components';
+import { Detection, getDetection, DICK_HEAD } from './helpers';
 
+export interface OverlayItem extends CarouselItem {
+    left?: string;
+    top?: string;
+    width?: string;
+    height?: string;
+}
 export interface SnapEditorProps {
     snap: string;
     detections: Array<Detection>;
@@ -30,20 +34,10 @@ export interface SnapEditorProps {
     onClear: () => void;
 }
 
-function getItemWidth(detections: Array<Detection>, item: CarouselItem) {
-    const dick = detections.find(x => x.label === 1);
-    const widthFraction = (item.xPercent || 0.8);
-    if (dick) {
-        return dick.bbox_w * (item.xPercent || 0.8) + 'px';
-    } else {
-        return 100 * widthFraction + '%'
-    }
-}
-
 export function SnapEditor(props: SnapEditorProps) {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const imgRef = useRef<HTMLImageElement | null>(null);
-    const [item, setItem] = useState<CarouselItem | null>(null);
+    const [item, setItem] = useState<OverlayItem | null>(null);
 
     const renderOnCanvas = () => {
         if (!imgRef.current || !canvasRef.current) return;
@@ -55,26 +49,36 @@ export function SnapEditor(props: SnapEditorProps) {
     const items: Array<CarouselItem> = [
     {
         id: 'retake',
-        img: Retry,
+        src: Retry,
         handler: () => {
             props.onClear();
         }
     }, {
         id: 'mustache',
-        img: Mustache,
+        src: Mustache,
+        handler: (item: CarouselItem) => {
+            debugger;
+            const dickHead = getDetection(props.detections, DICK_HEAD);
+            const top = dickHead?.bbox_y || 0 + (dickHead?.bbox_y || 0);
+            setItem({
+                ...item,
+                top: top > 0 ? top + 'px' : '50%',
+                width: dickHead?.bbox_w ? dickHead?.bbox_w + 'px' : '80%',
+            });
+            
+        }
     }, {
         id: 'glasses',
-        img: Glasses,
-        xPercent: 0.6,
+        src: Glasses,
     }, {
         id: 'frame',
-        img: Frame,
+        src: Frame,
     }, {
         id: 'rain',
-        img: Rain,
+        src: Rain,
     }, {
         id: 'grass',
-        img: Grass,
+        src: Grass,
     }];
 
     const onCarouselClick = (item: CarouselItem) => {
@@ -94,8 +98,13 @@ export function SnapEditor(props: SnapEditorProps) {
                 <img 
                     className="overlay" 
                     alt="overlay" 
-                    src={item.img} 
-                    width={getItemWidth(props.detections, item)}
+                    src={item.src}
+                    style={{
+                        left: item.left,
+                        top: item.top,
+                        width: item.width,
+                        height: item.height
+                    }}
                 />}
             
             <div className="app-control">

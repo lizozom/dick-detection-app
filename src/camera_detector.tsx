@@ -6,7 +6,8 @@ import { Navigate } from 'react-router-dom'
 import Webcam from "react-webcam";
 import { Header } from './components';
 import { Fab } from '@mui/material';
-import type { Detection, ScreenSize } from './types';
+import type { ScreenSize } from './types';
+import type { Detection } from './helpers';
 
 import CameraIcon from '@mui/icons-material/Camera';
 import "./camera_detector.scss";

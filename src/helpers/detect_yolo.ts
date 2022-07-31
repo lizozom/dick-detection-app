@@ -1,5 +1,5 @@
 import type { MutableRefObject } from 'react';
-import { Detection } from "../types";
+import type { Detection } from '.';
 
 const MAX_RESULTS = 20;
 const SIZE_OF_RES = 6;

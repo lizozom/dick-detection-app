@@ -1,7 +1,7 @@
 
 
 import type { MutableRefObject } from 'react';
-import { Detection } from "../types";
+import type { Detection } from '.';
   
 
 const colors = [
