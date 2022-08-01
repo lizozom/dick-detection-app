@@ -1,3 +1,5 @@
+@use '../../mixins' as m;
+
 .header {
     position:absolute;
     top: 0;
@@ -11,6 +13,8 @@
     font-size: calc(14px + 2vmin);
     font-weight: 700;
     font-style: normal;
+
+    background-image: linear-gradient(m.$body-color, rgba(256, 256, 256, 0));
 
     .logo {
       padding-left: 2vh;

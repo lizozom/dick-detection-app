@@ -30,14 +30,17 @@ function configureVideoSize(screenSize: ScreenSize, video: HTMLVideoElement) {
 
 function copyVideoToCanvas(video: HTMLVideoElement, canvas: HTMLCanvasElement) {
   const { videoWidth, videoHeight } = video;
-  const { width: canvasWidth} = canvas;
+  const { width: canvasWidth, height: canvasHeight} = canvas;
 
-  const margin = Math.abs(canvasWidth - videoWidth) / 2;
+  const ratio = videoHeight / canvasHeight;
+  const canvasWidthToCopy = canvasWidth * ratio;
+
+  const margin = Math.abs(canvasWidthToCopy - videoWidth) / 2;
 
   // Draw video frame onto canvas
   const ctx = canvas.getContext("2d")!;
   // ctx.fillRect(0, 0, w, h);
-  ctx.drawImage(video, margin, 0, canvasWidth, videoHeight, 0, 0, canvasWidth, videoHeight);
+  ctx.drawImage(video, margin, 0, canvasWidthToCopy, videoHeight, 0, 0, canvasWidth, canvasHeight);
 }
 
 function getVideoElement(webCamRef: React.RefObject<Webcam>) {
