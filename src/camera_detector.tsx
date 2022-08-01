@@ -49,6 +49,7 @@ function getCanvasElement(canvasRef: React.MutableRefObject<HTMLCanvasElement | 
 }
 
 export function CameraDetector(props: DetectorProps) {
+  const detections = useRef<Array<Detection>>([]);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const webcamRef = useRef<Webcam>(null);
   const [cameraEnabled, setCameraEnabled] = useState<boolean>(false);
@@ -63,6 +64,7 @@ export function CameraDetector(props: DetectorProps) {
 
     const d = detectYolo(canvasRef as MutableRefObject<HTMLCanvasElement>);
     drawDetections(canvasRef as MutableRefObject<HTMLCanvasElement>, d);
+    detections.current = d;
 
     requestAnimationFrame(detectOnFrame);
   }
@@ -79,9 +81,7 @@ export function CameraDetector(props: DetectorProps) {
       copyVideoToCanvas(video, canvas);
       const data = canvas.toDataURL('image/png');
 
-      // detect
-      const d = detectYolo(canvasRef as MutableRefObject<HTMLCanvasElement>);
-      props.onSnap(data, d);
+      props.onSnap(data, detections.current);
     }
   };
 
