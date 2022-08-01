@@ -1,8 +1,8 @@
 import * as React from 'react';
 
 import type { Detection } from '../helpers';
-import { Mustache } from './mustache';
-import { Glasses } from './glasses';
+import { Gentleman } from './genetleman';
+import { Hispter } from './hipster';
 import { Frame } from './frame';
 import { Grass } from './grass';
 import { Hearts } from './hearts';
@@ -30,13 +30,13 @@ export interface OverlayItem {
 }
 
 export const items: Array<OverlayItem> = [{
-        id: 'mustache',
+        id: 'gentleman',
         src: MustacheSrc,
-        render: (detections) => <Mustache detections={detections}/>
+        render: (detections) => <Gentleman detections={detections}/>
     }, {
-        id: 'glasses',
+        id: 'hipster',
         src: GlassesSrc,
-        render: (detections) => <Glasses detections={detections}/>
+        render: (detections) => <Hispter detections={detections}/>
     }, {
         id: 'frame',
         src: FrameSrc,
