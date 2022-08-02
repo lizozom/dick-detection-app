@@ -40,7 +40,7 @@ export function SnapEditor(props: SnapEditorProps) {
             onClick: () => {
                 ReactGA.event({
                     category: 'user',
-                    action: 'retake-snap',
+                    action: 'retake_snap',
                 });
                 props.onClear();
             }
@@ -52,7 +52,7 @@ export function SnapEditor(props: SnapEditorProps) {
                 onClick: () => {
                     ReactGA.event({
                         category: 'user',
-                        action: 'apply-filter',
+                        action: 'apply_filter',
                         label: item?.id || 'none',
                     });
                     setCurrentFilter(item);
@@ -89,20 +89,19 @@ export function SnapEditor(props: SnapEditorProps) {
         });
     }
 
+    const downloadButton = <Button variant="contained" aria-label="download" onClick={onDownloadClick}> Download </Button>;
     return (
         <div className='snap-editor'>
             <img className="loader" ref={imgRef} alt="tmp" src={props.snap} width={props.screenSize.width} height={props.screenSize.height} onLoad={renderOnCanvas}/>
 
             <div className="content" ref={contentRef}>            
-                <Header/>
+                <Header extraButton={downloadButton}/>
                 <canvas width={props.screenSize.width} height={props.screenSize.height} ref={canvasRef} />
                 {filterEl}
             </div>
             
             <div className="download-button">
-                <Button variant="contained" aria-label="download" onClick={onDownloadClick}>
-                Download
-                </Button>
+                
             </div>
             <div className="app-control">
                 <Carousel items={carouselItems} onClick={onCarouselClick}></Carousel>

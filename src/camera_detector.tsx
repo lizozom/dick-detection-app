@@ -64,7 +64,7 @@ export function CameraDetector(props: DetectorProps) {
     if (firstDetection) {
       ReactGA.event({
         category: 'ml',
-        action: 'first-detection'
+        action: 'first_detection'
       });
     }
 
@@ -96,7 +96,7 @@ export function CameraDetector(props: DetectorProps) {
     // report snap envent
     ReactGA.event({
       category: 'user',
-      action: 'img-snap'
+      action: 'img_snap'
     });
 
     // create temp canvas
@@ -112,7 +112,7 @@ export function CameraDetector(props: DetectorProps) {
   const onUserMediaError = (e: string | DOMException) => {
     ReactGA.event({
       category: 'video',
-      action: 'on-user-media-error',
+      action: 'on_user_media_error',
       nonInteraction: true,
     });
     console.error("No media devices found")
@@ -121,7 +121,7 @@ export function CameraDetector(props: DetectorProps) {
   const onUserMedia = (_: MediaStream) => {
     ReactGA.event({
       category: 'video',
-      action: 'on-user-media',
+      action: 'on_user_media',
       nonInteraction: true,
     });
 
@@ -132,7 +132,7 @@ export function CameraDetector(props: DetectorProps) {
     video.addEventListener('play', function (e) {
       ReactGA.event({
         category: 'video',
-        action: 'on-user-media-play',
+        action: 'on_user_media_play',
         nonInteraction: true,
       });
       configureVideoSize(props.screenSize, video);
