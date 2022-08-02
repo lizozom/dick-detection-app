@@ -5,12 +5,11 @@ import { useYolo } from './hooks/use_yolo';
 import  { Navigate } from 'react-router-dom';
 import { Header } from './components';
 import Button from '@mui/material/Button';
+
 import "./splash_screen.scss";
 
 // @ts-ignore
 import RubberDuck from '/public/duck-image.png';
-
-const SPLASH_TIMEOUT = 2000;
 
 export function SplashScreen() {
     const loaded = useYolo();
