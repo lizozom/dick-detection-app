@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import * as ReactGA from 'react-ga';
+import ReactGA from 'react-ga4';
 import { useLocation } from "react-router-dom";
 
 export function useAnalytics() {
@@ -11,6 +11,9 @@ export function useAnalytics() {
   
     useEffect(() => {
       const currentPath = location.pathname + location.search
-      ReactGA.pageview(currentPath)
+      ReactGA.send({
+        hitType: "pageview",
+        page: currentPath,
+      })
     }, [location])
   }

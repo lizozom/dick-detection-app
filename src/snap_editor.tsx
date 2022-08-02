@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useRef, useState, useEffect } from 'react';
-import * as ReactGA from 'react-ga';
+import ReactGA from 'react-ga4';
 import type { ScreenSize } from './types';
 import { Header } from './components';
 import { items, OverlayItem } from './filters';

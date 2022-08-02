@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useRef, useState, useEffect } from 'react';
 import type { MutableRefObject } from 'react';
-import * as ReactGA from 'react-ga';
+import ReactGA from 'react-ga4';
 
 import { detectYolo, drawDetections, isWasmLoaded } from './helpers';
 import { Navigate } from 'react-router-dom'
