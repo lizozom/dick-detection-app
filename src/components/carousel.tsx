@@ -6,12 +6,12 @@ import './carousel.scss';
 export interface CarouselItem {
     id: string;
     src: string;
-    onClick?: (itemId: CarouselItem) => void;
+    onClick: (item: CarouselItem) => void;
 }
 
 export interface CarouselProps {
     items: Array<CarouselItem>;
-    onClick: (itemId: CarouselItem) => void;
+    onClick: (item: CarouselItem) => void;
 
 }
 

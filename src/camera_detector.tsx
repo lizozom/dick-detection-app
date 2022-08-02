@@ -1,7 +1,9 @@
 import * as React from 'react';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import type { MutableRefObject } from 'react';
-import { detectYolo, drawDetections, isWasmLoaded, loadScaledPhotoToCanvas } from './helpers';
+import * as ReactGA from 'react-ga';
+
+import { detectYolo, drawDetections, isWasmLoaded } from './helpers';
 import { Navigate } from 'react-router-dom'
 import Webcam from "react-webcam";
 import { Header } from './components';
@@ -14,7 +16,7 @@ import "./camera_detector.scss";
 
 export interface DetectorProps {
   screenSize: ScreenSize;
-  onSnap?: (imgData: string, d: Array<Detection>) => void;
+  onSnap: (imgData: string, d: Array<Detection>) => void;
 }
 
 function configureVideoSize(screenSize: ScreenSize, video: HTMLVideoElement) {
@@ -56,6 +58,17 @@ export function CameraDetector(props: DetectorProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const webcamRef = useRef<Webcam>(null);
   const [cameraEnabled, setCameraEnabled] = useState<boolean>(false);
+  const [firstDetection, setFirstDetection] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (firstDetection) {
+      ReactGA.event({
+        category: 'ml',
+        action: 'first-detection'
+      });
+    }
+
+  }, [firstDetection])
 
   // Animation handler
   const detectOnFrame = () => {
@@ -66,6 +79,10 @@ export function CameraDetector(props: DetectorProps) {
     copyVideoToCanvas(video, canvas);
 
     const d = detectYolo(canvasRef as MutableRefObject<HTMLCanvasElement>);
+
+    if (d.length && !firstDetection) {
+      setFirstDetection(true);
+    }
     drawDetections(canvasRef as MutableRefObject<HTMLCanvasElement>, d);
     detections.current = d;
 
@@ -73,31 +90,51 @@ export function CameraDetector(props: DetectorProps) {
   }
 
   const onSnap = () => {
-    if (props.onSnap) {
-      const video = getVideoElement(webcamRef);
-      if (!video) return;
+    const video = getVideoElement(webcamRef);
+    if (!video) return;
 
-      // create temp canvas
-      var canvas = document.createElement("canvas");
-      canvas.width = props.screenSize.width;
-      canvas.height = props.screenSize.height;
-      copyVideoToCanvas(video, canvas);
-      const data = canvas.toDataURL('image/png');
+    // report snap envent
+    ReactGA.event({
+      category: 'user',
+      action: 'img-snap'
+    });
 
-      props.onSnap(data, detections.current);
-    }
+    // create temp canvas
+    var canvas = document.createElement("canvas");
+    canvas.width = props.screenSize.width;
+    canvas.height = props.screenSize.height;
+    copyVideoToCanvas(video, canvas);
+    const data = canvas.toDataURL('image/png');
+
+    props.onSnap(data, detections.current);
   };
 
   const onUserMediaError = (e: string | DOMException) => {
+    ReactGA.event({
+      category: 'video',
+      action: 'on-user-media-error',
+      nonInteraction: true,
+    });
     console.error("No media devices found")
   }
 
   const onUserMedia = (_: MediaStream) => {
+    ReactGA.event({
+      category: 'video',
+      action: 'on-user-media',
+      nonInteraction: true,
+    });
+
     const video = getVideoElement(webcamRef);
     const canvas = getCanvasElement(canvasRef);
     if (!video || !canvas) return;
     
     video.addEventListener('play', function (e) {
+      ReactGA.event({
+        category: 'video',
+        action: 'on-user-media-play',
+        nonInteraction: true,
+      });
       configureVideoSize(props.screenSize, video);
       detectOnFrame();
       setCameraEnabled(true);

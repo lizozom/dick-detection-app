@@ -1,17 +1,16 @@
 import * as React from 'react';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
+import * as ReactGA from 'react-ga';
 import type { ScreenSize } from './types';
 import { Header } from './components';
-import { items } from './filters';
-import DownloadIcon from '@mui/icons-material/Download';
+import { items, OverlayItem } from './filters';
 import { Carousel, CarouselItem } from './components';
 import { Detection } from './helpers';
 import html2canvas from 'html2canvas';
-import { Button, Fab } from '@mui/material';
+import { Button } from '@mui/material';
 
 // @ts-ignore
 import RetrySrc from '/public/retry-icon.svg';
-
 
 import "./snap_editor.scss";
 
@@ -27,12 +26,22 @@ export function SnapEditor(props: SnapEditorProps) {
     const contentRef = useRef<HTMLDivElement | null>(null)
     const imgRef = useRef<HTMLImageElement | null>(null);
     const [filterEl, setFilterEl] = useState<JSX.Element | null>(null);
+    const [currentFilter, setCurrentFilter] = useState<OverlayItem | null>(null);
+
+    useEffect(() => {
+        const el = currentFilter?.render(props.detections) || null;
+        setFilterEl(el);
+    }, [currentFilter])
 
     const carouselItems: CarouselItem[] = [
         { 
             id: 'retake',
             src: RetrySrc,
             onClick: () => {
+                ReactGA.event({
+                    category: 'user',
+                    action: 'retake-snap',
+                });
                 props.onClear();
             }
         },
@@ -41,8 +50,12 @@ export function SnapEditor(props: SnapEditorProps) {
                 id: item.id,
                 src: item.src,
                 onClick: () => {
-                    const el = item.render(props.detections);
-                    setFilterEl(el);
+                    ReactGA.event({
+                        category: 'user',
+                        action: 'apply-filter',
+                        label: item?.id || 'none',
+                    });
+                    setCurrentFilter(item);
                 }
             }
         })
@@ -50,23 +63,22 @@ export function SnapEditor(props: SnapEditorProps) {
 
     const renderOnCanvas = () => {
         if (!imgRef.current || !canvasRef.current) return;
-
         const ctx = canvasRef.current.getContext("2d")!;
         ctx.drawImage(imgRef.current, 0, 0);
     };
 
-
     const onCarouselClick = (item: CarouselItem) => {
-        if (item.onClick) {
-            item.onClick(item);
-        } else {
-            // item.render()
-            // setItem(item);
-        }
+        item.onClick(item);
     }
 
     const onDownloadClick = () => {
         if (!contentRef.current) return;
+
+        ReactGA.event({
+            category: 'user',
+            action: 'download',
+            label: currentFilter?.id || 'none',
+        });
 
         html2canvas(contentRef.current).then(function(canvas) {
             const image = canvas.toDataURL("image/png", 1.0).replace("image/png", "image/octet-stream");
