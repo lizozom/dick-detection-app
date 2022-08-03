@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Detection } from '../helpers';
 import './carousel.scss';
 
 
