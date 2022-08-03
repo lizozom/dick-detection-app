@@ -1,0 +1,16 @@
+@use '../../mixins' as m;
+
+.footer {
+  text-align: center;
+  background-color: m.$body-color;
+
+  button {
+    font-size: 0.7em;
+  }
+
+  .separator {
+    font-size: 0.7em;
+    color: lightgrey;
+
+  }
+}

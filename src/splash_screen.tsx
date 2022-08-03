@@ -1,10 +1,10 @@
 
 import * as React from 'react';
 import ReactGA from 'react-ga4';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useYolo } from './hooks/use_yolo';
 import  { Navigate } from 'react-router-dom';
-import { AboutModal, Header } from './components';
+import { AboutModal, Header, Footer } from './components';
 import Button from '@mui/material/Button';
 
 import "./splash_screen.scss";
@@ -56,6 +56,7 @@ export function SplashScreen() {
                     </div>
                 </div>
 
+                <Footer></Footer>
                 <AboutModal modalIsOpen={aboutModalOpen} closeModal={() => setAboutModalOpen(false)} nextHandler={() => onNextClick(true)}></AboutModal>
             </div>
         );
