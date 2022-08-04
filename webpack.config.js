@@ -57,9 +57,7 @@ module.exports = {
                 test: /\.(jpe?g|png|gif|svg)$/i, 
                 loader: 'url-loader',
                 options: {
-                    // name: 'public/[name].[ext]',
                     limit: 8000, // Convert images < 8kb to base64 strings
-                    // name: 'images/[hash]-[name].[ext]'
                 },
                 // type: 'javascript/auto'
             },

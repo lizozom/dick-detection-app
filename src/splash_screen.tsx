@@ -9,7 +9,7 @@ import { AboutModal, Header, Footer } from './components';
 import './splash_screen.scss';
 
 // @ts-ignore
-import RubberDuck from '../public/duck-image.png';
+import RubberDuck from '../public/duck-image-trans.png';
 
 export function SplashScreen() {
   const loaded = useYolo();
