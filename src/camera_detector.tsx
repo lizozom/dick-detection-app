@@ -1,16 +1,16 @@
 import * as React from 'react';
 import { useRef, useState, useEffect } from 'react';
-import type { MutableRefObject } from 'react';
+import type { ChangeEvent, MutableRefObject } from 'react';
 import ReactGA from 'react-ga4';
-import ImageUploading, { ImageListType } from 'react-images-uploading';
 import { Navigate } from 'react-router-dom';
 import Webcam from 'react-webcam';
 import { Button, Fab } from '@mui/material';
 import CameraIcon from '@mui/icons-material/Camera';
 import { Header } from './components';
 import type { ScreenSize } from './types';
-import type { Detection } from './helpers';
-import { detectYolo, drawDetections, isWasmLoaded } from './helpers';
+import {
+  copyImageToCanvas, copyVideoToCanvas, Detection, detectYolo, drawDetections, isWasmLoaded,
+} from './helpers';
 import './camera_detector.scss';
 
 export interface DetectorProps {
@@ -29,21 +29,6 @@ function configureVideoSize(screenSize: ScreenSize, video: HTMLVideoElement) {
   video.setAttribute('width', String(vidElemWidth));
 }
 
-function copyVideoToCanvas(video: HTMLVideoElement, canvas: HTMLCanvasElement) {
-  const { videoWidth, videoHeight } = video;
-  const { width: canvasWidth, height: canvasHeight } = canvas;
-
-  const ratio = videoHeight / canvasHeight;
-  const canvasWidthToCopy = canvasWidth * ratio;
-
-  const margin = Math.abs(canvasWidthToCopy - videoWidth) / 2;
-
-  // Draw video frame onto canvas
-  const ctx = canvas.getContext('2d')!;
-  // ctx.fillRect(0, 0, w, h);
-  ctx.drawImage(video, margin, 0, canvasWidthToCopy, videoHeight, 0, 0, canvasWidth, canvasHeight);
-}
-
 function getVideoElement(webCamRef: React.RefObject<Webcam>) {
   return webCamRef.current?.video;
 }
@@ -54,7 +39,6 @@ function getCanvasElement(canvasRef: React.MutableRefObject<HTMLCanvasElement | 
 
 export function CameraDetector(props: DetectorProps) {
   const detections = useRef<Array<Detection>>([]);
-
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const webcamRef = useRef<Webcam>(null);
   const [cameraEnabled, setCameraEnabled] = useState<boolean>(false);
@@ -77,7 +61,7 @@ export function CameraDetector(props: DetectorProps) {
 
     copyVideoToCanvas(video, canvas);
 
-    const d = detectYolo(canvasRef as MutableRefObject<HTMLCanvasElement>);
+    const d = detectYolo(canvasRef.current);
 
     if (d.length && !firstDetection) {
       setFirstDetection(true);
@@ -106,6 +90,45 @@ export function CameraDetector(props: DetectorProps) {
     const data = canvas.toDataURL('image/png');
 
     props.onSnap(data, detections.current);
+  };
+
+  const onImageUpload = (event: ChangeEvent<HTMLInputElement>) => {
+    const { files } = event.target;
+    ReactGA.event({
+      category: 'user',
+      action: 'img_upload_request',
+    });
+
+    if (files?.length) {
+      const img = new Image();
+      img.onload = () => {
+        ReactGA.event({
+          category: 'user',
+          action: 'img_upload_success',
+        });
+        const canvas = document.createElement('canvas');
+        canvas.width = props.screenSize.width;
+        canvas.height = props.screenSize.height;
+        copyImageToCanvas(img, canvas);
+
+        const d = detectYolo(canvas);
+
+        if (d.length) {
+          const imgData = canvas.toDataURL('image/png');
+          props.onSnap(imgData, d);
+        } else {
+          console.error('Could not detect on image');
+        }
+      };
+      img.onerror = (e) => {
+        ReactGA.event({
+          category: 'user',
+          action: 'img_upload_error',
+          label: (e instanceof Error) ? e.message : e as string,
+        });
+      };
+      img.src = URL.createObjectURL(files[0]);
+    }
   };
 
   const onUserMediaError = (_: string | DOMException) => {
@@ -149,7 +172,12 @@ export function CameraDetector(props: DetectorProps) {
     return (<Navigate replace to="/" />);
   }
 
-  const uploadButton = <Button variant="contained" aria-label="upload" onClick={onUploadClick}> Upload Photo </Button>;
+  const uploadButton = (
+    <Button variant="contained" aria-label="upload" component="label">
+      Upload
+      <input hidden accept="image/*" type="file" onChange={onImageUpload} />
+    </Button>
+  );
   return (
     <div className="camera-detector">
       <div className="main">

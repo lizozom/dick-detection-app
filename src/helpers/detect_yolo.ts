@@ -32,12 +32,11 @@ function resultBufferToDetections(qaqarray: Array<number>): Array<Detection> {
 
     return detections;
 }
-export function detectYolo(canvasRef: MutableRefObject<HTMLCanvasElement>): Array<Detection> {
+export function detectYolo(canvas: HTMLCanvasElement | null): Array<Detection> {
     let detections: Array<Detection> = [];
 
-    if (!canvasRef.current) return [];
+    if (!canvas) return [];
 
-    const canvas = canvasRef.current;
     var ctx = canvas.getContext('2d')!;
     const { width, height } = canvas;
 
