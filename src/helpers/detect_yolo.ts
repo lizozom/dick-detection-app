@@ -14,7 +14,7 @@ function resultBufferToDetections(qaqarray: Array<number>): Array<Detection> {
         var bbox_x = qaqarray[i * SIZE_OF_RES + 2];
         var bbox_y = qaqarray[i * SIZE_OF_RES + 3];
         var bbox_w = qaqarray[i * SIZE_OF_RES + 4];
-        var bbox_h = qaqarray[i * SIZE_OF_RES + 5];
+        var bbox_h = qaqarray[i * SIZE_OF_RES + 5]; 
 
         if (label == -233 || prob === 0)
             continue;

@@ -2,17 +2,16 @@ import * as React from 'react';
 import { useRef, useState, useEffect } from 'react';
 import type { MutableRefObject } from 'react';
 import ReactGA from 'react-ga4';
-
-import { detectYolo, drawDetections, isWasmLoaded } from './helpers';
-import { Navigate } from 'react-router-dom'
-import Webcam from "react-webcam";
+import ImageUploading, { ImageListType } from 'react-images-uploading';
+import { Navigate } from 'react-router-dom';
+import Webcam from 'react-webcam';
+import { Button, Fab } from '@mui/material';
+import CameraIcon from '@mui/icons-material/Camera';
 import { Header } from './components';
-import { Fab } from '@mui/material';
 import type { ScreenSize } from './types';
 import type { Detection } from './helpers';
-
-import CameraIcon from '@mui/icons-material/Camera';
-import "./camera_detector.scss";
+import { detectYolo, drawDetections, isWasmLoaded } from './helpers';
+import './camera_detector.scss';
 
 export interface DetectorProps {
   screenSize: ScreenSize;
@@ -24,7 +23,7 @@ function configureVideoSize(screenSize: ScreenSize, video: HTMLVideoElement) {
 
   // Video should cover height and be centered
   const vidElemHeight = screenSize.height;
-  const vidElemWidth = Math.round(videoWidth * screenSize.height / videoHeight);
+  const vidElemWidth = Math.round(videoWidth * (screenSize.height / videoHeight));
 
   video.setAttribute('height', String(vidElemHeight));
   video.setAttribute('width', String(vidElemWidth));
@@ -32,7 +31,7 @@ function configureVideoSize(screenSize: ScreenSize, video: HTMLVideoElement) {
 
 function copyVideoToCanvas(video: HTMLVideoElement, canvas: HTMLCanvasElement) {
   const { videoWidth, videoHeight } = video;
-  const { width: canvasWidth, height: canvasHeight} = canvas;
+  const { width: canvasWidth, height: canvasHeight } = canvas;
 
   const ratio = videoHeight / canvasHeight;
   const canvasWidthToCopy = canvasWidth * ratio;
@@ -40,7 +39,7 @@ function copyVideoToCanvas(video: HTMLVideoElement, canvas: HTMLCanvasElement) {
   const margin = Math.abs(canvasWidthToCopy - videoWidth) / 2;
 
   // Draw video frame onto canvas
-  const ctx = canvas.getContext("2d")!;
+  const ctx = canvas.getContext('2d')!;
   // ctx.fillRect(0, 0, w, h);
   ctx.drawImage(video, margin, 0, canvasWidthToCopy, videoHeight, 0, 0, canvasWidth, canvasHeight);
 }
@@ -55,6 +54,7 @@ function getCanvasElement(canvasRef: React.MutableRefObject<HTMLCanvasElement | 
 
 export function CameraDetector(props: DetectorProps) {
   const detections = useRef<Array<Detection>>([]);
+
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const webcamRef = useRef<Webcam>(null);
   const [cameraEnabled, setCameraEnabled] = useState<boolean>(false);
@@ -64,11 +64,10 @@ export function CameraDetector(props: DetectorProps) {
     if (firstDetection) {
       ReactGA.event({
         category: 'ml',
-        action: 'first_detection'
+        action: 'first_detection',
       });
     }
-
-  }, [firstDetection])
+  }, [firstDetection]);
 
   // Animation handler
   const detectOnFrame = () => {
@@ -87,7 +86,7 @@ export function CameraDetector(props: DetectorProps) {
     detections.current = d;
 
     requestAnimationFrame(detectOnFrame);
-  }
+  };
 
   const onSnap = () => {
     const video = getVideoElement(webcamRef);
@@ -96,11 +95,11 @@ export function CameraDetector(props: DetectorProps) {
     // report snap envent
     ReactGA.event({
       category: 'user',
-      action: 'img_snap'
+      action: 'img_snap',
     });
 
     // create temp canvas
-    var canvas = document.createElement("canvas");
+    const canvas = document.createElement('canvas');
     canvas.width = props.screenSize.width;
     canvas.height = props.screenSize.height;
     copyVideoToCanvas(video, canvas);
@@ -109,14 +108,15 @@ export function CameraDetector(props: DetectorProps) {
     props.onSnap(data, detections.current);
   };
 
-  const onUserMediaError = (e: string | DOMException) => {
+  const onUserMediaError = (_: string | DOMException) => {
     ReactGA.event({
       category: 'video',
       action: 'on_user_media_error',
       nonInteraction: true,
     });
-    console.error("No media devices found")
-  }
+    // eslint-disable-next-line no-console
+    console.error('No media devices found');
+  };
 
   const onUserMedia = (_: MediaStream) => {
     ReactGA.event({
@@ -128,8 +128,8 @@ export function CameraDetector(props: DetectorProps) {
     const video = getVideoElement(webcamRef);
     const canvas = getCanvasElement(canvasRef);
     if (!video || !canvas) return;
-    
-    video.addEventListener('play', function (e) {
+
+    video.addEventListener('play', (e) => {
       ReactGA.event({
         category: 'video',
         action: 'on_user_media_play',
@@ -141,29 +141,47 @@ export function CameraDetector(props: DetectorProps) {
     });
   };
 
+  const onUploadClick = () => {
+
+  };
+
   if (!isWasmLoaded()) {
     return (<Navigate replace to="/" />);
   }
 
+  const uploadButton = <Button variant="contained" aria-label="upload" onClick={onUploadClick}> Upload Photo </Button>;
   return (
-    <div className='camera-detector'>
-      <div className='main'>
-        <Webcam onUserMedia={onUserMedia} onUserMediaError={onUserMediaError} ref={webcamRef} videoConstraints={{
-          facingMode: "environment",
-          height: { ideal: window.innerHeight}
-        }}/>
+    <div className="camera-detector">
+      <div className="main">
+        <Webcam
+          onUserMedia={onUserMedia}
+          onUserMediaError={onUserMediaError}
+          ref={webcamRef}
+          videoConstraints={{
+            facingMode: 'environment',
+            height: { ideal: window.innerHeight },
+          }}
+        />
         <canvas id="app-canvas" ref={canvasRef} width={props.screenSize.width} height={props.screenSize.height} />
-        <div className='overlay'>
-          <div className='overlay-text-1'>Get it up and stick it in <br/>this sexy box</div>
-          <div className='overlay-text-2'>It will help align everything nicely. <br/>You're going to like it ;)</div>
+        <div className="overlay">
+          <div className="overlay-text-1">
+            Get it up and stick it in
+            <br />
+            this sexy box
+          </div>
+          <div className="overlay-text-2">
+            It will help align everything nicely.
+            <br />
+            You&apos;re going to like it ;)
+          </div>
         </div>
         <div className="app-control">
           <Fab color="primary" aria-label="add" disabled={!cameraEnabled} onClick={onSnap}>
             <CameraIcon />
           </Fab>
         </div>
-        
-        <Header />
+
+        <Header extraButton={uploadButton} />
       </div>
     </div>
   );
