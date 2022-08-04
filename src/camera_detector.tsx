@@ -219,9 +219,9 @@ export function CameraDetector(props: DetectorProps) {
             this sexy box
           </div>
           <div className="overlay-text-2">
-            It will help align everything nicely.
+            It will help align everything nicely ;-)
             <br />
-            You&apos;re going to like it ;)
+            Or upload a <b>duckpuc</b> from your device.
           </div>
         </div>
         <div className="app-control">

@@ -22,7 +22,7 @@ export function SplashScreen() {
   useEffect(() => {
     if (loadError) {
       setError(<div>
-        <p>Failed to load our machine learning capabilities.</p>
+        <p>Failed to load our full detection capabilities.</p>
         <p> Please try from a different device.</p>
       </div>);
     }
