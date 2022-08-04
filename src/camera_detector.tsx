@@ -20,6 +20,11 @@ export interface DetectorProps {
   onSnap: (imgData: string, d: Array<Detection>) => void;
 }
 
+interface FreshDetections {
+  detections: Array<Detection>;
+  timestamp: number;
+}
+
 function configureVideoSize(screenSize: ScreenSize, video: HTMLVideoElement) {
   const { videoHeight, videoWidth } = video;
 
@@ -40,7 +45,10 @@ function getCanvasElement(canvasRef: React.MutableRefObject<HTMLCanvasElement | 
 }
 
 export function CameraDetector(props: DetectorProps) {
-  const detections = useRef<Array<Detection>>([]);
+  const [detections, setDetections] = useState<FreshDetections>({
+    detections: [],
+    timestamp: new Date().getTime(),
+  });
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const webcamRef = useRef<Webcam>(null);
   const [cameraEnabled, setCameraEnabled] = useState<boolean>(false);
@@ -70,8 +78,16 @@ export function CameraDetector(props: DetectorProps) {
       setFirstDetection(true);
     }
     drawDetections(canvasRef as MutableRefObject<HTMLCanvasElement>, d);
-    detections.current = d;
 
+    // Delay clearing last detections to smooth up the ux
+    const now = new Date().getTime();
+    if (d.length >= 2 || now - detections.timestamp > 1500) {
+      setDetections({
+        detections: d,
+        timestamp: now,
+      });
+
+    }
     requestAnimationFrame(detectOnFrame);
   };
 
@@ -92,7 +108,7 @@ export function CameraDetector(props: DetectorProps) {
     copyVideoToCanvas(video, canvas);
     const data = canvas.toDataURL('image/png');
 
-    props.onSnap(data, detections.current);
+    props.onSnap(data, detections.detections);
   };
 
   const onImageUpload = (event: ChangeEvent<HTMLInputElement>) => {
@@ -209,7 +225,7 @@ export function CameraDetector(props: DetectorProps) {
           </div>
         </div>
         <div className="app-control">
-          <Fab color="primary" aria-label="add" disabled={!cameraEnabled} onClick={onSnap}>
+          <Fab color="primary" aria-label="add" disabled={!cameraEnabled || detections.detections.length < 2} onClick={onSnap}>
             <CameraIcon />
           </Fab>
         </div>
