@@ -1,10 +1,12 @@
 import * as React from 'react';
 import ReactGA from 'react-ga4';
-import { useState } from 'react';
+import { ReactNode, useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import { useYolo } from './hooks/use_yolo';
-import { AboutModal, Header, Footer } from './components';
+import {
+  AboutModal, Header, Footer, ErrorModal,
+} from './components';
 
 import './splash_screen.scss';
 
@@ -12,9 +14,16 @@ import './splash_screen.scss';
 import RubberDuck from '../public/duck-image-trans.png';
 
 export function SplashScreen() {
-  const loaded = useYolo();
+  const { loaded, error: loadError } = useYolo();
   const [redirect, setRedirect] = useState(false);
   const [aboutModalOpen, setAboutModalOpen] = useState(false);
+  const [error, setError] = useState<string | ReactNode | undefined>();
+
+  useEffect(() => {
+    if (loadError) {
+      setError('Failed to load our machine learning capabilities. Please try from a different device.');
+    }
+  }, [loadError]);
 
   const onNextClick = (fromModal?: boolean) => {
     ReactGA.event({
@@ -63,6 +72,7 @@ export function SplashScreen() {
         closeModal={() => setAboutModalOpen(false)}
         nextHandler={() => onNextClick(true)}
       />
+      <ErrorModal closeModal={() => setError(undefined)} message={error} />
     </div>
   );
 }

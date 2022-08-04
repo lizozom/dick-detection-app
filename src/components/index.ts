@@ -5,3 +5,4 @@ export { AboutModal } from './about_modal';
 export { Footer } from './footer';
 export { TermsOfUse } from './terms';
 export { PrivacyPolicy } from './privacy_policy';
+export { ErrorModal } from './error_modal';

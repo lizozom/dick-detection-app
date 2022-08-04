@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as Modal from 'react-modal';
 import CloseIcon from '@mui/icons-material/Close';
-import './about_modal.scss';
+import './modals.scss';
 import { Button, IconButton } from '@mui/material';
 
 export interface AboutModalProps {

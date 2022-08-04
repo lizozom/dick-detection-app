@@ -1,136 +1,93 @@
-import * as React from 'react';
-import { useState, useEffect } from 'react';
-import { simd, threads } from 'wasm-feature-detect';
-import ReactGA from 'react-ga4';
+import * as React from 'react'
+import { useState, useEffect } from 'react'
+import { simd, threads } from 'wasm-feature-detect'
+import ReactGA from 'react-ga4'
 
 interface WasmModule {
-  onRuntimeInitialized?: () => void;
-  wasmBinary?: ArrayBuffer;
+  onRuntimeInitialized?: () => void
+  wasmBinary?: ArrayBuffer
 }
 
 export function useYolo() {
-    const [loaded, setLoaded] = useState(false);
+  const [loaded, setLoaded] = useState(false)
+  const [yoloModuleName, setYoloModuleName] = useState<string | undefined>()
+  const [error, setError] = useState<string | undefined>(undefined)
 
-    // wrap wasm
-    useEffect(() => {
-      var Module: WasmModule = {};
-      let has_simd: boolean = false;
-      let has_threads: boolean = false;
-      let yolo_module_name: string = '';
+  const reportEvent = (action: string) => {
+    ReactGA.event({
+      category: 'ml',
+      action,
+      label: yoloModuleName,
+      nonInteraction: true,
+    })
+  }
 
-      ReactGA.event({
-        category: 'ml',
-        action: 'use_yolo',
-        nonInteraction: true,
-      });
+  useEffect(() => {
+    reportEvent('use_yolo');
 
-      var wasmModuleLoaded = false;
-      const wasmModuleLoadedCallbacks: Array<()=> void> = [];
+    let has_simd: boolean = false
+    let has_threads: boolean = false
 
-      Module.onRuntimeInitialized = function() {
-          ReactGA.event({
-            category: 'ml',
-            action: 'runtime_init',
-            nonInteraction: true,
-          });
-          wasmModuleLoaded = true;
-          for (var i = 0; i < wasmModuleLoadedCallbacks.length; i++) {
-              wasmModuleLoadedCallbacks[i]();
-          }
+    simd().then((simdSuppoted) => {
+      has_simd = simdSuppoted
+      threads().then((threadsSupported) => {
+        has_threads = threadsSupported
+
+        if (has_simd && has_threads) {
+          setYoloModuleName('Sample')
+        } else {
+          setYoloModuleName('ios/yolo-ios')
+          setError('cannot enable simd&threads.')
+          return
+        }
+      })
+    })
+  }, [])
+
+  // wrap wasm
+  useEffect(() => {
+    if (!yoloModuleName) return;
+    
+    var Module: WasmModule = {}
+    const wasmModuleLoadedCallbacks: Array<() => void> = []
+    let wasmModuleLoaded: boolean = false
+
+    Module.onRuntimeInitialized = function () {
+      reportEvent('runtime_init')
+      wasmModuleLoaded = true
+      for (var i = 0; i < wasmModuleLoadedCallbacks.length; i++) {
+        wasmModuleLoadedCallbacks[i]()
       }
+    }
 
-      simd().then(simdSuppoted => {
-        has_simd = simdSuppoted;
-        threads().then(threadsSupported => {
-          has_threads = threadsSupported;
+    reportEvent('wasm_module_choice');
 
-          if (has_simd && has_threads)
-          {
-              yolo_module_name = 'Sample';
-              // console.log('simd&threads enabled.');
-          }
-          else
-          {
-              yolo_module_name = 'ios/yolo-ios';
-              console.error('cannot enable simd&threads.');
-          }
+    var yolowasm = yoloModuleName + '.wasm'
+    var yolojs = yoloModuleName + '.js'
 
-          ReactGA.event({
-            category: 'ml',
-            action: 'wasm_module_choice',
-            label: yolo_module_name,
-            nonInteraction: true,
-          });
+    fetch(yolowasm)
+      .then((response) => response.arrayBuffer())
+      .then((buffer) => {
+        reportEvent('wasm_buffer_loaded')
+        Module.wasmBinary = buffer
+        var script = document.createElement('script')
+        script.src = yolojs
+        script.onload = function () {
+          reportEvent('wasm_loaded')
+          console.log('Emscripten boilerplate loaded.')
+          setLoaded(true)
+        }
+        script.onerror = function () {
+          setError('Failed to load wasm script')
+          reportEvent('wasm_script_load_error')
+        }
+        document.body.appendChild(script)
+      })
+      .catch(() => {
+        setError('Failed to load script buffer')
+        reportEvent('wasm_buffer_load_error')
+      })
+  }, [yoloModuleName]);
 
-          // console.log('load ' + yolo_module_name);
-
-          var yolowasm = yolo_module_name + '.wasm';
-          var yolojs = yolo_module_name + '.js';
-
-          fetch(yolowasm)
-          .then(response => response.arrayBuffer())
-          .then(buffer => {
-              ReactGA.event({
-                category: 'ml',
-                action: 'wasm_buffer_loaded',
-                label: yolo_module_name,
-                nonInteraction: true,
-              });
-              Module.wasmBinary = buffer;
-              var script = document.createElement('script');
-              script.src = yolojs;
-              script.onload = function() {
-                  ReactGA.event({
-                    category: 'ml',
-                    action: 'wasm_loaded',
-                    label: yolo_module_name,
-                    nonInteraction: true,
-                  });
-                  console.log('Emscripten boilerplate loaded.');
-                  setLoaded(true);
-              }
-              script.onerror = function() {
-                ReactGA.event({
-                  category: 'ml',
-                  action: 'wasm_script_load_error',
-                  label: yolo_module_name,
-                  nonInteraction: true,
-                });
-              }
-              document.body.appendChild(script);
-          }).catch(() => {
-            ReactGA.event({
-              category: 'ml',
-              action: 'wasm_buffer_load_error',
-              label: yolo_module_name,
-              nonInteraction: true,
-            });
-          });
-
-        })
-      });
-
-      // console.log(Yolo)
-      // debugger;
-      //   const yolo = Yolo.then(wat => {
-      //     delete wat['then'];
-      //     debugger;
-      //   })
-        
-        // ({
-        //     locateFile: () => {
-        //         return YoloWASM;
-        //     },
-        // });
-        
-        // yolo.then((core) => {
-        //   const wrapped = {
-        //     cw_detect_yolo: core.cwrap('detect_yolo', 'number', ['number', 'number', 'number', 'number']),
-        //     ...core,
-        //   }
-        //   setYolo(wrapped);
-        // });
-      }, []);
-
-      return loaded;
+  return { loaded, error }
 }

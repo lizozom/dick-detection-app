@@ -1,12 +1,14 @@
 import * as React from 'react';
-import { useRef, useState, useEffect } from 'react';
+import {
+  useRef, useState, useEffect, ReactNode,
+} from 'react';
 import type { ChangeEvent, MutableRefObject } from 'react';
 import ReactGA from 'react-ga4';
 import { Navigate } from 'react-router-dom';
 import Webcam from 'react-webcam';
 import { Button, Fab } from '@mui/material';
 import CameraIcon from '@mui/icons-material/Camera';
-import { Header } from './components';
+import { Header, ErrorModal } from './components';
 import type { ScreenSize } from './types';
 import {
   copyImageToCanvas, copyVideoToCanvas, Detection, detectYolo, drawDetections, isWasmLoaded,
@@ -43,6 +45,7 @@ export function CameraDetector(props: DetectorProps) {
   const webcamRef = useRef<Webcam>(null);
   const [cameraEnabled, setCameraEnabled] = useState<boolean>(false);
   const [firstDetection, setFirstDetection] = useState<boolean>(false);
+  const [error, setError] = useState<string | ReactNode | undefined>();
 
   useEffect(() => {
     if (firstDetection) {
@@ -117,7 +120,12 @@ export function CameraDetector(props: DetectorProps) {
           const imgData = canvas.toDataURL('image/png');
           props.onSnap(imgData, d);
         } else {
-          console.error('Could not detect on image');
+          setError(
+            <div>
+              <p>Please upload a duckpuc.</p>
+              <p>If you don&apos;t have one or you&apos;re feeling shy, finger photos work too!</p>
+            </div>,
+          );
         }
       };
       img.onerror = (e) => {
@@ -126,19 +134,20 @@ export function CameraDetector(props: DetectorProps) {
           action: 'img_upload_error',
           label: (e instanceof Error) ? e.message : e as string,
         });
+        setError('Failed to upload image');
       };
       img.src = URL.createObjectURL(files[0]);
     }
   };
 
-  const onUserMediaError = (_: string | DOMException) => {
+  const onUserMediaError = (e: string | DOMException) => {
     ReactGA.event({
       category: 'video',
       action: 'on_user_media_error',
+      label: (e instanceof DOMException) ? e.message : e,
       nonInteraction: true,
     });
-    // eslint-disable-next-line no-console
-    console.error('No media devices found');
+    setError('Couldn\'t find a media device');
   };
 
   const onUserMedia = (_: MediaStream) => {
@@ -162,10 +171,6 @@ export function CameraDetector(props: DetectorProps) {
       detectOnFrame();
       setCameraEnabled(true);
     });
-  };
-
-  const onUploadClick = () => {
-
   };
 
   if (!isWasmLoaded()) {
@@ -210,6 +215,7 @@ export function CameraDetector(props: DetectorProps) {
         </div>
 
         <Header extraButton={uploadButton} />
+        <ErrorModal closeModal={() => setError(undefined)} message={error} />
       </div>
     </div>
   );

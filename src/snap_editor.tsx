@@ -85,6 +85,11 @@ export function SnapEditor(props: SnapEditorProps) {
       link.download = `duckpuc-${new Date().getTime()}.png`;
       link.href = image;
       link.click();
+    }).catch((e) => {
+      ReactGA.event({
+        category: 'user',
+        action: 'download_error',
+      });
     });
   };
 
