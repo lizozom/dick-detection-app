@@ -21,7 +21,10 @@ export function SplashScreen() {
 
   useEffect(() => {
     if (loadError) {
-      setError('Failed to load our machine learning capabilities. Please try from a different device.');
+      setError(<div>
+        <p>Failed to load our machine learning capabilities.</p>
+        <p> Please try from a different device.</p>
+      </div>);
     }
   }, [loadError]);
 
