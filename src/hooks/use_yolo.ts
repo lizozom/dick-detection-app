@@ -33,12 +33,10 @@ export function useYolo() {
       threads().then((threadsSupported) => {
         has_threads = threadsSupported
 
-        if (has_threads) {
+        if (false) {
           setYoloModuleName('duckpuc')
         } else {
-          setYoloModuleName('ios/yolo-ios')
-          setError('cannot enable simd&threads.')
-          return
+          setYoloModuleName('duckpuc-ios')
         }
       })
     })

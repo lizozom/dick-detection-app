@@ -27,8 +27,8 @@ add_executable(duckpuc cpp/duckpuc.cpp)
 target_link_libraries(duckpuc ncnn pthread)
 #target_link_libraries(yolo ncnn)
 
-#add_executable(yolov5 yolov5.cpp)
-#target_link_libraries(yolov5 ncnn pthread)
+add_executable(duckpuc-ios cpp/duckpuc-ios.cpp)
+target_link_libraries(duckpuc-ios ncnn pthread)
 
 # add_executable(yolov5up yolov5.cpp)
 # target_link_libraries(yolov5up ncnn)
