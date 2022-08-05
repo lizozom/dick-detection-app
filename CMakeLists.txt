@@ -23,8 +23,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -sEXPORTED_FUNCTIONS=['_yolo_ncnn','_det
 set(CMAKE_EXECUTBLE_LINKER_FLAGS "${CMAKE_EXECUTBLE_LINKER_FLAGS} -sEXPORTED_FUNCTIONS=['_yolo_ncnn','_detect_yolo','_free'] --preload-file ${CMAKE_CURRENT_SOURCE_DIR}/cpp/assets@.")
 
 
-add_executable(Sample cpp/Sample.cpp)
-target_link_libraries(Sample ncnn pthread)
+add_executable(duckpuc cpp/duckpuc.cpp)
+target_link_libraries(duckpuc ncnn pthread)
 #target_link_libraries(yolo ncnn)
 
 #add_executable(yolov5 yolov5.cpp)

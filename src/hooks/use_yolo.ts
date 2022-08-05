@@ -33,8 +33,8 @@ export function useYolo() {
       threads().then((threadsSupported) => {
         has_threads = threadsSupported
 
-        if (has_simd && has_threads) {
-          setYoloModuleName('Sample')
+        if (has_threads) {
+          setYoloModuleName('duckpuc')
         } else {
           setYoloModuleName('ios/yolo-ios')
           setError('cannot enable simd&threads.')
@@ -47,7 +47,7 @@ export function useYolo() {
   // wrap wasm
   useEffect(() => {
     if (!yoloModuleName) return;
-    
+
     var Module: WasmModule = {}
     const wasmModuleLoadedCallbacks: Array<() => void> = []
     let wasmModuleLoaded: boolean = false

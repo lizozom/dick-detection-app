@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <vector>
 
-#include "Sample.h"
+#include "duckpuc.h"
 
 static ncnn::Net* yolo = 0;
 
