@@ -126,115 +126,99 @@ int detect_yolo(const unsigned char* rgba_data, int width, int height, std::vect
 
 #include <emscripten.h>
 
-// static const unsigned char* rgba_data = 0;
-// static int w = 0;
-// static int h = 0;
-// static float* result_buffer = 0;
-
-// static ncnn::Mutex lock;
-// static ncnn::ConditionVariable condition;
-
-// static ncnn::Mutex finish_lock;
-// static ncnn::ConditionVariable finish_condition;
-
-// static void worker()
-// {
-//     while (1)
-//     {
-//         lock.lock();
-//         while (rgba_data == 0)
-//         {
-//             condition.wait(lock);
-//         }
-
-//         std::vector<Object> objects;
-//         detect_yolo(rgba_data, w, h, objects);
-
-
-//         // result_buffer max 20 objects
-//         if (objects.size() > 20)
-//             objects.resize(20);
-
-//         size_t i = 0;
-//         for (; i < objects.size(); i++)
-//         {
-//             const Object& obj = objects[i];
-
-//             result_buffer[0] = obj.label;
-//             result_buffer[1] = obj.prob;
-//             result_buffer[2] = obj.x;
-//             result_buffer[3] = obj.y;
-//             result_buffer[4] = obj.w;
-//             result_buffer[5] = obj.h;
-
-//             result_buffer += 6;
-//         }
-//         for (; i < 20; i++)
-//         {
-//             result_buffer[0] = -233;
-//             result_buffer[1] = -233;
-//             result_buffer[2] = -233;
-//             result_buffer[3] = -233;
-//             result_buffer[4] = -233;
-//             result_buffer[5] = -233;
-
-//             result_buffer += 6;
-//         }
-
-//         rgba_data = 0;
-
-//         lock.unlock();
-
-//         finish_lock.lock();
-//         finish_condition.signal();
-//         finish_lock.unlock();
-//     }
-// }
-
-// #include <thread>
-// static std::thread t(worker);
-
-
 static const unsigned char* rgba_data = 0;
 static int w = 0;
 static int h = 0;
 static float* result_buffer = 0;
 
-extern "C" {
-    void yolo_ncnn(const unsigned char* _rgba_data, int _w, int _h, float* _result_buffer){
-        rgba_data = _rgba_data;
-        w = _w;
-        h = _h;
-        result_buffer = _result_buffer;
+static ncnn::Mutex lock;
+static ncnn::ConditionVariable condition;
+
+static ncnn::Mutex finish_lock;
+static ncnn::ConditionVariable finish_condition;
+
+static void worker()
+{
+    while (1)
+    {
+        lock.lock();
+        while (rgba_data == 0)
+        {
+            condition.wait(lock);
+        }
 
         std::vector<Object> objects;
-        detect_yolo(rgba_data, w, h, objects); 
+        detect_yolo(rgba_data, w, h, objects);
+
 
         // result_buffer max 20 objects
         if (objects.size() > 20)
             objects.resize(20);
 
-        // copy to result buffer
-        for (int i = 0; i < objects.size(); i++) {
-            if (i < objects.size()) {
-                const Object& obj = objects[i];
+        size_t i = 0;
+        for (; i < objects.size(); i++)
+        {
+            const Object& obj = objects[i];
 
-                result_buffer[0] = obj.label;
-                result_buffer[1] = obj.prob;
-                result_buffer[2] = obj.x;
-                result_buffer[3] = obj.y;
-                result_buffer[4] = obj.w;
-                result_buffer[5] = obj.h;
-            } else {
-                result_buffer[0] = -233;
-                result_buffer[1] = -233;
-                result_buffer[2] = -233;
-                result_buffer[3] = -233;
-                result_buffer[4] = -233;
-                result_buffer[5] = -233;
-            }
+            result_buffer[0] = obj.label;
+            result_buffer[1] = obj.prob;
+            result_buffer[2] = obj.x;
+            result_buffer[3] = obj.y;
+            result_buffer[4] = obj.w;
+            result_buffer[5] = obj.h;
 
             result_buffer += 6;
         }
+        for (; i < 20; i++)
+        {
+            result_buffer[0] = -233;
+            result_buffer[1] = -233;
+            result_buffer[2] = -233;
+            result_buffer[3] = -233;
+            result_buffer[4] = -233;
+            result_buffer[5] = -233;
+
+            result_buffer += 6;
+        }
+
+        rgba_data = 0;
+
+        lock.unlock();
+
+        finish_lock.lock();
+        finish_condition.signal();
+        finish_lock.unlock();
     }
+}
+
+#include <thread>
+static std::thread t(worker);
+
+extern "C" {
+    void yolo_ncnn(const unsigned char* _rgba_data, int _w, int _h, float* _result_buffer)
+    {
+        lock.lock();
+        while (rgba_data != 0)
+        {
+            condition.wait(lock);
+        }
+
+        rgba_data = _rgba_data;
+        w = _w;
+        h = _h;
+        result_buffer = _result_buffer;
+
+        lock.unlock();
+
+        condition.signal();
+
+        // wait for finished
+        finish_lock.lock();
+        while (rgba_data != 0)
+        {
+            finish_condition.wait(finish_lock);
+        }
+        finish_lock.unlock();
+    }
+
 }

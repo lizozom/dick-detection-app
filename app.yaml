@@ -6,39 +6,25 @@ handlers:
   static_files: favicon.ico
   upload: favicon.ico
   secure: always
-# Serve Sample files
-- url: /Sample.wasm
-  static_files: public/Sample.wasm
-  upload: public/Sample.wasm
+# Serve duckpuc files
+- url: /(.+\.wasm)$
+  static_files: public/\1
+  upload: public/(.+\.wasm)$
   mime_type: application/wasm
   secure: always
   http_headers:
     Cross-Origin-Opener-Policy: "same-origin"
     Cross-Origin-Embedder-Policy: "require-corp"
-- url: /Sample.js
-  static_files: public/Sample.js
-  upload: public/Sample.js
+- url: /(.+\.data)$
+  static_files: public/\1
+  upload: public/(.+\.data)$
   secure: always
   http_headers:
     Cross-Origin-Opener-Policy: "same-origin"
     Cross-Origin-Embedder-Policy: "require-corp"
-- url: /Sample.worker.js
-  static_files: public/Sample.worker.js
-  upload: public/Sample.worker.js
-  secure: always
-  http_headers:
-    Cross-Origin-Opener-Policy: "same-origin"
-    Cross-Origin-Embedder-Policy: "require-corp"
-- url: /Sample.data
-  static_files: public/Sample.data
-  upload: public/Sample.data
-  secure: always
-  http_headers:
-    Cross-Origin-Opener-Policy: "same-origin"
-    Cross-Origin-Embedder-Policy: "require-corp"
-- url: /Sample.js
-  static_files: public/Sample.js
-  upload: public/Sample.js
+- url: /(duckpuc.*\.js)$
+  static_files: public/\1
+  upload: public/(duckpuc.*\.js)$
   secure: always
   http_headers:
     Cross-Origin-Opener-Policy: "same-origin"
