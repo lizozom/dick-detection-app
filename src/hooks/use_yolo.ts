@@ -33,7 +33,7 @@ export function useYolo() {
       threads().then((threadsSupported) => {
         has_threads = threadsSupported
 
-        if (false) {
+        if (has_simd) {
           setYoloModuleName('duckpuc')
         } else {
           setYoloModuleName('duckpuc-ios')
