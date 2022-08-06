@@ -3,13 +3,13 @@ import { getDickHeadBox, getDickBox } from '../helpers';
 import type { FilterProps } from './types';
 
 // @ts-ignore
-import GrassSrc from '/public/filters/grass.png';
+import ChristmasGiftsSrc from '/public/filters/gift-box.png';
 // @ts-ignore
-import MarioHatSrc from '/public/filters/mario-hat.png';
+import SantaSrc from '/public/filters/christmas.png';
 
-import "./grass.scss";
+import "./santa.scss";
 
-export function Grass(props: FilterProps) {
+export function Santa(props: FilterProps) {
     const dick = getDickBox(props.detections);
     const dickHead = getDickHeadBox(props.detections)
     if (!dickHead || !dick) return null;
@@ -19,31 +19,31 @@ export function Grass(props: FilterProps) {
     const dickBottom = dickHeight + dickY;
     const dickMiddle = (dickX + dickWidth + dickX) / 2;
 
-    const grassAspectRatio = 606 / 1000;
-    const grassWidth = dickWidth * 2;
-    const grassHeight = grassWidth * grassAspectRatio;
-    const grassTop = dickBottom - grassHeight / 2;
-    const grassLeft = dickMiddle - grassWidth / 2;
+    const giftsAspectRatio = 790 / 1000;
+    const giftsWidth = dickWidth * 2;
+    const giftsHeight = giftsWidth * giftsAspectRatio;
+    const giftsTop = dickBottom - giftsHeight / 2;
+    const giftsLeft = dickMiddle - giftsWidth / 2;
     return (
-        <div className='overlay-cont grass'>
+        <div className='overlay-cont'>
             <img
                 className="overlay" 
                 alt="overlay" 
-                src={MarioHatSrc}
+                src={SantaSrc}
                 style={{
-                    top: `${headY}px`,
-                    left: `${headX}px`,
+                    top: `${headY*0.9}px`,
+                    left: `${headX*1.1}px`,
                     width: `${headWidth}px`,
                 }}
             />
             <img
                 className="overlay" 
                 alt="overlay" 
-                src={GrassSrc}
+                src={ChristmasGiftsSrc}
                 style={{
-                    left: `${grassLeft}px`,
-                    top: `${grassTop}px`,
-                    width: `${grassWidth}px`,
+                    left: `${giftsLeft}px`,
+                    top: `${giftsTop}px`,
+                    width: `${giftsWidth}px`,
                 }}
             />
         </div> 

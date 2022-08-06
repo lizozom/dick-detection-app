@@ -1,15 +1,30 @@
 import * as React from 'react';
-import { getDetection, DICK_HEAD } from '../helpers';
+import { getDickHeadBox, getDickBox } from '../helpers';
 import type { FilterProps } from './types';
 
 // @ts-ignore
 import HeartsSrc from '/public/filters/hearts.png';
+// @ts-ignore
+import LoveEyesSrc from '/public/filters/love-eyes.png';
 
 export function Hearts(props: FilterProps) {
-    const dickHead = getDetection(props.detections, DICK_HEAD);
-    const top = (dickHead?.bbox_y || 0) + (dickHead?.bbox_h || 0) * 0.3;
+    const dickHead = getDickHeadBox(props.detections)
+    if (!dickHead) return null;
+
+    const {headWidth, headY, headX } = dickHead;
+
     return (
         <div className="overlay-cont">
+            <img
+                className="overlay" 
+                alt="overlay" 
+                src={LoveEyesSrc}
+                style={{
+                    top: `${headY*1.1}px`,
+                    left: `${headX * 1.1}px`,
+                    width: `${headWidth * 0.8}px`,
+                }}
+            />
             <img
                 className="overlay" 
                 alt="overlay" 

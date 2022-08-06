@@ -7,6 +7,7 @@ import { Frame } from './frame';
 import { Grass } from './grass';
 import { Hearts } from './hearts';
 import { Rain } from './rain';
+import { Santa } from './santa';
 
 // @ts-ignore
 import MustacheSrc from '/public/filters/mustache.png';
@@ -20,6 +21,8 @@ import RainSrc from '/public/filters/rain.png';
 import GrassSrc from '/public/filters/grass.png';
 // @ts-ignore
 import HeartsSrc from '/public/filters/hearts.png';
+// @ts-ignore
+import SantaHatSrc from '/public/filters/christmas.png';
 
 import "./index.scss";
 
@@ -37,11 +40,19 @@ export const items: Array<OverlayItem> = [{
         id: 'hipster',
         src: GlassesSrc,
         render: (detections) => <Hispter detections={detections}/>
+    },{
+        id: 'grass',
+        src: GrassSrc,
+        render: (detections) => <Grass detections={detections}/>
+    },{
+        id: 'santa',
+        src: SantaHatSrc,
+        render: (detections) => <Santa detections={detections}/>
     }, {
-        id: 'frame',
-        src: FrameSrc,
-        render: (detections) => <Frame detections={detections}/>
-    }, {
+    //     id: 'frame',
+    //     src: FrameSrc,
+    //     render: (detections) => <Frame detections={detections}/>
+    // }, {
         id: 'rain',
         src: RainSrc,
         render: (detections) => <Rain detections={detections}/>
@@ -49,8 +60,4 @@ export const items: Array<OverlayItem> = [{
         id: 'hearts',
         src: HeartsSrc,
         render: (detections) => <Hearts detections={detections}/>
-    },{
-        id: 'grass',
-        src: GrassSrc,
-        render: (detections) => <Grass detections={detections}/>
     }];
