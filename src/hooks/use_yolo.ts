@@ -4,11 +4,19 @@ import { simd, threads } from 'wasm-feature-detect'
 import ReactGA from 'react-ga4'
 
 interface WasmModule {
-  onRuntimeInitialized?: () => void
+  onRuntimeInitialized?: () => void;
+  postRun?: () => void;
   wasmBinary?: ArrayBuffer
 }
 
+declare global {
+  interface Window {
+    Module: WasmModule;
+  }
+}
+
 export function useYolo() {
+  // const [wasmRuntimeInit, setWasmRuntimeInit] = useState(false);
   const [loaded, setLoaded] = useState(false)
   const [yoloModuleName, setYoloModuleName] = useState<string | undefined>()
   const [error, setError] = useState<string | undefined>(undefined)
@@ -47,15 +55,12 @@ export function useYolo() {
     if (!yoloModuleName) return;
 
     var Module: WasmModule = {}
-    const wasmModuleLoadedCallbacks: Array<() => void> = []
-    let wasmModuleLoaded: boolean = false
+
+    window.Module = Module;
 
     Module.onRuntimeInitialized = function () {
       reportEvent('runtime_init')
-      wasmModuleLoaded = true
-      for (var i = 0; i < wasmModuleLoadedCallbacks.length; i++) {
-        wasmModuleLoadedCallbacks[i]()
-      }
+      setLoaded(true)
     }
 
     reportEvent('wasm_module_choice');
@@ -73,7 +78,6 @@ export function useYolo() {
         script.onload = function () {
           reportEvent('wasm_loaded')
           console.log('Emscripten boilerplate loaded.')
-          setLoaded(true)
         }
         script.onerror = function () {
           setError('Failed to load wasm script')

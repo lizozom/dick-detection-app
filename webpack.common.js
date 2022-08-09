@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
 const appName = 'Duckpuc';
-const duckpuckDescription = 'Duckpuc - Fun & Concensual dickpics';
+const duckpuckDescription = 'Duckpuc - Fun & Consensual dickpics';
 
 module.exports = {
     entry: path.resolve(__dirname, 'index.tsx'),
@@ -69,7 +69,7 @@ module.exports = {
             meta: {
                 viewport: 'width=device-width, initial-scale=1, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no',
                 'description': duckpuckDescription,
-                'keyword': 'duckpuc, dickpic, dick, penis, photo, fun, concensual, conscent',
+                'keyword': 'duckpuc, dickpic, dick, penis, photo, fun, Consensual, conscent',
                 'og:title': appName,
                 'og:description': { property: 'og:description', content: duckpuckDescription },
                 'og:type': { property: 'og:type', content: 'website' },
