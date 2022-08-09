@@ -1,6 +1,6 @@
 
-#include "ncnn-ios/include/ncnn/layer.h"
-#include "ncnn-ios/include/ncnn/net.h"
+#include "ncnn-ios-new/include/ncnn/layer.h"
+#include "ncnn-ios-new/include/ncnn/net.h"
 
 #include <stdlib.h>
 #include <float.h>

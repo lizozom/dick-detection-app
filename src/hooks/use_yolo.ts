@@ -41,10 +41,12 @@ export function useYolo() {
       threads().then((threadsSupported) => {
         has_threads = threadsSupported
 
-        if (has_simd) {
+        if (has_simd && has_threads) {
           setYoloModuleName('duckpuc')
+        } else if (has_threads) {
+          setYoloModuleName('duckpuc-ios-new')
         } else {
-          setYoloModuleName('duckpuc-ios')
+          setYoloModuleName('duckpuc-ios-old')
         }
       })
     })
