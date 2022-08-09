@@ -57,7 +57,9 @@ export function Debug() {
             <div>Yolo loaded {String(loaded)}</div>
             <div>Yolo error {error}</div>
             <div>Detections {detections.length}</div>
-            <canvas width="360" height="360" ref={canvasRef}></canvas>
+            <canvas width="360" height="360" ref={canvasRef} style={{
+                display: 'none'
+            }}></canvas>
         </>
     )
 }
