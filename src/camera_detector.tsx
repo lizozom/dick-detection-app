@@ -213,15 +213,15 @@ export function CameraDetector(props: DetectorProps) {
         />
         <canvas id="app-canvas" ref={canvasRef} width={props.screenSize.width} height={props.screenSize.height} />
         <div className="overlay">
-          <div className="overlay-text-1">
-            Get it up and stick it in
-            <br />
-            this sexy box
-          </div>
-          <div className="overlay-text-2">
-            Or upload a <b>duckpuc</b> from your device.
-            <br />
-            You're going to like it ;-)
+          <div className="overlay-text">
+            <div className="overlay-text-1">
+              Get it up and stick it in
+              <br />
+              this sexy box
+            </div>
+            <div className="overlay-text-2">
+              Or upload a <b>duckpuc</b> from your device.
+            </div>
           </div>
         </div>
         <div className="app-control">

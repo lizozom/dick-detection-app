@@ -19,5 +19,10 @@
 
     &.item-retake img {}
 
+    img {
+      // ios bug
+      width: inherit;
+    }
+
   }
 }
