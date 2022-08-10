@@ -1,9 +1,10 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const appName = 'Duckpuc';
-const duckpuckDescription = 'Duckpuc - Fun & Consensual dickpics';
+const duckpuckDescription = 'Duckpuc - Fun & Concensual dickpics';
 
 module.exports = {
     entry: path.resolve(__dirname, 'index.tsx'),
@@ -72,13 +73,14 @@ module.exports = {
                 'keyword': 'duckpuc, dickpic, dick, penis, photo, fun, Consensual, conscent',
                 'og:title': appName,
                 'og:description': { property: 'og:description', content: duckpuckDescription },
-                'og:type': { property: 'og:type', content: 'website' },
+                'og:type': { property: 'og:type', content: 'article' },
                 'og:url': { property: 'og:url', content: 'https://duckpuc.com/' },
-                // 'og:image': { property: 'og:image', content: '...' },
+                'og:image': { property: 'og:image', content: 'https://duckpuc.com/duckpuc-og-banner.jpg', itemprop: "image" },
+                'og:locale': { property: 'og:locale', content: "en_US"},
                 'twitter:card': { name: 'twitter:card', content: 'summary_large_image' },
                 'twitter:title': { name: 'twitter:title', content: appName },
                 'twitter:description': { name: 'twitter:description', content: duckpuckDescription },
-                // 'twitter:image': { name: 'twitter:image', content: '...' }
+                'twitter:image': { name: 'twitter:image', content: 'https://duckpuc.com/duckpuc-twitter-banner.jpg' }
             }
         }),
         new FaviconsWebpackPlugin({
@@ -99,6 +101,13 @@ module.exports = {
                     yandex: false
                 }
             }
+        }),
+        new CopyWebpackPlugin({
+            patterns: [
+                'public/duck-image.png',
+                'public/duckpuc-og-banner.jpg',
+                'public/duckpuc-twitter-banner.jpg',
+            ]
         })
     ],
     resolve: {
