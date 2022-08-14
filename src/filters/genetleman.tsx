@@ -5,9 +5,9 @@ import { getDetection, DICK_HEAD } from '../helpers';
 import type { FilterProps } from './types';
 
 // @ts-ignore
-import MustacheSrc from '/public/filters/mustache.png';
+import MustacheSrc from './images/mustache.png';
 // @ts-ignore
-import TopHatSrc from '/public/filters/tophat.png';
+import TopHatSrc from './images/tophat.png';
 
 export function Gentleman(props: FilterProps) {
     const [topHatHeight, setTopHatHeight] = useState<number>(0);

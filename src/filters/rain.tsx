@@ -3,11 +3,11 @@ import { getDickHeadBox } from '../helpers';
 import type { FilterProps } from './types';
 
 // @ts-ignore
-import RainSrc from '/public/filters/rain.png';
+import RainSrc from './images/rain.png';
 // @ts-ignore
-import UmbrellatTopSrc from '/public/filters/umbrella-top.png';
+import UmbrellatTopSrc from './images/umbrella-top.png';
 // @ts-ignore
-import LightningSrc from '/public/filters/lightning.png';
+import LightningSrc from './images/lightning.png';
 
 export function Rain(props: FilterProps) {
     const dickHead = getDickHeadBox(props.detections)

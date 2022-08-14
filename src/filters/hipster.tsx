@@ -5,9 +5,9 @@ import { getDetection, DICK_HEAD } from '../helpers';
 import type { FilterProps } from './types';
 
 // @ts-ignore
-import GlassesSrc from '/public/filters/glasses.png';
+import GlassesSrc from './images/glasses.png';
 // @ts-ignore
-import CigaretteSrc from '/public/filters/cigarette.png';
+import CigaretteSrc from './images/cigarette.png';
 
 export function Hispter(props: FilterProps) {
     const [topHatHeight, setTopHatHeight] = useState<number>(0);

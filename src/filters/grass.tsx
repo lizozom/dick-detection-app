@@ -3,9 +3,9 @@ import { getDickHeadBox, getDickBox } from '../helpers';
 import type { FilterProps } from './types';
 
 // @ts-ignore
-import GrassSrc from '/public/filters/grass.png';
+import GrassSrc from './images/grass.png';
 // @ts-ignore
-import MarioHatSrc from '/public/filters/mario-hat.png';
+import MarioHatSrc from './images/mario-hat.png';
 
 import "./grass.scss";
 

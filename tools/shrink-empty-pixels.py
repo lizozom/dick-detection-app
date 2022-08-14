@@ -5,7 +5,7 @@ import sys
 import numpy as np
 import glob
 
-for f in glob.glob("../public/filters/lightning.png"):
+for f in glob.glob(".../imageslightning.png"):
     try:
         im = Image.open(f)
         pix = np.asarray(im)

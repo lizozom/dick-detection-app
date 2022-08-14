@@ -3,9 +3,9 @@ import { getDickHeadBox, getDickBox } from '../helpers';
 import type { FilterProps } from './types';
 
 // @ts-ignore
-import HeartsSrc from '/public/filters/hearts.png';
+import HeartsSrc from './images/hearts.png';
 // @ts-ignore
-import LoveEyesSrc from '/public/filters/love-eyes.png';
+import LoveEyesSrc from './images/love-eyes.png';
 
 export function Hearts(props: FilterProps) {
     const dickHead = getDickHeadBox(props.detections)

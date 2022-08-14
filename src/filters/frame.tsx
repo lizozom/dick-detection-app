@@ -3,7 +3,7 @@ import { getDetection, DICK } from '../helpers';
 import type { FilterProps } from './types';
 
 // @ts-ignore
-import FrameSrc from '/public/filters/frame.png';
+import FrameSrc from './images/frame.png';
 
 import "./frame.scss";
 

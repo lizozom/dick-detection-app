@@ -3,9 +3,9 @@ import { getDickHeadBox, getDickBox } from '../helpers';
 import type { FilterProps } from './types';
 
 // @ts-ignore
-import ChristmasGiftsSrc from '/public/filters/gift-box.png';
+import ChristmasGiftsSrc from './images/gift-box.png';
 // @ts-ignore
-import SantaSrc from '/public/filters/christmas.png';
+import SantaSrc from './images/christmas.png';
 
 import "./santa.scss";
 
