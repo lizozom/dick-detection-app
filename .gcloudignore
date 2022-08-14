@@ -16,13 +16,13 @@
 # Node.js dependencies:
 node_modules/
 
-.vscode/
+/.vscode/
 /cpp/
 /public/
-CMakeFiles/
+/CMakeFiles/
 /src/
-tools/
-Makefile
+/tools/
+/Makefile
 *.txt
 *.sh
 *.cmake
