@@ -104,9 +104,7 @@ module.exports = {
         }),
         new CopyWebpackPlugin({
             patterns: [
-                'public/duck-image.png',
-                'public/duckpuc-og-banner.jpg',
-                'public/duckpuc-twitter-banner.jpg',
+                'public/banners/*',
             ]
         })
     ],

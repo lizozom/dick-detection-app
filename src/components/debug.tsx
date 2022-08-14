@@ -5,7 +5,7 @@ import { copyImageToCanvas, Detection, detectYolo } from '../helpers';
 import { useYolo } from '../hooks';
 
 // @ts-ignore
-import Dp1 from '/public/dp1.jpg';
+import Dp1 from '/public/misc/dp1.jpg';
 
 export function Debug() {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
