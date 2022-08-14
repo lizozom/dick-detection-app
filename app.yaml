@@ -6,25 +6,11 @@ handlers:
   static_files: favicon.ico
   upload: favicon.ico
   secure: always
-# Serve duckpuc files
+# Serve wasm files
 - url: /(.+\.wasm)$
-  static_files: public/\1
-  upload: public/(.+\.wasm)$
+  static_files: dist/\1
+  upload: dist/(.+\.wasm)$
   mime_type: application/wasm
-  secure: always
-  http_headers:
-    Cross-Origin-Opener-Policy: "same-origin"
-    Cross-Origin-Embedder-Policy: "require-corp"
-- url: /(.+\.data)$
-  static_files: public/\1
-  upload: public/(.+\.data)$
-  secure: always
-  http_headers:
-    Cross-Origin-Opener-Policy: "same-origin"
-    Cross-Origin-Embedder-Policy: "require-corp"
-- url: /(duckpuc.*\.js)$
-  static_files: public/\1
-  upload: public/(duckpuc.*\.js)$
   secure: always
   http_headers:
     Cross-Origin-Opener-Policy: "same-origin"

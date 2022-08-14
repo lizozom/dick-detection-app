@@ -17,9 +17,10 @@
 node_modules/
 
 .vscode/
-cpp/
+/cpp/
+/public/
 CMakeFiles/
-src/
+/src/
 tools/
 Makefile
 *.txt

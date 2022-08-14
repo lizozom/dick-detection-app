@@ -65,6 +65,17 @@ module.exports = {
         ],
     },
     plugins: [
+        new CopyWebpackPlugin({
+            patterns: [
+                {
+                    context: 'public/', 
+                    from: 'banners/*'
+                },{
+                    context: 'public/',
+                    from: 'duckpuc*.(data|wasm|js)'
+                },
+            ]
+        }),
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, 'index.html'),
             meta: {
@@ -102,11 +113,6 @@ module.exports = {
                 }
             }
         }),
-        new CopyWebpackPlugin({
-            patterns: [
-                'public/banners/*',
-            ]
-        })
     ],
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
