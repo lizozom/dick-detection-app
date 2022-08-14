@@ -18,9 +18,9 @@
 #define NCNN_STDIO 1
 #define NCNN_STRING 1
 #define NCNN_SIMPLEOCV 0
-#define NCNN_SIMPLEOMP 0
+#define NCNN_SIMPLEOMP 1
 #define NCNN_SIMPLESTL 0
-#define NCNN_THREADS 0
+#define NCNN_THREADS 1
 #define NCNN_BENCHMARK 0
 #define NCNN_C_API 1
 #define NCNN_PLATFORM_API 1
