@@ -10,3 +10,5 @@ dist
 .vscode/targets.log
 cpp/Sample.cpp
 .vscode/dryrun.log
+*.crt
+*.key
