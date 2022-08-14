@@ -4,7 +4,6 @@ import {
 } from 'react';
 import type { ChangeEvent, MutableRefObject } from 'react';
 import ReactGA from 'react-ga4';
-import { Navigate } from 'react-router-dom';
 import Webcam from 'react-webcam';
 import { Button, Fab } from '@mui/material';
 import CameraIcon from '@mui/icons-material/Camera';
@@ -188,10 +187,6 @@ export function CameraDetector(props: DetectorProps) {
       setCameraEnabled(true);
     });
   };
-
-  if (!isWasmLoaded()) {
-    return (<Navigate replace to="/" />);
-  }
 
   const uploadButton = (
     <Button variant="contained" aria-label="upload" component="label">

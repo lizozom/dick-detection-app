@@ -3,8 +3,10 @@ import { useState } from 'react';
 import { CameraDetector } from './camera_detector';
 import { SnapEditor } from './snap_editor';
 import { Detection } from './helpers';
+import { SplashScreen } from './splash_screen';
 
 export function App() {
+  const [started, setStarted] = useState<boolean>(false);
   const [snap, setSnap] = useState<string | null>(null);
   const [detections, setDetections] = useState<Array<Detection>>([]);
   const { clientHeight, clientWidth } = document.documentElement;
@@ -22,7 +24,12 @@ export function App() {
     setSnap(null);
   };
 
-  if (snap) {
+  if (!started) {
+    return (
+    <SplashScreen onStartClick={() => setStarted(true)}/>
+    );
+
+  } else if (snap) {
     return (
       <SnapEditor snap={snap} detections={detections} onClear={onClear} screenSize={screenSize} />
     );

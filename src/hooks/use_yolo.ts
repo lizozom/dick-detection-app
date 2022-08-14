@@ -2,6 +2,7 @@ import * as React from 'react'
 import { useState, useEffect } from 'react'
 import { simd, threads } from 'wasm-feature-detect'
 import ReactGA from 'react-ga4'
+import { isWasmLoaded } from '../helpers';
 
 interface WasmModule {
   onRuntimeInitialized?: () => void;
@@ -16,8 +17,7 @@ declare global {
 }
 
 export function useYolo() {
-  // const [wasmRuntimeInit, setWasmRuntimeInit] = useState(false);
-  const [loaded, setLoaded] = useState(false)
+  const [loaded, setLoaded] = useState(isWasmLoaded())
   const [yoloModuleName, setYoloModuleName] = useState<string | undefined>()
   const [error, setError] = useState<string | undefined>(undefined)
 
@@ -31,6 +31,9 @@ export function useYolo() {
   }
 
   useEffect(() => {
+    // don't reload if wasm already loaded
+    if (loaded) return;
+    
     reportEvent('use_yolo');
 
     let has_simd: boolean = false

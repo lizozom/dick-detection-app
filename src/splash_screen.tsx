@@ -1,7 +1,6 @@
 import * as React from 'react';
 import ReactGA from 'react-ga4';
 import { ReactNode, useState, useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import { useYolo } from './hooks/use_yolo';
 import {
@@ -13,9 +12,12 @@ import './splash_screen.scss';
 // @ts-ignore
 import RubberDuck from '../public/duck-image-trans.png';
 
-export function SplashScreen() {
+export interface SpashProps {
+  onStartClick: () => void;
+}
+
+export function SplashScreen(props: SpashProps) {
   const { loaded, error: loadError } = useYolo();
-  const [redirect, setRedirect] = useState(false);
   const [aboutModalOpen, setAboutModalOpen] = useState(false);
   const [error, setError] = useState<string | ReactNode | undefined>();
 
@@ -34,7 +36,7 @@ export function SplashScreen() {
       action: 'next_button',
       label: fromModal ? 'modal' : '',
     });
-    setRedirect(true);
+    props.onStartClick();
   };
 
   const onLearnMoreClick = () => {
@@ -45,11 +47,6 @@ export function SplashScreen() {
     setAboutModalOpen(true);
   };
 
-  if (redirect) {
-    return (
-      <Navigate replace to="/app" />
-    );
-  }
   return (
     <div className="splash-screen">
       <Header />

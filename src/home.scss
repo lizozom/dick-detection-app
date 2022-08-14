@@ -1,0 +1,12 @@
+@use '../mixins' as m;
+
+.home {
+}
+
+    
+/* Laptops and Desktops */
+@media (min-width: 1025px) {
+  .home {
+  }
+}
+  
