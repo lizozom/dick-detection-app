@@ -5,7 +5,7 @@ import { Grid } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import {
-  Header, Footer,
+  Header, Footer, Coffee,
 } from './components';
 
 import './home.scss';
@@ -85,11 +85,22 @@ export function Home() {
               honesty, openness, vulnerability and learning to accept you and your only one eyed snake,
               knowing it is perfect the way it is.
             </p>
+            <p>
+              This project is entirely non-profit. If you like it -
+            </p>
+            <div className="coffee-wrapper">
+              <Coffee />
+            </div>
 
           </Item>
         </Grid>
+        <Grid item xs={12} md={12} className="coffee">
+          <Item />
+        </Grid>
+
       </Grid>
       <Footer />
+
     </div>
   );
 }
