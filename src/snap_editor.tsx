@@ -99,7 +99,7 @@ export function SnapEditor(props: SnapEditorProps) {
       <img className="loader" ref={imgRef} alt="tmp" src={props.snap} width={props.screenSize.width} height={props.screenSize.height} onLoad={renderOnCanvas} />
 
       <div className="content" ref={contentRef}>
-        <Header extraButton={downloadButton} />
+        <Header extraButton={downloadButton} extraClass="floating" />
         <canvas width={props.screenSize.width} height={props.screenSize.height} ref={canvasRef} />
         {filterEl}
       </div>

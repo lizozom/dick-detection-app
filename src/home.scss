@@ -1,6 +1,146 @@
 @use '../mixins' as m;
+/*Moc Animation*/
+@-webkit-keyframes moc-animation {
+  0% {
+      -webkit-transform: translateY(-20px);
+      transform: translateY(-20px);
+ }
+  50% {
+      -webkit-transform: translateY(-10px);
+      transform: translateY(-10px);
+ }
+  100% {
+      -webkit-transform: translateY(-25px);
+      transform: translateY(-25px);
+ }
+}
+@keyframes moc-animation {
+  0% {
+      -webkit-transform: translateY(-20px);
+      transform: translateY(-20px);
+ }
+  50% {
+      -webkit-transform: translateY(-10px);
+      transform: translateY(-10px);
+ }
+  100% {
+      -webkit-transform: translateY(-20px);
+      transform: translateY(-20px);
+ }
+}
 
 .home {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  font-family: Rubik;
+
+  &::-webkit-scrollbar {
+    width: 2px;
+  }
+
+  .MuiGrid-item {
+    overflow: hidden;
+    .MuiPaper-root {
+      border-radius: 0;
+      padding-left: 2vw;
+    }
+  }
+
+  h3{
+    font-size: 1.5em;
+  }
+
+  
+  .title {
+    .MuiPaper-root {
+      background-color: pink;
+
+      background: rgb(0,212,255);
+      background: linear-gradient(135deg, rgba(0,212,255,1) 0%, rgba(255,192,203,1) 50%, rgba(255,192,203,1) 100%);
+      line-height: 1.5;
+      height: 80vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      h1 {
+        font-size: 5em;
+        font-weight: 1000;
+        line-height: 1.1;
+        margin: 0 0 10px;
+        color: #fff;
+      }
+
+      h2 {
+        font-size: 2.5em;
+        color: #f9f9f9;
+      }
+
+      h3 {
+        color: #f9f9f9;
+        padding-bottom: 15px;
+      }
+
+    }
+  }
+
+  .mobile-preview {
+    position: relative;
+
+    .MuiPaper-root {
+      height: 80vh;
+      background-color: pink;
+
+      .phone {
+        background-image: url(../public/phone-moc.png);
+        background-repeat: no-repeat;
+        background-position: right center;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        // right: 100px;
+        bottom: -60px;
+        animation-name: moc-animation;
+        animation-duration: 2s;
+        animation-iteration-count: infinite;
+        animation-timing-function: ease-in-out;
+        // z-index: -1;
+      }
+    }
+
+  }
+
+  .privacy {
+
+    .MuiPaper-root {
+      background-color: #eac0ff;
+      color: rgba(0,212,255,1);
+
+      h3 {
+        text-shadow: 1px 1px 0px #ffffff;
+      }
+
+      p {
+        font-size: 1.5em;
+      }
+    }
+  }
+
+  .about-us {
+    .MuiPaper-root {
+      background-color: #c0fdff;
+      color: #eac0ff;
+
+
+      h3 {
+        text-shadow: 1px 1px 0px #ffffff;
+      }
+      p {
+        font-size: 1.5em;
+      }
+    }
+  }
 }
 
     

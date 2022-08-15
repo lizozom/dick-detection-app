@@ -30,6 +30,7 @@ module.exports = {
   rules: {
     "import/prefer-default-export": "off",
     "no-unused-vars": "off",
+    "max-len": "off",
     
     "jsx-a11y/click-events-have-key-events": "off",
     "jsx-a11y/no-static-element-interactions": "off",

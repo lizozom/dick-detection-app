@@ -26,10 +26,9 @@ export function App() {
 
   if (!started) {
     return (
-    <SplashScreen onStartClick={() => setStarted(true)}/>
+      <SplashScreen onStartClick={() => setStarted(true)} />
     );
-
-  } else if (snap) {
+  } if (snap) {
     return (
       <SnapEditor snap={snap} detections={detections} onClear={onClear} screenSize={screenSize} />
     );

@@ -9,13 +9,14 @@ import Logo from '../../public/duckpuc-logo.svg';
 
 export interface HeaderProps {
   extraButton?: ReactNode;
+  extraClass?: string;
 }
 
 export function Header(props: HeaderProps) {
   const navigate = useNavigate();
   const navigateFn = () => navigate('/');
   return (
-    <div className="header">
+    <div className={`header ${props.extraClass}`}>
       <img alt="rubber duck" aria-hidden="true" className="logo" src={Logo} onClick={navigateFn} />
       <div onClick={navigateFn}>duckpuc</div>
 

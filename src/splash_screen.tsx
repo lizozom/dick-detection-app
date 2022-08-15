@@ -23,10 +23,12 @@ export function SplashScreen(props: SpashProps) {
 
   useEffect(() => {
     if (loadError) {
-      setError(<div>
-        <p>Failed to load our full detection capabilities.</p>
-        <p> Please try from a different device.</p>
-      </div>);
+      setError(
+        <div>
+          <p>Failed to load our full detection capabilities.</p>
+          <p> Please try from a different device.</p>
+        </div>,
+      );
     }
   }, [loadError]);
 
@@ -49,7 +51,7 @@ export function SplashScreen(props: SpashProps) {
 
   return (
     <div className="splash-screen">
-      <Header />
+      <Header extraClass="floating" />
       <div className="splash-duck">
         <img alt="logo" src={RubberDuck} />
       </div>

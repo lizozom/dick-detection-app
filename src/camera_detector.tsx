@@ -85,7 +85,6 @@ export function CameraDetector(props: DetectorProps) {
         detections: d,
         timestamp: now,
       });
-
     }
     requestAnimationFrame(detectOnFrame);
   };
@@ -196,6 +195,7 @@ export function CameraDetector(props: DetectorProps) {
   );
   return (
     <div className="camera-detector">
+      <Header extraButton={uploadButton} extraClass="floating" />
       <div className="main">
         <Webcam
           onUserMedia={onUserMedia}
@@ -215,7 +215,11 @@ export function CameraDetector(props: DetectorProps) {
               this sexy box
             </div>
             <div className="overlay-text-2">
-              Or upload a <b>duckpuc</b> from your device.
+              Or upload a
+              {' '}
+              <b>duckpuc</b>
+              {' '}
+              from your device.
             </div>
           </div>
         </div>
@@ -225,7 +229,6 @@ export function CameraDetector(props: DetectorProps) {
           </Fab>
         </div>
 
-        <Header extraButton={uploadButton} />
         <ErrorModal closeModal={() => setError(undefined)} message={error} />
       </div>
     </div>
