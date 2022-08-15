@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const svgToMiniDataURI = require('mini-svg-data-uri');
 
 const appName = 'Duckpuc';
 const duckpuckDescription = 'Duckpuc - Fun & Concensual dickpics';
@@ -48,14 +49,18 @@ module.exports = {
                 },
             },
             {
-                test: /\.(jpe?g|png|gif|svg)$/i,
-                loader: 'url-loader',
-                options: {
-                    // name: 'public/[name].[ext]',
-                    limit: 8000, // Convert images < 8kb to base64 strings
-                    // name: 'images/[hash]-[name].[ext]'
-                },
-                // type: 'javascript/auto'
+                test: /\.svg$/i,
+                type: 'asset/inline',
+                generator: {
+                    dataUrl: content => {
+                      content = content.toString();
+                      return svgToMiniDataURI(content);
+                    }
+                  },
+            },
+            {
+                test: /\.(png|jpg|jpeg|gif)$/i,
+                type: 'asset/resource'
             },
             {
                 test: /\.(wasm)$/,
