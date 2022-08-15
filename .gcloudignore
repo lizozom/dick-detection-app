@@ -23,7 +23,6 @@ node_modules/
 /src/
 /tools/
 /Makefile
-*.txt
 *.sh
 *.cmake
 *.crt

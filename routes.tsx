@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Route, Routes as DomRoutes } from 'react-router-dom';
 import { App } from './src/app';
 import { Home } from './src/home';
-import { SplashScreen } from './src/splash_screen';
 import { useAnalytics } from './src/hooks';
 import { PrivacyPolicy, TermsOfUse, Debug } from './src/components';
 
