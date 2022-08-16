@@ -13,9 +13,8 @@ const colors = [
     "background",
     "dick", "dick-head"
   ];
-  export function drawDetections(canvasRef: MutableRefObject<HTMLCanvasElement>, detections: Array<Detection>) {
+  export function drawDetections(canvas: HTMLCanvasElement, detections: Array<Detection>) {
     detections.forEach(detection => {
-        const canvas = canvasRef.current;
         const ctx = canvas.getContext("2d")!;
         const { bbox_h, bbox_w, bbox_x, bbox_y, label, prob } = detection;
         

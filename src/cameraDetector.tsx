@@ -2,7 +2,7 @@ import * as React from 'react';
 import {
   useRef, useState, useEffect, ReactNode,
 } from 'react';
-import type { ChangeEvent, MutableRefObject } from 'react';
+import type { ChangeEvent } from 'react';
 import ReactGA from 'react-ga4';
 import Webcam from 'react-webcam';
 import { Button, Fab } from '@mui/material';
@@ -10,10 +10,11 @@ import CameraIcon from '@mui/icons-material/Camera';
 import { Header, ErrorModal } from './components';
 import type { ScreenSize } from './types';
 import {
-  copyImageToCanvas, copyVideoToCanvas, Detection, detectYolo, drawDetections, isWasmLoaded,
+  copyImageToCanvas, copyVideoToCanvas, Detection, detectYolo,
 } from './helpers';
 import './cameraDetector.scss';
-import { YoloModel } from './hooks';
+import { YoloModel, useRenderingPipeline } from './hooks';
+import { SourcePlayback } from './helpers/sourceHelper';
 
 export interface DetectorProps {
   yolo?: YoloModel;
@@ -37,24 +38,35 @@ function configureVideoSize(screenSize: ScreenSize, video: HTMLVideoElement) {
   video.setAttribute('width', String(vidElemWidth));
 }
 
-function getVideoElement(webCamRef: React.RefObject<Webcam>) {
-  return webCamRef.current?.video;
-}
-
-function getCanvasElement(canvasRef: React.MutableRefObject<HTMLCanvasElement | null>) {
-  return canvasRef.current;
-}
-
 export function CameraDetector(props: DetectorProps) {
+  const webcamRef = useRef<Webcam>(null);
+  const [sourcePlayback, setSourcePlayback] = useState<SourcePlayback>();
+  const [cameraEnabled, setCameraEnabled] = useState<boolean>(false);
+  const [firstDetection, setFirstDetection] = useState<boolean>(false);
+  const [error, setError] = useState<string | ReactNode | undefined>();
   const [detections, setDetections] = useState<FreshDetections>({
     detections: [],
     timestamp: new Date().getTime(),
   });
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const webcamRef = useRef<Webcam>(null);
-  const [cameraEnabled, setCameraEnabled] = useState<boolean>(false);
-  const [firstDetection, setFirstDetection] = useState<boolean>(false);
-  const [error, setError] = useState<string | ReactNode | undefined>();
+  const {
+    canvasRef,
+  } = useRenderingPipeline(
+    sourcePlayback,
+    props.yolo,
+    (d: Array<Detection>) => {
+      if (!firstDetection && d.length > 0) {
+        setFirstDetection(true);
+      }
+      // Delay clearing last detections to smooth up the ux
+      const now = new Date().getTime();
+      if (d.length >= 2 || now - detections.timestamp > 1500) {
+        setDetections({
+          detections: d,
+          timestamp: now,
+        });
+      }
+    },
+  );
 
   useEffect(() => {
     if (firstDetection) {
@@ -65,34 +77,8 @@ export function CameraDetector(props: DetectorProps) {
     }
   }, [firstDetection]);
 
-  // Animation handler
-  const detectOnFrame = () => {
-    const video = getVideoElement(webcamRef);
-    const canvas = getCanvasElement(canvasRef);
-    if (!video || !canvas) return;
-
-    copyVideoToCanvas(video, canvas);
-
-    const d = detectYolo(props.yolo, canvasRef.current);
-
-    if (d.length && !firstDetection) {
-      setFirstDetection(true);
-    }
-    drawDetections(canvasRef as MutableRefObject<HTMLCanvasElement>, d);
-
-    // Delay clearing last detections to smooth up the ux
-    const now = new Date().getTime();
-    if (d.length >= 2 || now - detections.timestamp > 1500) {
-      setDetections({
-        detections: d,
-        timestamp: now,
-      });
-    }
-    requestAnimationFrame(detectOnFrame);
-  };
-
   const onSnap = () => {
-    const video = getVideoElement(webcamRef);
+    const video = sourcePlayback?.htmlElement;
     if (!video) return;
 
     // report snap envent
@@ -173,9 +159,7 @@ export function CameraDetector(props: DetectorProps) {
       nonInteraction: true,
     });
 
-    const video = getVideoElement(webcamRef);
-    const canvas = getCanvasElement(canvasRef);
-    if (!video || !canvas) return;
+    const video = webcamRef.current!.video!;
 
     video.addEventListener('play', (e) => {
       ReactGA.event({
@@ -184,8 +168,13 @@ export function CameraDetector(props: DetectorProps) {
         nonInteraction: true,
       });
       configureVideoSize(props.screenSize, video);
-      detectOnFrame();
       setCameraEnabled(true);
+
+      setSourcePlayback({
+        htmlElement: video,
+        width: Number(video.getAttribute('width') || '1'),
+        height: Number(video.getAttribute('height') || '1'),
+      });
     });
   };
 
@@ -200,15 +189,20 @@ export function CameraDetector(props: DetectorProps) {
       <Header extraButton={uploadButton} extraClass="floating" />
       <div className="main">
         <Webcam
+          ref={webcamRef}
           onUserMedia={onUserMedia}
           onUserMediaError={onUserMediaError}
-          ref={webcamRef}
           videoConstraints={{
             facingMode: 'environment',
             height: { ideal: window.innerHeight },
           }}
         />
-        <canvas id="app-canvas" ref={canvasRef} width={props.screenSize.width} height={props.screenSize.height} />
+        <canvas
+          id="app-canvas"
+          ref={canvasRef}
+          width={props.screenSize.width}
+          height={props.screenSize.height}
+        />
         <div className="overlay">
           <div className="overlay-text">
             <div className="overlay-text-1">
