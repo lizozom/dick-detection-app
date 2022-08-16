@@ -13,7 +13,7 @@ import { Detection } from './helpers';
 // @ts-ignore
 import RetrySrc from '../public/retry-icon.svg';
 
-import './snap_editor.scss';
+import './snapEditor.scss';
 
 export interface SnapEditorProps {
     snap: string;

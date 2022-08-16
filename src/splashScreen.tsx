@@ -2,27 +2,28 @@ import * as React from 'react';
 import ReactGA from 'react-ga4';
 import { ReactNode, useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
-import { useYolo } from './hooks/use_yolo';
+import { useYolo, YoloModel } from './hooks/useYolo';
 import {
   AboutModal, Header, Footer, ErrorModal,
 } from './components';
 
-import './splash_screen.scss';
+import './splashScreen.scss';
 
 // @ts-ignore
 import RubberDuck from '../public/duck-image-trans.png';
 
 export interface SpashProps {
+  yolo?: YoloModel;
+  loadError?: string;
   onStartClick: () => void;
 }
 
 export function SplashScreen(props: SpashProps) {
-  const { loaded, error: loadError } = useYolo();
   const [aboutModalOpen, setAboutModalOpen] = useState(false);
   const [error, setError] = useState<string | ReactNode | undefined>();
 
   useEffect(() => {
-    if (loadError) {
+    if (props.loadError) {
       setError(
         <div>
           <p>Failed to load our full detection capabilities.</p>
@@ -30,7 +31,7 @@ export function SplashScreen(props: SpashProps) {
         </div>,
       );
     }
-  }, [loadError]);
+  }, [props.loadError]);
 
   const onNextClick = (fromModal?: boolean) => {
     ReactGA.event({
@@ -60,7 +61,7 @@ export function SplashScreen(props: SpashProps) {
           <div className="engage-1">Are you wearing pants?</div>
           <div className="engage-2">Take them off</div>
           <div className="engage-3">
-            <Button disabled={!loaded} variant="outlined" onClick={() => onNextClick()} size="large"> I&apos;m ready &gt;</Button>
+            <Button disabled={props.yolo === undefined} variant="outlined" onClick={() => onNextClick()} size="large"> I&apos;m ready &gt;</Button>
             <br />
             <br />
             <Button color="secondary" onClick={onLearnMoreClick} size="small"> Tell me more &gt;</Button>

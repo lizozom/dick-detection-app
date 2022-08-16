@@ -12,9 +12,11 @@ import type { ScreenSize } from './types';
 import {
   copyImageToCanvas, copyVideoToCanvas, Detection, detectYolo, drawDetections, isWasmLoaded,
 } from './helpers';
-import './camera_detector.scss';
+import './cameraDetector.scss';
+import { YoloModel } from './hooks';
 
 export interface DetectorProps {
+  yolo?: YoloModel;
   screenSize: ScreenSize;
   onSnap: (imgData: string, d: Array<Detection>) => void;
 }
@@ -71,7 +73,7 @@ export function CameraDetector(props: DetectorProps) {
 
     copyVideoToCanvas(video, canvas);
 
-    const d = detectYolo(canvasRef.current);
+    const d = detectYolo(props.yolo, canvasRef.current);
 
     if (d.length && !firstDetection) {
       setFirstDetection(true);
@@ -128,7 +130,7 @@ export function CameraDetector(props: DetectorProps) {
         canvas.height = props.screenSize.height;
         copyImageToCanvas(img, canvas);
 
-        const d = detectYolo(canvas);
+        const d = detectYolo(props.yolo, canvas);
 
         if (d.length) {
           const imgData = canvas.toDataURL('image/png');

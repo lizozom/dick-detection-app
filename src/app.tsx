@@ -1,11 +1,13 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { CameraDetector } from './camera_detector';
-import { SnapEditor } from './snap_editor';
+import { CameraDetector } from './cameraDetector';
+import { SnapEditor } from './snapEditor';
 import { Detection } from './helpers';
-import { SplashScreen } from './splash_screen';
+import { SplashScreen } from './splashScreen';
+import { useYolo } from './hooks';
 
 export function App() {
+  const { yolo, error: loadError } = useYolo();
   const [started, setStarted] = useState<boolean>(false);
   const [snap, setSnap] = useState<string | null>(null);
   const [detections, setDetections] = useState<Array<Detection>>([]);
@@ -26,7 +28,7 @@ export function App() {
 
   if (!started) {
     return (
-      <SplashScreen onStartClick={() => setStarted(true)} />
+      <SplashScreen yolo={yolo} loadError={loadError} onStartClick={() => setStarted(true)} />
     );
   } if (snap) {
     return (
@@ -34,6 +36,6 @@ export function App() {
     );
   }
   return (
-    <CameraDetector onSnap={onSnap} screenSize={screenSize} />
+    <CameraDetector yolo={yolo} onSnap={onSnap} screenSize={screenSize} />
   );
 }

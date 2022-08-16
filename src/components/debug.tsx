@@ -14,7 +14,7 @@ export function Debug() {
         threads: boolean;
     } | undefined>();
 
-    const { loaded, error } = useYolo();
+    const { yolo, error } = useYolo();
     const [ imgLoaded, setImageLoaded ] = useState<boolean>( false);
     const [ detections, setDetections ] = useState<Detection[]>([]);
 
@@ -43,18 +43,18 @@ export function Debug() {
     }, []);
 
     useEffect(() => {
-        if (loaded && imgLoaded) {
-            const d = detectYolo(canvasRef.current);
+        if (yolo && imgLoaded) {
+            const d = detectYolo(yolo, canvasRef.current);
             setDetections(d);
             
         }
-    }, [loaded, imgLoaded]);
+    }, [yolo, imgLoaded]);
 
     return (
         <>
             <div>Simd {String(wasmSettings?.simd)}</div>
             <div>Threads {String(wasmSettings?.threads)}</div>
-            <div>Yolo loaded {String(loaded)}</div>
+            <div>Yolo loaded {String(yolo !== undefined)}</div>
             <div>Yolo error {error}</div>
             <div>Detections {detections.length}</div>
             <canvas width="360" height="360" ref={canvasRef} style={{
