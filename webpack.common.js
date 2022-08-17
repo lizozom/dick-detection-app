@@ -75,6 +75,14 @@ module.exports = {
                 {
                     context: 'public/', 
                     from: 'banners/*'
+                },
+                {
+                    context: 'public/', 
+                    from: 'models/*'
+                },
+                {
+                    context: 'public/', 
+                    from: 'tflite/*'
                 },{
                     context: 'public/',
                     from: 'duckpuc*.(data|wasm|js)'

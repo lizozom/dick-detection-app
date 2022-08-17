@@ -48,23 +48,28 @@ export function CameraDetector(props: DetectorProps) {
     detections: [],
     timestamp: new Date().getTime(),
   });
+
+  const onDetections = (d: Array<Detection>) => {
+    if (!firstDetection && d.length > 0) {
+      setFirstDetection(true);
+    }
+    // Delay clearing last detections to smooth up the ux
+    const now = new Date().getTime();
+    if (d.length >= 2 || now - detections.timestamp > 1500) {
+      setDetections({
+        detections: d,
+        timestamp: now,
+      });
+    }
+  };
+
   const {
     canvasRef,
   } = useRenderingPipeline(
     sourcePlayback,
     props.yolo,
-    (d: Array<Detection>) => {
-      if (!firstDetection && d.length > 0) {
-        setFirstDetection(true);
-      }
-      // Delay clearing last detections to smooth up the ux
-      const now = new Date().getTime();
-      if (d.length >= 2 || now - detections.timestamp > 1500) {
-        setDetections({
-          detections: d,
-          timestamp: now,
-        });
-      }
+    {
+      onDetections,
     },
   );
 
