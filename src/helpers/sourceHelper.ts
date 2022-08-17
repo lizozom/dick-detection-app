@@ -1,6 +1,6 @@
 
 export type SourcePlayback = {
-  htmlElement: HTMLVideoElement
+  htmlElement: HTMLVideoElement | HTMLImageElement
   width: number
   height: number
 }

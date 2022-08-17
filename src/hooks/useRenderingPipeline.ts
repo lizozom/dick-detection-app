@@ -1,14 +1,15 @@
 import { useEffect, useRef, useState } from 'react'
-import { buildCanvas2dPipeline } from '../pipelines/canvas2d/canvas2dPipeline'
+import { buildCanvas2dYoloPipeline, buildCanvas2dPipeline } from '../pipelines'
 import { RenderingPipeline } from '../helpers/renderingPipelineHelper'
 import { SourcePlayback } from '../helpers/sourceHelper'
-import { YoloModel } from './useYolo'
+import { isYolo } from './useYolo'
 import { Detection } from '../helpers'
+import { isTFLite } from './useTFLite'
 
-export function useRenderingPipeline(
+export function useRenderingPipeline<T extends EmscriptenModule>(
   sourcePlayback?: SourcePlayback,
-  yolo?: YoloModel,
-  onDetections?: (detections: Array<Detection>) => void
+  emsModule?: T,
+  extras?: Record<string, any>,
 ) {
   const [pipeline, setPipeline] = useState<RenderingPipeline | null>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null!)
@@ -16,7 +17,9 @@ export function useRenderingPipeline(
   const [durations, setDurations] = useState<number[]>([])
 
   useEffect(() => {
-    if (!sourcePlayback || !yolo) return;
+    if (!sourcePlayback || !emsModule) return;
+
+    let modelName: string;
 
     // The useEffect cleanup function is not enough to stop
     // the rendering loop when the framerate is low
@@ -30,13 +33,35 @@ export function useRenderingPipeline(
 
     let renderRequestId: number
 
-    const newPipeline = buildCanvas2dPipeline(
-      sourcePlayback,
-      canvasRef.current,
-      yolo,
-      addFrameEvent,
-      onDetections,
-    )
+    let newPipeline: RenderingPipeline;
+
+
+    if (isYolo(emsModule)) {
+      newPipeline = buildCanvas2dYoloPipeline(
+        sourcePlayback,
+        canvasRef.current,
+        emsModule,
+        addFrameEvent,
+        extras?.onDetections,
+      )
+      modelName = 'yolo'
+    } else if (isTFLite(emsModule)) {
+      newPipeline = buildCanvas2dPipeline(
+        sourcePlayback,
+        {
+          type: 'blur',
+        },
+        canvasRef.current,
+        emsModule,
+        addFrameEvent,
+        extras?.detections,
+      )
+      modelName = 'meet'
+
+    } else {
+      console.log('unknown model')
+      return;
+    }
 
     async function render() {
       if (!shouldRender) {
@@ -74,7 +99,7 @@ export function useRenderingPipeline(
 
     render()
     console.log(
-      'Animation started:',
+      `Animation started ${modelName}:`,
       sourcePlayback,
     )
 
@@ -85,13 +110,13 @@ export function useRenderingPipeline(
       cancelAnimationFrame(renderRequestId)
       newPipeline.cleanUp()
       console.log(
-        'Animation stopped:',
+        `Animation stopped ${modelName}:`,
         sourcePlayback,
       )
 
       setPipeline(null)
     }
-  }, [sourcePlayback, yolo])
+  }, [sourcePlayback, emsModule])
 
   return {
     pipeline,

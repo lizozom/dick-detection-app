@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react'
 import { simd, threads } from 'wasm-feature-detect'
-import { copyImageToCanvas, Detection, detectYolo } from '../helpers';
+import { copyToCanvas, Detection, detectYolo } from '../helpers';
 import { useYolo } from '../hooks';
 
 // @ts-ignore
@@ -14,7 +14,7 @@ export function Debug() {
         threads: boolean;
     } | undefined>();
 
-    const { yolo, error } = useYolo();
+    const { module: yolo, error } = useYolo();
     const [ imgLoaded, setImageLoaded ] = useState<boolean>( false);
     const [ detections, setDetections ] = useState<Detection[]>([]);
 
@@ -23,7 +23,7 @@ export function Debug() {
         img.src = Dp1;
         img.onload = () => {
             setImageLoaded(true);
-            copyImageToCanvas(img, canvasRef.current!);
+            copyToCanvas(img, canvasRef.current!);
         }
 
     }, []);

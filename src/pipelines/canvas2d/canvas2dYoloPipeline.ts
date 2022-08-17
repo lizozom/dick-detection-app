@@ -1,4 +1,4 @@
-import { copyVideoToCanvas, Detection, drawDetections } from '../../helpers'
+import { copyToCanvas, Detection, drawDetections } from '../../helpers'
 import { SourcePlayback } from '../../helpers/sourceHelper'
 import { YoloModel } from '../../hooks'
 
@@ -34,7 +34,7 @@ function resultBufferToDetections(qaqarray: Float32Array): Array<Detection> {
   return detections;
 }
 
-export function buildCanvas2dPipeline(
+export function buildCanvas2dYoloPipeline(
   sourcePlayback: SourcePlayback,
   canvas: HTMLCanvasElement,
   yolo: YoloModel,
@@ -67,7 +67,7 @@ export function buildCanvas2dPipeline(
   function runYoloInference() {
     const { width, height } = canvas;
 
-    copyVideoToCanvas(sourcePlayback.htmlElement, sourceCanvas);
+    copyToCanvas(sourcePlayback.htmlElement, sourceCanvas);
 
     var imgData = sourceCtx.getImageData(0, 0, width, height);
 
@@ -100,7 +100,7 @@ export function buildCanvas2dPipeline(
     // ctx.globalCompositeOperation = 'copy'
     // ctx.filter = 'none'
 
-    copyVideoToCanvas(sourcePlayback.htmlElement, canvas);
+    copyToCanvas(sourcePlayback.htmlElement, canvas);
     drawDetections(canvas, detections);
   }
 

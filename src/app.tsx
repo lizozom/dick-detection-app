@@ -5,9 +5,11 @@ import { SnapEditor } from './snapEditor';
 import { Detection } from './helpers';
 import { SplashScreen } from './splashScreen';
 import { useYolo } from './hooks';
+import { useTFLite } from './hooks/useTFLite';
 
 export function App() {
-  const { yolo, error: loadError } = useYolo();
+  const { module: yolo, error: loadError } = useYolo();
+  const { tflite } = useTFLite();
   const [started, setStarted] = useState<boolean>(false);
   const [snap, setSnap] = useState<string | null>(null);
   const [detections, setDetections] = useState<Array<Detection>>([]);
@@ -28,11 +30,11 @@ export function App() {
 
   if (!started) {
     return (
-      <SplashScreen yolo={yolo} loadError={loadError} onStartClick={() => setStarted(true)} />
+      <SplashScreen yolo={yolo}  loadError={loadError} onStartClick={() => setStarted(true)} />
     );
-  } if (snap) {
+  } if (snap && tflite) {
     return (
-      <SnapEditor snap={snap} detections={detections} onClear={onClear} screenSize={screenSize} />
+      <SnapEditor tflite={tflite} snap={snap} detections={detections} onClear={onClear} screenSize={screenSize} />
     );
   }
   return (

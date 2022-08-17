@@ -10,7 +10,7 @@ import CameraIcon from '@mui/icons-material/Camera';
 import { Header, ErrorModal } from './components';
 import type { ScreenSize } from './types';
 import {
-  copyImageToCanvas, copyVideoToCanvas, Detection, detectYolo,
+  copyToCanvas, Detection, detectYolo,
 } from './helpers';
 import './cameraDetector.scss';
 import { YoloModel, useRenderingPipeline } from './hooks';
@@ -91,7 +91,7 @@ export function CameraDetector(props: DetectorProps) {
     const canvas = document.createElement('canvas');
     canvas.width = props.screenSize.width;
     canvas.height = props.screenSize.height;
-    copyVideoToCanvas(video, canvas);
+    copyToCanvas(video, canvas);
     const data = canvas.toDataURL('image/png');
 
     props.onSnap(data, detections.detections);
@@ -114,7 +114,7 @@ export function CameraDetector(props: DetectorProps) {
         const canvas = document.createElement('canvas');
         canvas.width = props.screenSize.width;
         canvas.height = props.screenSize.height;
-        copyImageToCanvas(img, canvas);
+        copyToCanvas(img, canvas);
 
         const d = detectYolo(props.yolo, canvas);
 

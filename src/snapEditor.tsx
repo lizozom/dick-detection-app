@@ -14,8 +14,12 @@ import { Detection } from './helpers';
 import RetrySrc from '../public/retry-icon.svg';
 
 import './snapEditor.scss';
+import { TFLite } from './hooks/useTFLite';
+import { useRenderingPipeline } from './hooks';
+import { SourcePlayback } from './helpers/sourceHelper';
 
 export interface SnapEditorProps {
+    tflite: TFLite;
     snap: string;
     detections: Array<Detection>;
     screenSize: ScreenSize;
@@ -23,11 +27,20 @@ export interface SnapEditorProps {
 }
 
 export function SnapEditor(props: SnapEditorProps) {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const contentRef = useRef<HTMLDivElement | null>(null);
   const imgRef = useRef<HTMLImageElement | null>(null);
   const [filterEl, setFilterEl] = useState<ReactNode | null>(null);
   const [currentFilter, setCurrentFilter] = useState<OverlayItem | null>(null);
+  const [sourcePlayback, setSourcePlayback] = useState<SourcePlayback>();
+  const {
+    canvasRef,
+  } = useRenderingPipeline(
+    sourcePlayback,
+    props.tflite,
+    {
+      detections: props.detections,
+    }
+  );
 
   useEffect(() => {
     const el = currentFilter?.render(props.detections) || null;
@@ -60,10 +73,14 @@ export function SnapEditor(props: SnapEditorProps) {
     })),
   ];
 
-  const renderOnCanvas = () => {
+  const onImageLoad = () => {
     if (!imgRef.current || !canvasRef.current) return;
-    const ctx = canvasRef.current.getContext('2d')!;
-    ctx.drawImage(imgRef.current, 0, 0);
+
+    setSourcePlayback({
+      htmlElement: imgRef.current,
+    ...props.screenSize
+
+    })
   };
 
   const onCarouselClick = (item: CarouselItem) => {
@@ -96,7 +113,7 @@ export function SnapEditor(props: SnapEditorProps) {
   const downloadButton = <Button variant="contained" aria-label="download" onClick={onDownloadClick}> Download </Button>;
   return (
     <div className="snap-editor">
-      <img className="loader" ref={imgRef} alt="tmp" src={props.snap} width={props.screenSize.width} height={props.screenSize.height} onLoad={renderOnCanvas} />
+      <img className="loader" ref={imgRef} alt="tmp" src={props.snap} width={props.screenSize.width} height={props.screenSize.height} onLoad={onImageLoad} />
 
       <div className="content" ref={contentRef}>
         <Header extraButton={downloadButton} extraClass="floating" />
