@@ -1,7 +1,7 @@
 import type { MutableRefObject } from 'react';
 
-export function loadScaledPhotoToCanvas(canvasRef: MutableRefObject<HTMLCanvasElement>, photo: string) {
-    const canvas = canvasRef.current;
+export async function loadPhotoToCanvas(canvas: HTMLCanvasElement, photo: string) {
+  return new Promise((resolve, reject) => {
     const ctx = canvas.getContext("2d")!;
     const BASE_SIZE = canvas.width; // assumes canvas is square
     const img = new Image();
@@ -19,5 +19,10 @@ export function loadScaledPhotoToCanvas(canvasRef: MutableRefObject<HTMLCanvasEl
       }
 
       ctx.drawImage(img, 0, 0, scaleWidth, scaledHeight);
+      resolve(1);
     }
+    img.onerror = reject
+
+  })
+    
 }

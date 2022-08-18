@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { SyntheticEvent } from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { getDetection, DICK_HEAD } from '../helpers';
 import type { FilterProps } from './types';
 
@@ -8,6 +8,8 @@ import type { FilterProps } from './types';
 import MustacheSrc from './images/mustache.png';
 // @ts-ignore
 import TopHatSrc from './images/tophat.png';
+// @ts-ignore
+import ClubSrc from './images/club.jpg';
 
 export function Gentleman(props: FilterProps) {
     const [topHatHeight, setTopHatHeight] = useState<number>(0);
@@ -15,6 +17,14 @@ export function Gentleman(props: FilterProps) {
     const dickHead = getDetection(props.detections, DICK_HEAD);
     const topHead = (dickHead?.bbox_y || 0) - topHatHeight * 0.5;
     const top = (dickHead?.bbox_y || 0) + (dickHead?.bbox_h || 0) * 0.5;
+
+    useEffect(() => {
+        props.setBackgroundConfig({
+            type: 'image',
+            url: ClubSrc,
+        });
+
+    }, [])
 
     const onLoad = (e: SyntheticEvent<HTMLImageElement, Event>) => {
         setTopHatHeight(e.currentTarget.height);

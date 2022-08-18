@@ -1,10 +1,10 @@
-import { Detection, DICK, drawDetections, getDetection, getDickBox } from '../../helpers'
-import { BackgroundConfig } from '../../helpers/backgroundHelper'
+import { Detection, DICK, drawDetections, getDetection, getDickBox, loadPhotoToCanvas } from '../../helpers'
+import { BackgroundConfig } from '../../helpers/pipelineHelpers'
 import { PostProcessingConfig } from '../../helpers/postProcessingHelper'
 import {
+  SourcePlayback,
   inputResolutions,
-} from '../../helpers/segmentationHelper'
-import { SourcePlayback } from '../../helpers/sourceHelper'
+} from '../../helpers'
 import { TFLite } from '../../hooks/useTFLite'
 
 export function buildCanvas2dPipeline(
@@ -25,15 +25,8 @@ export function buildCanvas2dPipeline(
   segmentationMaskCanvas.height = segmentationHeight
   const segmentationMaskCtx = segmentationMaskCanvas.getContext('2d')!
 
-  const tempMaskCanvas = document.createElement('canvas');
-  tempMaskCanvas.width = sourcePlayback.width;
-  tempMaskCanvas.height = sourcePlayback.height;
-  const tempMaskCanvasCtx = tempMaskCanvas.getContext('2d')!
-
   const inputMemoryOffset = tflite._getInputMemoryOffset() / 4
   const outputMemoryOffset = tflite._getOutputMemoryOffset() / 4
-
-  let postProcessingConfig: PostProcessingConfig
 
   async function render() {
     if (backgroundConfig.type !== 'none') {
@@ -48,7 +41,7 @@ export function buildCanvas2dPipeline(
 
     addFrameEvent()
 
-    runPostProcessing()
+    await runPostProcessing()
   }
 
   function cleanUp() {
@@ -101,17 +94,9 @@ export function buildCanvas2dPipeline(
     segmentationMaskCtx.putImageData(segmentationMask, 0, 0);
   }
 
-  function runPostProcessing() {
+  async function runPostProcessing() {
     ctx.globalCompositeOperation = 'copy'
     ctx.filter = 'none'
-
-    if (postProcessingConfig?.smoothSegmentationMask) {
-      if (backgroundConfig.type === 'blur') {
-        ctx.filter = 'blur(8px)' // FIXME Does not work on Safari
-      } else if (backgroundConfig.type === 'image') {
-        ctx.filter = 'blur(4px)' // FIXME Does not work on Safari
-      }
-    }
 
     if (backgroundConfig.type !== 'none') {
       drawSegmentationMask()
@@ -123,7 +108,7 @@ export function buildCanvas2dPipeline(
 
     if (backgroundConfig.type === 'blur') {
       blurBackground()
-    }
+    } 
 
     // if (detections) {
     //   ctx.filter = 'none' // FIXME Does not work on Safari
@@ -136,6 +121,7 @@ export function buildCanvas2dPipeline(
   }
 
   async function drawSegmentationMask() {
+    ctx.filter = 'blur(8px)' 
     ctx.drawImage(
       segmentationMaskCanvas,
       0,
@@ -152,7 +138,6 @@ export function buildCanvas2dPipeline(
     const dickBox= getDetection(detections || [], DICK);
     if (dickBox) {
       ctx.globalCompositeOperation = 'destination-in'
-      ctx.filter = 'blur(8px)' 
       ctx.fill(roundedRect(dickBox.bbox_x, dickBox.bbox_y, dickBox.bbox_w, dickBox.bbox_h, 20));
     }
   }

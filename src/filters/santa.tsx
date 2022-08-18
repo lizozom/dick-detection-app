@@ -6,13 +6,24 @@ import type { FilterProps } from './types';
 import ChristmasGiftsSrc from './images/gift-box.png';
 // @ts-ignore
 import SantaSrc from './images/christmas.png';
+// @ts-ignore
+import SantaBgSrc from './images/christmas-bg.png';
 
 import "./santa.scss";
+import { useEffect } from 'react';
 
 export function Santa(props: FilterProps) {
     const dick = getDickBox(props.detections);
     const dickHead = getDickHeadBox(props.detections)
     if (!dickHead || !dick) return null;
+
+    useEffect(() => {
+        props.setBackgroundConfig({
+            type: 'image',
+            url: SantaBgSrc,
+        });
+
+    }, [])
 
     const {headWidth, headY, headX } = dickHead;
     const {dickWidth, dickHeight, dickY, dickX } = dick;

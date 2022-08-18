@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect } from 'react';
 import { getDickHeadBox, getDickBox } from '../helpers';
 import type { FilterProps } from './types';
 
@@ -6,6 +7,8 @@ import type { FilterProps } from './types';
 import GrassSrc from './images/grass.png';
 // @ts-ignore
 import MarioHatSrc from './images/mario-hat.png';
+// @ts-ignore
+import MeadowSrc from './images/meadow.jpg';
 
 import "./grass.scss";
 
@@ -13,6 +16,15 @@ export function Grass(props: FilterProps) {
     const dick = getDickBox(props.detections);
     const dickHead = getDickHeadBox(props.detections)
     if (!dickHead || !dick) return null;
+
+
+    useEffect(() => {
+        props.setBackgroundConfig({
+            type: 'image',
+            url: MeadowSrc,
+        });
+
+    }, [])
 
     const {headWidth, headY, headX } = dickHead;
     const {dickWidth, dickHeight, dickY, dickX } = dick;

@@ -1,20 +1,24 @@
 import { useEffect, useRef, useState } from 'react'
 import { buildCanvas2dYoloPipeline, buildCanvas2dPipeline } from '../pipelines'
-import { RenderingPipeline } from '../helpers/renderingPipelineHelper'
-import { SourcePlayback } from '../helpers/sourceHelper'
+import { SourcePlayback, RenderingPipeline, Detection, BackgroundConfig } from '../helpers'
 import { isYolo } from './useYolo'
-import { Detection } from '../helpers'
 import { isTFLite } from './useTFLite'
 
 export function useRenderingPipeline<T extends EmscriptenModule>(
   sourcePlayback?: SourcePlayback,
   emsModule?: T,
-  extras?: Record<string, any>,
+  extras?: {
+    detections?: Array<Detection>,
+    onDetections?: (detections: Array<Detection>) => void,
+    backgroundConfig?: BackgroundConfig,
+  },
 ) {
   const [pipeline, setPipeline] = useState<RenderingPipeline | null>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null!)
   const [fps, setFps] = useState(0)
   const [durations, setDurations] = useState<number[]>([])
+
+  const { detections, onDetections, backgroundConfig } = extras || {};
 
   useEffect(() => {
     if (!sourcePlayback || !emsModule) return;
@@ -42,19 +46,19 @@ export function useRenderingPipeline<T extends EmscriptenModule>(
         canvasRef.current,
         emsModule,
         addFrameEvent,
-        extras?.onDetections,
+        onDetections,
       )
       modelName = 'yolo'
     } else if (isTFLite(emsModule)) {
       newPipeline = buildCanvas2dPipeline(
         sourcePlayback,
-        {
+        backgroundConfig || {
           type: 'blur',
         },
         canvasRef.current,
         emsModule,
         addFrameEvent,
-        extras?.detections,
+        detections,
       )
       modelName = 'meet'
 
@@ -116,7 +120,7 @@ export function useRenderingPipeline<T extends EmscriptenModule>(
 
       setPipeline(null)
     }
-  }, [sourcePlayback, emsModule])
+  }, [sourcePlayback, emsModule, detections, backgroundConfig])
 
   return {
     pipeline,

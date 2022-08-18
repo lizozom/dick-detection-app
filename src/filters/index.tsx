@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { BackgroundConfig } from '../helpers/pipelineHelpers';
 
 import type { Detection } from '../helpers';
 import { Gentleman } from './genetleman';
@@ -29,25 +30,25 @@ import "./index.scss";
 export interface OverlayItem {
     id: string;
     src: string;
-    render: (detections: Array<Detection>) => JSX.Element;
+    render: (detections: Array<Detection>, setBackgroundConfig: (backgroundConfig: BackgroundConfig) => void) => JSX.Element;
 }
 
 export const items: Array<OverlayItem> = [{
         id: 'gentleman',
         src: MustacheSrc,
-        render: (detections) => <Gentleman detections={detections}/>
+        render: (detections, setBackgroundConfig) => <Gentleman detections={detections} setBackgroundConfig={setBackgroundConfig}/>
     }, {
         id: 'hipster',
         src: GlassesSrc,
-        render: (detections) => <Hispter detections={detections}/>
+        render: (detections, setBackgroundConfig) => <Hispter detections={detections} setBackgroundConfig={setBackgroundConfig}/>
     },{
         id: 'grass',
         src: GrassSrc,
-        render: (detections) => <Grass detections={detections}/>
+        render: (detections, setBackgroundConfig) => <Grass detections={detections} setBackgroundConfig={setBackgroundConfig}/>
     },{
         id: 'santa',
         src: SantaHatSrc,
-        render: (detections) => <Santa detections={detections}/>
+        render: (detections, setBackgroundConfig) => <Santa detections={detections} setBackgroundConfig={setBackgroundConfig}/>
     }, {
     //     id: 'frame',
     //     src: FrameSrc,
@@ -55,9 +56,9 @@ export const items: Array<OverlayItem> = [{
     // }, {
         id: 'rain',
         src: RainSrc,
-        render: (detections) => <Rain detections={detections}/>
+        render: (detections, setBackgroundConfig) => <Rain detections={detections} setBackgroundConfig={setBackgroundConfig}/>
     }, {
         id: 'hearts',
         src: HeartsSrc,
-        render: (detections) => <Hearts detections={detections}/>
+        render: (detections, setBackgroundConfig) => <Hearts detections={detections} setBackgroundConfig={setBackgroundConfig}/>
     }];

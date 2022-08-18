@@ -1,5 +1,5 @@
 import * as React from 'react';
-import type { SyntheticEvent } from 'react';
+import { useEffect } from 'react';
 import { useState } from 'react';
 import { getDetection, DICK_HEAD } from '../helpers';
 import type { FilterProps } from './types';
@@ -8,15 +8,23 @@ import type { FilterProps } from './types';
 import GlassesSrc from './images/glasses.png';
 // @ts-ignore
 import CigaretteSrc from './images/cigarette.png';
+// @ts-ignore
+import GallerySrc from './images/gallery.jpg';
 
 export function Hispter(props: FilterProps) {
     const [topHatHeight, setTopHatHeight] = useState<number>(0);
     const dickHead = getDetection(props.detections, DICK_HEAD);
     const top = (dickHead?.bbox_y || 0) + (dickHead?.bbox_h || 0) * 0.3;
 
-    const onLoad = (e: SyntheticEvent<HTMLImageElement, Event>) => {
-        setTopHatHeight(e.currentTarget.height);
-    }
+
+    useEffect(() => {
+        props.setBackgroundConfig({
+            type: 'image',
+            url: GallerySrc,
+        });
+
+    }, [])
+
     return (
         <div className='overlay-cont'>
             <img

@@ -7,9 +7,9 @@
   align-items: center;
   height: 100%;
 
-  img.loader {
-    width: 100%;
-    display: none;
+  canvas {
+    background-size: cover;
+    background-position: center;
   }
 
   .download-button {

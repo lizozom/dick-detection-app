@@ -1,5 +1,4 @@
-import { copyToCanvas, Detection, drawDetections } from '../../helpers'
-import { SourcePlayback } from '../../helpers/sourceHelper'
+import { copyToCanvas, Detection, drawDetections, SourcePlayback } from '../../helpers'
 import { YoloModel } from '../../hooks'
 
 const MAX_RESULTS = 20;

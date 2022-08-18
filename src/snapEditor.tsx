@@ -16,7 +16,8 @@ import RetrySrc from '../public/retry-icon.svg';
 import './snapEditor.scss';
 import { TFLite } from './hooks/useTFLite';
 import { useRenderingPipeline } from './hooks';
-import { SourcePlayback } from './helpers/sourceHelper';
+import { SourcePlayback } from './helpers';
+import { BackgroundConfig } from './helpers/pipelineHelpers';
 
 export interface SnapEditorProps {
     tflite: TFLite;
@@ -28,7 +29,7 @@ export interface SnapEditorProps {
 
 export function SnapEditor(props: SnapEditorProps) {
   const contentRef = useRef<HTMLDivElement | null>(null);
-  const imgRef = useRef<HTMLImageElement | null>(null);
+  const [backgroundConfig, setBackgroundConfig] = useState<BackgroundConfig>();
   const [filterEl, setFilterEl] = useState<ReactNode | null>(null);
   const [currentFilter, setCurrentFilter] = useState<OverlayItem | null>(null);
   const [sourcePlayback, setSourcePlayback] = useState<SourcePlayback>();
@@ -39,11 +40,26 @@ export function SnapEditor(props: SnapEditorProps) {
     props.tflite,
     {
       detections: props.detections,
+      backgroundConfig,
     }
   );
 
   useEffect(() => {
-    const el = currentFilter?.render(props.detections) || null;
+    const inputImage = new Image();
+    inputImage.width = props.screenSize.width;
+    inputImage.height = props.screenSize.height;
+    inputImage.onload = () => {
+      setSourcePlayback({
+        htmlElement: inputImage,
+      ...props.screenSize
+      })
+    }
+    inputImage.src = props.snap;
+  }, [])
+
+  useEffect(() => {
+    setBackgroundConfig(undefined);
+    const el = currentFilter?.render(props.detections, (conf: BackgroundConfig) => setBackgroundConfig(conf)) || null;
     setFilterEl(el);
   }, [currentFilter]);
 
@@ -73,16 +89,6 @@ export function SnapEditor(props: SnapEditorProps) {
     })),
   ];
 
-  const onImageLoad = () => {
-    if (!imgRef.current || !canvasRef.current) return;
-
-    setSourcePlayback({
-      htmlElement: imgRef.current,
-    ...props.screenSize
-
-    })
-  };
-
   const onCarouselClick = (item: CarouselItem) => {
     item.onClick(item);
   };
@@ -111,13 +117,18 @@ export function SnapEditor(props: SnapEditorProps) {
   };
 
   const downloadButton = <Button variant="contained" aria-label="download" onClick={onDownloadClick}> Download </Button>;
+  
+  const backgroundStyle: React.CSSProperties = {}
+  if (backgroundConfig?.type === 'image' && backgroundConfig.url) {
+    backgroundStyle.backgroundImage = `url(${backgroundConfig.url})`;
+  }
+
   return (
     <div className="snap-editor">
-      <img className="loader" ref={imgRef} alt="tmp" src={props.snap} width={props.screenSize.width} height={props.screenSize.height} onLoad={onImageLoad} />
 
-      <div className="content" ref={contentRef}>
+      <div className="content" ref={contentRef} >
         <Header extraButton={downloadButton} extraClass="floating" />
-        <canvas width={props.screenSize.width} height={props.screenSize.height} ref={canvasRef} />
+        <canvas width={props.screenSize.width} height={props.screenSize.height} ref={canvasRef} style={backgroundStyle}/>
         {filterEl}
       </div>
 

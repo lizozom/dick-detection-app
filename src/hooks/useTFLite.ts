@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react'
 import ReactGA from 'react-ga4'
 import {
   getTFLiteModelFileName,
-  SegmentationConfig,
-} from '../helpers/segmentationHelper'
+} from '../helpers'
 import { useMLMoudle } from './useMLModule'
 import { useWasmFeatures } from './useWasmFeatures'
 

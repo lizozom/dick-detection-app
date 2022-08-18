@@ -14,7 +14,7 @@ import {
 } from './helpers';
 import './cameraDetector.scss';
 import { YoloModel, useRenderingPipeline } from './hooks';
-import { SourcePlayback } from './helpers/sourceHelper';
+import { SourcePlayback } from './helpers';
 
 export interface DetectorProps {
   yolo?: YoloModel;
