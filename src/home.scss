@@ -1,4 +1,9 @@
 @use '../mixins' as m;
+@use '../public/fonts/knewave/stylesheet.css';
+
+$homePink: #CB3283;
+$homeBlack: #010101;
+
 /*Moc Animation*/
 @-webkit-keyframes moc-animation {
   0% {
@@ -33,7 +38,9 @@
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
-  font-family: Rubik;
+  font-family: 'rubik', 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
 
   &::-webkit-scrollbar {
     width: 2px;
@@ -51,49 +58,118 @@
     font-size: 1.5em;
   }
 
-  
-  .title {
-    .MuiPaper-root {
-      background-color: pink;
+  .logo-section {
+    background: white;
+    .container {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      
+      background-color: $homePink;
+      border-radius: 0px 0px 15vw 15vw;
 
-      background: rgb(0,212,255);
-      background: linear-gradient(135deg, rgba(0,212,255,1) 0%, rgba(255,192,203,1) 50%, rgba(255,192,203,1) 100%);
+      color: #ceeeea;
+      font-family: rubik, sans-serif; 
+      font-weight: 800;
+
+      padding: 1em;
+      font-size: 2em;
+
+      .logo {
+        padding-right: 1vh;
+        height: 6vh;
+        width: 6vh;
+
+        svg {
+          color: currentColor;
+        }
+      }  
+    }
+
+  }
+  
+  .title-section {
+    .MuiPaper-root {
+      background-color: white;
       line-height: 1.5;
       height: 80vh;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      align-items: center;
 
-      h1 {
+      h1.main-title  {
+        padding-top: 1em;
         font-size: 5em;
         font-weight: 1000;
         line-height: 1.1;
         margin: 0 0 10px;
         color: #fff;
+        font-style: normal;
+        text-align: center;
+
+        div:nth-child(1) {
+          color: #329DCB;
+          font-family: satisfy, sans-serif; 
+          font-weight: 400;
+
+        }
+        
+        div:nth-child(2) {
+          color: #CB3232;
+          font-family: playfair-display, serif;
+          font-weight: 700;
+        }
+
+        div:nth-child(3) {
+          color: #5B32CB;            
+          font-family: KnewaveRegular, serif;
+        }
+      
       }
 
-      h2 {
+      .subtitle {
         font-size: 2.5em;
-        color: #f9f9f9;
+        font-family: rubik, sans-serif; 
+        font-weight: 200;
+        color: $homeBlack;
       }
 
-      h3 {
-        color: #f9f9f9;
+      .content {
+        font-size: 1.1em;
+        text-align: center;
+        color: $homeBlack;
         padding-bottom: 15px;
+        font-family: rubik, sans-serif; 
+        font-weight: 400;
       }
 
+    }
+    .call-to-action {
+      background-color: $homePink;
+      width: 80%;
+      border-radius: 2em;
+      padding: 1em;
+    }
+  }
+
+
+  .meme-section {
+    .MuiPaper-root {
+      text-align: center;
     }
   }
 
   .mobile-preview {
     position: relative;
+    display: none;
 
     .MuiPaper-root {
       height: 80vh;
       background-color: pink;
 
       .phone {
-        background-image: url(../public/phone-moc.png);
+        background-image: url(../public/images/phone-moc.png);
         background-repeat: no-repeat;
         background-position: right center;
         position: absolute;
@@ -114,15 +190,34 @@
   .privacy {
 
     .MuiPaper-root {
-      background-color: #eac0ff;
-      color: rgba(0,212,255,1);
+      text-align: center;
 
-      h3 {
-        text-shadow: 1px 1px 0px #ffffff;
+      .title {
+        color: $homePink;
+
+        :nth-child(1) {
+          font-family: KnewaveRegular, serif;
+          font-size: 2em;
+          font-weight: 400;
+
+        }
+
+        :nth-child(2) {
+          font-family: playfair-display, serif;
+          font-weight: 700;
+          font-size: 1.5em;
+        }
+
       }
 
-      p {
-        font-size: 1.5em;
+      .content {
+        font-size: 1.1em;
+        font-weight: 400;
+        font-family: rubik, sans-serif; 
+
+        &.color{
+          color: $homePink;
+        }
       }
     }
   }

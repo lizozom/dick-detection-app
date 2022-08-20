@@ -22,13 +22,10 @@
     background-image: linear-gradient(m.$body-color, rgba(256, 256, 256, 0));
 
 
-    .logo {
+    svg {
       padding-right: 1vh;
       height: 4vh;
       width: 4vh;
-      background-position: center; /* Center the image */
-      background-repeat: no-repeat; /* Do not repeat the image */
-      background-size: cover; /* Resize the background image to cover the entire container */
     }  
 
     .extra-buttons {

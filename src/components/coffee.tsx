@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './coffee.scss';
 
-import CoffeeSrc from '../../public/bmc-new-btn-logo.svg';
+import CoffeeSrc from '../../public/images/bmc-new-btn-logo.svg';
 
 export function Coffee() {
     return (

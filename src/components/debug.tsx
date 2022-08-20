@@ -4,7 +4,6 @@ import { simd, threads } from 'wasm-feature-detect'
 import { copyToCanvas, Detection, detectYolo } from '../helpers';
 import { useYolo } from '../hooks';
 
-// @ts-ignore
 import Dp1 from '/public/misc/dp1.jpg';
 
 export function Debug() {

@@ -5,10 +5,12 @@ import { Grid } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import {
-  Header, Footer, Coffee,
+  Footer, Coffee, SvgLogo
 } from './components';
 
 import './home.scss';
+
+import OpraSrc from '../public/images/opra.png';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -21,34 +23,41 @@ export function Home() {
   const navigate = useNavigate();
   const navigateToApp = () => navigate('/app');
 
-  const tryButton = <Button variant="contained" onClick={navigateToApp} size="large">Try it now</Button>;
   return (
     <div className="home">
-      <Header extraButton={tryButton} />
       <Grid
         container
 
       >
-        <Grid className="title" item xs={12} md={6}>
+        <Grid className="logo-section" item xs={12} md={12}>
+          <Item className="container">
+            <div className='logo'>
+              <SvgLogo color='white'/>
+            </div>
+            <span>duckpuc</span>
+          </Item>
+        </Grid>
+        <Grid className="title-section" item xs={12} md={6}>
           <Item>
-            <h1>
-              Pretty
-              <br />
-              Damn
-              <br />
-              Dicks
+            <h1 className="main-title">
+              <div>Pretty</div>
+              <div>Damn</div>
+              <div>Dicks</div>
             </h1>
-            <h2>All dicks are beautiful. </h2>
-            <h3>
+            <h2 className='subtitle'>All dicks are beautiful. </h2>
+            <h3 className='content'>
               Small, medium or large, black and white,
               <br />
               hairy or shaved, freckled or veiny,
               <br />
               all dicks deserve to be appreciated.
             </h3>
-            <div>
-              {tryButton}
-            </div>
+            <Button variant="contained" className="call-to-action" onClick={navigateToApp} size="large">Show it to me</Button>
+          </Item>
+        </Grid>
+        <Grid className="meme-section" item xs={12} md={6}>
+          <Item>
+            <img src={OpraSrc} alt="meme"/>
           </Item>
         </Grid>
         <Grid className="mobile-preview" item xs={12} md={6}>
@@ -58,16 +67,17 @@ export function Home() {
         </Grid>
         <Grid className="privacy" item xs={12} md={12}>
           <Item>
-            <h3>
-              We are HOT... for privacy.
+            <h3 className="title">
+              <div>We are HOT</div>
+              <div>... for privacy.</div>
             </h3>
-            <p>
+            <p className="content">
               We believe that your duckpucs should only be shared consensually,
               and only if you choose to do so. Seriously.
-              <br />
+            </p>
+            <p className="content color">
               That’s why your photos never leave your phone.
-              {' '}
-              <b>Your photos are yours.</b>
+              Your photos are yours.
             </p>
 
           </Item>

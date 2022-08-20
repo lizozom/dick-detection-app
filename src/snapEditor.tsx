@@ -10,8 +10,7 @@ import { Header, Carousel, CarouselItem } from './components';
 import { items, OverlayItem } from './filters';
 import { Detection } from './helpers';
 
-// @ts-ignore
-import RetrySrc from '../public/retry-icon.svg';
+import RetrySrc from '../public/images/retry-icon.svg';
 
 import './snapEditor.scss';
 import { TFLite } from './hooks/useTFLite';

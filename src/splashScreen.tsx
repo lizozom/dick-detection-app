@@ -9,8 +9,7 @@ import {
 
 import './splashScreen.scss';
 
-// @ts-ignore
-import RubberDuck from '../public/duck-image-trans.png';
+import RubberDuck from '../public/images/duck-image-trans.png';
 
 export interface SpashProps {
   yolo?: YoloModel;

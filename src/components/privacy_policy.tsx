@@ -13,7 +13,7 @@ export function PrivacyPolicy() {
   Modal.setAppElement('#root');
 
   return (
-    <div className="privacy">
+    <div className="privacy-policy">
       <Header />
       <div className="content" dangerouslySetInnerHTML={{ __html: PolicyHtml }} />
     </div>
