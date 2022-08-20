@@ -50,17 +50,22 @@ module.exports = {
             },
             {
                 test: /\.svg$/i,
-                type: 'asset/inline',
-                generator: {
-                    dataUrl: content => {
-                      content = content.toString();
-                      return svgToMiniDataURI(content);
-                    }
-                  },
+                type: 'asset/resource'
+                // type: 'asset/inline',
+                // generator: {
+                //     dataUrl: content => {
+                //       content = content.toString();
+                //       return svgToMiniDataURI(content);
+                //     }
+                //   },
             },
             {
                 test: /\.(png|jpg|jpeg|gif)$/i,
                 type: 'asset/resource'
+            },
+            {
+                test: /\.(woff|woff2|eot|ttf|otf)$/i,
+                type: 'asset/resource',
             },
             {
                 test: /\.(wasm)$/,
@@ -75,6 +80,10 @@ module.exports = {
                 {
                     context: 'public/', 
                     from: 'banners/*'
+                },
+                {
+                    context: 'public/', 
+                    from: 'images/*'
                 },
                 {
                     context: 'public/', 
@@ -108,7 +117,7 @@ module.exports = {
             }
         }),
         new FaviconsWebpackPlugin({
-            logo: './public/duckpuc-logo.svg', // svg works too!
+            logo: './public/images/duckpuc-logo.svg', // svg works too!
             mode: 'webapp', // optional can be 'webapp', 'light' or 'auto' - 'auto' by default
             devMode: 'webapp',
             favicons: {

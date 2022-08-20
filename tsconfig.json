@@ -8,6 +8,9 @@
       "target": "es5",
       "jsx": "react",
       "allowJs": true,
-      "moduleResolution": "node"
-    }
+      "moduleResolution": "node",
+    },
+
+    "include": ["src/**/*", "globals.d.ts"],
+    "exclude": ["node_modules", "dist", "cpp"]
   }

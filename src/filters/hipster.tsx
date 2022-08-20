@@ -4,11 +4,8 @@ import { useState } from 'react';
 import { getDetection, DICK_HEAD } from '../helpers';
 import type { FilterProps } from './types';
 
-// @ts-ignore
 import GlassesSrc from './images/glasses.png';
-// @ts-ignore
 import CigaretteSrc from './images/cigarette.png';
-// @ts-ignore
 import GallerySrc from './images/gallery.jpg';
 
 export function Hispter(props: FilterProps) {

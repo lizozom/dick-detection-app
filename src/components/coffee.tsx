@@ -1,7 +1,6 @@
 import * as React from 'react';
 import './coffee.scss';
 
-// @ts-ignore
 import CoffeeSrc from '../../public/bmc-new-btn-logo.svg';
 
 export function Coffee() {

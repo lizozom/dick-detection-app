@@ -3,11 +3,8 @@ import { useEffect } from 'react';
 import { getDickHeadBox } from '../helpers';
 import type { FilterProps } from './types';
 
-// @ts-ignore
 import HeartsSrc from './images/hearts.png';
-// @ts-ignore
 import LoveEyesSrc from './images/love-eyes.png';
-// @ts-ignore
 import ValentinesBgSrc from './images/valentines.jpg';
 
 export function Hearts(props: FilterProps) {

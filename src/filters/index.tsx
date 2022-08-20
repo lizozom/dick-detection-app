@@ -10,19 +10,11 @@ import { Hearts } from './hearts';
 import { Rain } from './rain';
 import { Santa } from './santa';
 
-// @ts-ignore
 import MustacheSrc from './images/mustache.png';
-// @ts-ignore
 import GlassesSrc from './images/glasses.png';
-// @ts-ignore
-import FrameSrc from './images/frame.png';
-// @ts-ignore
 import RainSrc from './images/rain.png';
-// @ts-ignore
 import GrassSrc from './images/grass.png';
-// @ts-ignore
 import HeartsSrc from './images/hearts.png';
-// @ts-ignore
 import SantaHatSrc from './images/christmas.png';
 
 import "./index.scss";

@@ -2,11 +2,8 @@ import * as React from 'react';
 import { getDickHeadBox, getDickBox } from '../helpers';
 import type { FilterProps } from './types';
 
-// @ts-ignore
 import ChristmasGiftsSrc from './images/gift-box.png';
-// @ts-ignore
 import SantaSrc from './images/christmas.png';
-// @ts-ignore
 import SantaBgSrc from './images/christmas-bg.png';
 
 import "./santa.scss";

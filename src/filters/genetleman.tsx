@@ -4,11 +4,8 @@ import { useState, useEffect } from 'react';
 import { getDetection, DICK_HEAD } from '../helpers';
 import type { FilterProps } from './types';
 
-// @ts-ignore
 import MustacheSrc from './images/mustache.png';
-// @ts-ignore
 import TopHatSrc from './images/tophat.png';
-// @ts-ignore
 import ClubSrc from './images/club.jpg';
 
 export function Gentleman(props: FilterProps) {

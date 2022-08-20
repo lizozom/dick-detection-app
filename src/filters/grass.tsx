@@ -3,11 +3,8 @@ import { useEffect } from 'react';
 import { getDickHeadBox, getDickBox } from '../helpers';
 import type { FilterProps } from './types';
 
-// @ts-ignore
 import GrassSrc from './images/grass.png';
-// @ts-ignore
 import MarioHatSrc from './images/mario-hat.png';
-// @ts-ignore
 import MeadowSrc from './images/meadow.jpg';
 
 import "./grass.scss";
