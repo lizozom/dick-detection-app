@@ -96,10 +96,10 @@ $homeBorderRadius: 15vw;
     .MuiPaper-root {
       background-color: white;
       line-height: 1.5;
-      height: 80vh;
       display: flex;
       flex-direction: column;
       align-items: center;
+      padding-bottom: 4em;
 
       h1.main-title  {
         padding-top: 1em;
@@ -168,7 +168,6 @@ $homeBorderRadius: 15vw;
     display: none;
 
     .MuiPaper-root {
-      height: 80vh;
       background-color: pink;
 
       .phone {
