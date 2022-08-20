@@ -3,6 +3,8 @@
 
 $homePink: #CB3283;
 $homeBlack: #010101;
+$homeYellow: #FFF574;
+$homeBorderRadius: 15vw;
 
 /*Moc Animation*/
 @-webkit-keyframes moc-animation {
@@ -67,7 +69,7 @@ $homeBlack: #010101;
       justify-content: center;
       
       background-color: $homePink;
-      border-radius: 0px 0px 15vw 15vw;
+      border-radius: 0px 0px $homeBorderRadius $homeBorderRadius;
 
       color: #ceeeea;
       font-family: rubik, sans-serif; 
@@ -223,19 +225,48 @@ $homeBlack: #010101;
   }
 
   .about-us {
+    background: white;
     .MuiPaper-root {
-      background-color: #c0fdff;
-      color: #eac0ff;
+      text-align: center;
+      padding: 0;
 
+      .content {
+        position: relative;
+        .content-inner {
+          font-weight: 400;
+          font-family: rubik, sans-serif; 
+          background-color: $homeYellow;
+          color: $homeBlack;
+          border-radius: $homeBorderRadius $homeBorderRadius 0px 0px ;
+    
+          &::before {
+            content:url('../public/images/duck-in-circle.png'); /* with class ModalCarrot ??*/
+            position: absolute;
+            z-index: 100000;
+            left: calc(50% - 5em);
+            top: -5em;
+            width: 10em;
+  
+          }
+    
+          h3 {
+            font-family: satisfy, sans-serif; 
+            font-weight: 400;
+            font-size: 3em;
+            padding-top: 2em;
+            color: $homePink;
+          }
+          p {
+            font-size: 1.1em;
+            padding: 0 1em;
+          }
+          .coffee-wrapper {
+            padding-top: 1.5em;
+            padding-bottom: 1.5em;
+            text-align: center;
+          }
+        }
 
-      h3 {
-        text-shadow: 1px 1px 0px #ffffff;
-      }
-      p {
-        font-size: 1.5em;
-      }
-      .coffee-wrapper {
-        text-align: center;
       }
     }
   }

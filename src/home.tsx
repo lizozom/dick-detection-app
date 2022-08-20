@@ -11,6 +11,7 @@ import {
 import './home.scss';
 
 import OpraSrc from '../public/images/opra.png';
+import DuckInCircleSrc from '../public/images/duck-in-circle.png'
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -84,30 +85,31 @@ export function Home() {
         </Grid>
         <Grid item xs={12} md={12} className="about-us">
           <Item>
-            <h3>About me</h3>
-            <p>
-              I’m a software engineer, entrepreneur and I also happen to be a chick that appreciates dicks.
-            </p>
-            <p>
-              I believe that men should be free to enjoy the same benefits of the body positivity movement:
-              {' '}
-              <br />
-              honesty, openness, vulnerability and learning to accept you and your only one eyed snake,
-              knowing it is perfect the way it is.
-            </p>
-            <p>
-              This project is entirely non-profit. If you like it -
-            </p>
-            <div className="coffee-wrapper">
-              <Coffee />
+            {/* <img src={DuckInCircleSrc}/> */}
+            <div className="content">
+              <div className="content-inner">
+                <h3>About me</h3>
+                <p>
+                  I’m a software engineer, entrepreneur and I also happen to be a chick that appreciates dicks.
+                </p>
+                <p>
+                  I believe that men should be free to enjoy the same benefits of the body positivity movement:
+                  {' '}
+                  <br />
+                  honesty, openness, vulnerability and learning to accept you and your only one eyed snake,
+                  knowing it is perfect the way it is.
+                </p>
+                <p>
+                  This project is entirely non-profit. <br/><b>If you like it -</b>
+                </p>
+                <div className="coffee-wrapper">
+                  <Coffee />
+                </div>
+              </div>
             </div>
 
           </Item>
         </Grid>
-        <Grid item xs={12} md={12} className="coffee">
-          <Item />
-        </Grid>
-
       </Grid>
       <Footer />
 
