@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { getDickHeadBox } from '../helpers';
-import type { FilterProps } from './types';
+import { getDickHeadBox } from '../../helpers';
+import type { FilterProps } from '../types';
 
-import RainSrc from './images/rain.png';
-import UmbrellatTopSrc from './images/umbrella-top.png';
-import LightningSrc from './images/lightning.png';
+import RainSrc from './rain.png';
+import UmbrellatTopSrc from './umbrella-top.png';
+import LightningSrc from './lightning.png';
 
 export function Rain(props: FilterProps) {
     const dickHead = getDickHeadBox(props.detections)

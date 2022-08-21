@@ -1,12 +1,12 @@
 import * as React from 'react';
 import type { SyntheticEvent } from 'react';
 import { useState, useEffect } from 'react';
-import { getDetection, DICK_HEAD } from '../helpers';
-import type { FilterProps } from './types';
+import { getDetection, DICK_HEAD } from '../../helpers';
+import type { FilterProps } from '../types';
 
-import MustacheSrc from './images/mustache.png';
-import TopHatSrc from './images/tophat.png';
-import ClubSrc from './images/club.jpg';
+import MustacheSrc from './mustache.png';
+import TopHatSrc from './tophat.png';
+import ClubSrc from './club.jpg';
 
 export function Gentleman(props: FilterProps) {
     const [topHatHeight, setTopHatHeight] = useState<number>(0);

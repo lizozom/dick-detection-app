@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { useEffect } from 'react';
-import { getDickHeadBox } from '../helpers';
-import type { FilterProps } from './types';
+import { getDickHeadBox } from '../../helpers';
+import type { FilterProps } from '../types';
 
-import HeartsSrc from './images/hearts.png';
-import LoveEyesSrc from './images/love-eyes.png';
-import ValentinesBgSrc from './images/valentines.jpg';
+import HeartsSrc from './hearts.png';
+import LoveEyesSrc from './love-eyes.png';
+import ValentinesBgSrc from './valentines.jpg';
 
 export function Hearts(props: FilterProps) {
     const dickHead = getDickHeadBox(props.detections)

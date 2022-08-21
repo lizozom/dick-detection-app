@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { getDetection, DICK_HEAD } from '../helpers';
-import type { FilterProps } from './types';
+import { getDetection, DICK_HEAD } from '../../helpers';
+import type { FilterProps } from '../types';
 
-import GlassesSrc from './images/glasses.png';
-import CigaretteSrc from './images/cigarette.png';
-import GallerySrc from './images/gallery.jpg';
+import GlassesSrc from './glasses.png';
+import CigaretteSrc from './cigarette.png';
+import GallerySrc from './gallery.jpg';
 
-export function Hispter(props: FilterProps) {
+export function Hipster(props: FilterProps) {
     const [topHatHeight, setTopHatHeight] = useState<number>(0);
     const dickHead = getDetection(props.detections, DICK_HEAD);
     const top = (dickHead?.bbox_y || 0) + (dickHead?.bbox_h || 0) * 0.3;

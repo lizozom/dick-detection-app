@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { getDickHeadBox, getDickBox } from '../helpers';
-import type { FilterProps } from './types';
+import { getDickHeadBox, getDickBox } from '../../helpers';
+import type { FilterProps } from '../types';
 
-import ChristmasGiftsSrc from './images/gift-box.png';
-import SantaSrc from './images/christmas.png';
-import SantaBgSrc from './images/christmas-bg.png';
+import ChristmasGiftsSrc from './gift-box.png';
+import SantaSrc from './christmas.png';
+import SantaBgSrc from './christmas-bg.png';
 
 import "./santa.scss";
 import { useEffect } from 'react';

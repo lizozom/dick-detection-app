@@ -2,20 +2,12 @@ import * as React from 'react';
 import { BackgroundConfig } from '../helpers/pipelineHelpers';
 
 import type { Detection } from '../helpers';
-import { Gentleman } from './genetleman';
-import { Hispter } from './hipster';
-import { Frame } from './frame';
-import { Grass } from './grass';
-import { Hearts } from './hearts';
-import { Rain } from './rain';
-import { Santa } from './santa';
-
-import MustacheSrc from './images/mustache.png';
-import GlassesSrc from './images/glasses.png';
-import RainSrc from './images/rain.png';
-import GrassSrc from './images/grass.png';
-import HeartsSrc from './images/hearts.png';
-import SantaHatSrc from './images/christmas.png';
+import { Gentleman, GentlemanLogo } from './gentleman';
+import { Hipster, HipsterLogo } from './hipster';
+import { Grass, GrassLogo } from './grass';
+import { Hearts, HeartsLogo } from './hearts';
+import { Rain, RainLogo } from './rain';
+import { Santa, SantaLogo } from './santa';
 
 import "./index.scss";
 
@@ -27,19 +19,19 @@ export interface OverlayItem {
 
 export const items: Array<OverlayItem> = [{
         id: 'gentleman',
-        src: MustacheSrc,
+        src: GentlemanLogo,
         render: (detections, setBackgroundConfig) => <Gentleman detections={detections} setBackgroundConfig={setBackgroundConfig}/>
     }, {
         id: 'hipster',
-        src: GlassesSrc,
-        render: (detections, setBackgroundConfig) => <Hispter detections={detections} setBackgroundConfig={setBackgroundConfig}/>
+        src: HipsterLogo,
+        render: (detections, setBackgroundConfig) => <Hipster detections={detections} setBackgroundConfig={setBackgroundConfig}/>
     },{
         id: 'grass',
-        src: GrassSrc,
+        src: GrassLogo,
         render: (detections, setBackgroundConfig) => <Grass detections={detections} setBackgroundConfig={setBackgroundConfig}/>
     },{
         id: 'santa',
-        src: SantaHatSrc,
+        src: SantaLogo,
         render: (detections, setBackgroundConfig) => <Santa detections={detections} setBackgroundConfig={setBackgroundConfig}/>
     }, {
     //     id: 'frame',
@@ -47,10 +39,10 @@ export const items: Array<OverlayItem> = [{
     //     render: (detections) => <Frame detections={detections}/>
     // }, {
         id: 'rain',
-        src: RainSrc,
+        src: RainLogo,
         render: (detections, setBackgroundConfig) => <Rain detections={detections} setBackgroundConfig={setBackgroundConfig}/>
     }, {
         id: 'hearts',
-        src: HeartsSrc,
+        src: HeartsLogo,
         render: (detections, setBackgroundConfig) => <Hearts detections={detections} setBackgroundConfig={setBackgroundConfig}/>
     }];

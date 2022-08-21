@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { useEffect } from 'react';
-import { getDickHeadBox, getDickBox } from '../helpers';
-import type { FilterProps } from './types';
+import { getDickHeadBox, getDickBox } from '../../helpers';
+import type { FilterProps } from '../types';
 
-import GrassSrc from './images/grass.png';
-import MarioHatSrc from './images/mario-hat.png';
-import MeadowSrc from './images/meadow.jpg';
+import GrassSrc from './grass.png';
+import MarioHatSrc from './mario-hat.png';
+import MeadowSrc from './meadow.jpg';
 
 import "./grass.scss";
 
