@@ -8,6 +8,9 @@ import { Grass, GrassLogo } from './grass';
 import { Hearts, HeartsLogo } from './hearts';
 import { Rain, RainLogo } from './rain';
 import { Santa, SantaLogo } from './santa';
+import { Thuglife, ThuglifeLogo } from './thuglife';
+import { Fuckoff, FuckoffLogo } from './fuckoff';
+import { Troll, TrollLogo } from './troll';
 
 import "./index.scss";
 
@@ -18,6 +21,18 @@ export interface OverlayItem {
 }
 
 export const items: Array<OverlayItem> = [{
+        id: 'thuglife',
+        src: ThuglifeLogo,
+        render: (detections, setBackgroundConfig) => <Thuglife detections={detections} setBackgroundConfig={setBackgroundConfig}/>
+    },{
+        id: 'fuckoff',
+        src: FuckoffLogo,
+        render: (detections, setBackgroundConfig) => <Fuckoff detections={detections} setBackgroundConfig={setBackgroundConfig}/>
+    },{
+        id: 'troll',
+        src: TrollLogo,
+        render: (detections, setBackgroundConfig) => <Troll detections={detections} setBackgroundConfig={setBackgroundConfig}/>
+    },{
         id: 'gentleman',
         src: GentlemanLogo,
         render: (detections, setBackgroundConfig) => <Gentleman detections={detections} setBackgroundConfig={setBackgroundConfig}/>
