@@ -5,13 +5,13 @@ import { Grid } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import {
-  Footer, Coffee, SvgLogo
+  Footer, Coffee, SvgLogo,
 } from './components';
 
 import './home.scss';
 
 import OpraSrc from '../public/images/opra.png';
-import DuckInCircleSrc from '../public/images/duck-in-circle.png'
+import DuckInCircleSrc from '../public/images/duck-in-circle.png';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -32,8 +32,8 @@ export function Home() {
       >
         <Grid className="logo-section" item xs={12} md={12}>
           <Item className="container">
-            <div className='logo'>
-              <SvgLogo color='white'/>
+            <div className="logo">
+              <SvgLogo color="white" />
             </div>
             <span>duckpuc</span>
           </Item>
@@ -45,8 +45,8 @@ export function Home() {
               <div>Damn</div>
               <div>Dicks</div>
             </h1>
-            <h2 className='subtitle'>All dicks are beautiful. </h2>
-            <h3 className='content'>
+            <h2 className="subtitle">All dicks are beautiful. </h2>
+            <h3 className="content">
               Small, medium or large, black and white,
               <br />
               hairy or shaved, freckled or veiny,
@@ -58,7 +58,7 @@ export function Home() {
         </Grid>
         <Grid className="meme-section" item xs={12} md={6}>
           <Item>
-            <img src={OpraSrc} alt="meme"/>
+            <img src={OpraSrc} alt="meme" />
           </Item>
         </Grid>
         <Grid className="mobile-preview" item xs={12} md={6}>
@@ -100,7 +100,10 @@ export function Home() {
                   knowing it is perfect the way it is.
                 </p>
                 <p>
-                  This project is entirely non-profit. <br/><b>If you like it -</b>
+                  This project is entirely non-profit.
+                  {' '}
+                  <br />
+                  <b>If you like it -</b>
                 </p>
                 <div className="coffee-wrapper">
                   <Coffee />

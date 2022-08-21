@@ -8,14 +8,13 @@ import { Button } from '@mui/material';
 import type { ScreenSize } from './types';
 import { Header, Carousel, CarouselItem } from './components';
 import { items, OverlayItem } from './filters';
-import { Detection } from './helpers';
+import { Detection, SourcePlayback } from './helpers';
 
 import RetrySrc from '../public/images/retry-icon.svg';
 
 import './snapEditor.scss';
 import { TFLite } from './hooks/useTFLite';
 import { useRenderingPipeline } from './hooks';
-import { SourcePlayback } from './helpers';
 import { BackgroundConfig } from './helpers/pipelineHelpers';
 
 export interface SnapEditorProps {
@@ -40,7 +39,7 @@ export function SnapEditor(props: SnapEditorProps) {
     {
       detections: props.detections,
       backgroundConfig,
-    }
+    },
   );
 
   useEffect(() => {
@@ -50,11 +49,11 @@ export function SnapEditor(props: SnapEditorProps) {
     inputImage.onload = () => {
       setSourcePlayback({
         htmlElement: inputImage,
-      ...props.screenSize
-      })
-    }
+        ...props.screenSize,
+      });
+    };
     inputImage.src = props.snap;
-  }, [])
+  }, []);
 
   useEffect(() => {
     setBackgroundConfig(undefined);
@@ -116,8 +115,8 @@ export function SnapEditor(props: SnapEditorProps) {
   };
 
   const downloadButton = <Button variant="contained" aria-label="download" onClick={onDownloadClick}> Download </Button>;
-  
-  const backgroundStyle: React.CSSProperties = {}
+
+  const backgroundStyle: React.CSSProperties = {};
   if (backgroundConfig?.type === 'image' && backgroundConfig.url) {
     backgroundStyle.backgroundImage = `url(${backgroundConfig.url})`;
   }
@@ -125,9 +124,9 @@ export function SnapEditor(props: SnapEditorProps) {
   return (
     <div className="snap-editor">
 
-      <div className="content" ref={contentRef} >
+      <div className="content" ref={contentRef}>
         <Header extraButton={downloadButton} extraClass="floating" />
-        <canvas width={props.screenSize.width} height={props.screenSize.height} ref={canvasRef} style={backgroundStyle}/>
+        <canvas width={props.screenSize.width} height={props.screenSize.height} ref={canvasRef} style={backgroundStyle} />
         {filterEl}
       </div>
 

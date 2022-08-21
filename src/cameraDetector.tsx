@@ -11,10 +11,10 @@ import { Header, ErrorModal } from './components';
 import type { ScreenSize } from './types';
 import {
   copyToCanvas, Detection, detectYolo,
+  SourcePlayback,
 } from './helpers';
 import './cameraDetector.scss';
 import { YoloModel, useRenderingPipeline } from './hooks';
-import { SourcePlayback } from './helpers';
 
 export interface DetectorProps {
   yolo?: YoloModel;

@@ -30,7 +30,7 @@ export function App() {
 
   if (!started) {
     return (
-      <SplashScreen yolo={yolo}  loadError={loadError} onStartClick={() => setStarted(true)} />
+      <SplashScreen yolo={yolo} loadError={loadError} onStartClick={() => setStarted(true)} />
     );
   } if (snap && tflite) {
     return (
