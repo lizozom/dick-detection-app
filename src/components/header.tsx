@@ -13,7 +13,7 @@ export interface HeaderProps {
 
 export function Header(props: HeaderProps) {
   const navigate = useNavigate();
-  const navigateFn = () => navigate('/');
+  const navigateFn = () => navigate('/app');
   return (
     <div className={`header ${props.extraClass}`}>
       <SvgLogo onClick={navigateFn}/>
