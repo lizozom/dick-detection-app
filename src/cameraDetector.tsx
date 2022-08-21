@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {
-  useRef, useState, useEffect, ReactNode,
+  useRef, useState, useEffect, ReactNode, useCallback,
 } from 'react';
 import type { ChangeEvent } from 'react';
 import ReactGA from 'react-ga4';
@@ -49,7 +49,7 @@ export function CameraDetector(props: DetectorProps) {
     timestamp: new Date().getTime(),
   });
 
-  const onDetections = (d: Array<Detection>) => {
+  const onDetections = useCallback((d: Array<Detection>) => {
     if (!firstDetection && d.length > 0) {
       setFirstDetection(true);
     }
@@ -61,7 +61,7 @@ export function CameraDetector(props: DetectorProps) {
         timestamp: now,
       });
     }
-  };
+  }, [firstDetection, detections]);
 
   const {
     canvasRef,
