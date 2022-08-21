@@ -18,9 +18,9 @@
 #define NCNN_STDIO 1
 #define NCNN_STRING 1
 #define NCNN_SIMPLEOCV 0
-#define NCNN_SIMPLEOMP 0
+#define NCNN_SIMPLEOMP 1
 #define NCNN_SIMPLESTL 0
-#define NCNN_THREADS 0
+#define NCNN_THREADS 1
 #define NCNN_BENCHMARK 0
 #define NCNN_C_API 1
 #define NCNN_PLATFORM_API 1
@@ -61,7 +61,7 @@
 #define NCNN_BF16 1
 #define NCNN_FORCE_INLINE 1
 
-#define NCNN_VERSION_STRING "1.0.20220805"
+#define NCNN_VERSION_STRING "1.0.20220821"
 
 #include "ncnn_export.h"
 

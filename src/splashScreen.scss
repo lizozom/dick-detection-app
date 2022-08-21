@@ -45,7 +45,7 @@
         flex-grow: 2;
       }
 
-      .im-ready {
+      .im-ready:enabled {
         border-color: m.$homePink;
         color: m.$homePink;
         border-radius: 2em;

@@ -1,4 +1,10 @@
-cd ~/Projects/ncnn
+cd ~/Projects/ncnn/emsdk
+
+./emsdk install latest
+./emsdk activate latest
+
+cd ..
+source emsdk/emsdk_env.sh
 
 rm -rf build
 rm -rf build-threads
