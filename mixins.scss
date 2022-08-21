@@ -1,2 +1,17 @@
 $body-color: rgb(254,236,224);
 $border-radius: 6vh 6vh 0 0;
+
+$homePink: #CB3283;
+$homeBlack: #010101;
+$homeYellow: #FFF574;
+
+$titleLightBlue: #329DCB;
+$titleBrown: #CB3232;
+$titlePurple: #5B32CB;
+
+@mixin roundedButton {
+    font-family: rubik, serif;
+    font-weight: 400;
+    border-radius: 2em;
+    padding: 1.2em 1.2em 1em 1.2em;
+}

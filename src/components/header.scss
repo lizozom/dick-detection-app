@@ -31,5 +31,10 @@
     .extra-buttons {
       flex-grow: 1;
       text-align: right;
+
+      .MuiButton-root {
+        background-color: m.$homePink;
+        border-radius: 2em;
+      }
     }
 }

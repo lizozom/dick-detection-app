@@ -45,6 +45,16 @@
         flex-grow: 2;
       }
 
+      .im-ready {
+        border-color: m.$homePink;
+        color: m.$homePink;
+        border-radius: 2em;
+      }
+
+      .tell-me-more {
+        color: m.$titleBrown;
+      }
+
     }
 
   }

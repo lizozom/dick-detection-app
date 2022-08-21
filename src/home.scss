@@ -1,9 +1,6 @@
 @use '../mixins' as m;
 @use '../public/fonts/knewave/stylesheet.css';
 
-$homePink: #CB3283;
-$homeBlack: #010101;
-$homeYellow: #FFF574;
 $homeBorderRadius: 15vw;
 
 /*Moc Animation*/
@@ -69,7 +66,7 @@ $homeBorderRadius: 15vw;
       align-items: center;
       justify-content: center;
       
-      background-color: $homePink;
+      background-color: m.$homePink;
       border-radius: 0px 0px $homeBorderRadius $homeBorderRadius;
 
       color: #ceeeea;
@@ -112,20 +109,20 @@ $homeBorderRadius: 15vw;
         text-align: center;
 
         div:nth-child(1) {
-          color: #329DCB;
+          color: m.$titleLightBlue;
           font-family: satisfy, sans-serif; 
           font-weight: 400;
 
         }
         
         div:nth-child(2) {
-          color: #CB3232;
+          color: m.$titleBrown;
           font-family: playfair-display, serif;
           font-weight: 700;
         }
 
         div:nth-child(3) {
-          color: #5B32CB;            
+          color: m.$titlePurple;            
           font-family: KnewaveRegular, serif;
         }
       
@@ -135,13 +132,13 @@ $homeBorderRadius: 15vw;
         font-size: 2.5em;
         font-family: rubik, sans-serif; 
         font-weight: 200;
-        color: $homeBlack;
+        color: m.$homeBlack;
       }
 
       .content {
         font-size: 1.1em;
         text-align: center;
-        color: $homeBlack;
+        color: m.$homeBlack;
         padding-bottom: 15px;
         font-family: rubik, sans-serif; 
         font-weight: 400;
@@ -149,10 +146,9 @@ $homeBorderRadius: 15vw;
 
     }
     .call-to-action {
-      background-color: $homePink;
+      background-color: m.$homePink;
       width: 80%;
-      border-radius: 2em;
-      padding: 1em;
+      @include m.roundedButton;
     }
   }
 
@@ -195,7 +191,7 @@ $homeBorderRadius: 15vw;
       text-align: center;
 
       .title {
-        color: $homePink;
+        color: m.$homePink;
 
         :nth-child(1) {
           font-family: KnewaveRegular, serif;
@@ -218,7 +214,7 @@ $homeBorderRadius: 15vw;
         font-family: rubik, sans-serif; 
 
         &.color{
-          color: $homePink;
+          color: m.$homePink;
         }
       }
     }
@@ -235,8 +231,8 @@ $homeBorderRadius: 15vw;
         .content-inner {
           font-weight: 400;
           font-family: rubik, sans-serif; 
-          background-color: $homeYellow;
-          color: $homeBlack;
+          background-color: m.$homeYellow;
+          color: m.$homeBlack;
           border-radius: $homeBorderRadius $homeBorderRadius 0px 0px ;
     
           &::before {
@@ -254,7 +250,7 @@ $homeBorderRadius: 15vw;
             font-weight: 400;
             font-size: 3em;
             padding-top: 2em;
-            color: $homePink;
+            color: m.$homePink;
           }
           p {
             font-size: 1.1em;

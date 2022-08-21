@@ -60,10 +60,10 @@ export function SplashScreen(props: SpashProps) {
           <div className="engage-1">Are you wearing pants?</div>
           <div className="engage-2">Take them off</div>
           <div className="engage-3">
-            <Button disabled={props.yolo === undefined} variant="outlined" onClick={() => onNextClick()} size="large"> I&apos;m ready &gt;</Button>
+            <Button disabled={props.yolo === undefined} variant="outlined" onClick={() => onNextClick()} size="large" className='im-ready'> I&apos;m ready &gt;</Button>
             <br />
             <br />
-            <Button color="secondary" onClick={onLearnMoreClick} size="small"> Tell me more &gt;</Button>
+            <Button color="secondary" onClick={onLearnMoreClick} size="small" className='tell-me-more'> Tell me more &gt;</Button>
           </div>
         </div>
       </div>
