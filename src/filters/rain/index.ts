@@ -1,3 +1,3 @@
 export { Rain } from './rain';
-import Src from './christmas.png';
+import Src from './rain.png';
 export { Src as RainLogo };
