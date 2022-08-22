@@ -38,7 +38,7 @@ export function Home() {
             <span>duckpuc</span>
           </Item>
         </Grid>
-        <Grid className="title-section" item xs={12} md={6}>
+        <Grid className="title-section" item xs={12} md={12}>
           <Item>
             <h1 className="main-title">
               <div>Pretty</div>

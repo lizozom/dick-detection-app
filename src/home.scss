@@ -150,6 +150,7 @@ $homeBorderRadius: 15vw;
     .call-to-action {
       background-color: m.$homePink;
       width: 80%;
+      max-width: 400px;
       @include m.roundedButton;
     }
   }
@@ -158,6 +159,10 @@ $homeBorderRadius: 15vw;
   .meme-section {
     .MuiPaper-root {
       text-align: center;
+
+      img {
+        width: 80%;
+      }
     }
   }
 
@@ -269,3 +274,12 @@ $homeBorderRadius: 15vw;
     }
   }
 }
+
+
+/* Laptops and Desktops */
+@media (min-width: 768px) {
+  .meme-section {
+    display: none;
+  }
+}
+  
