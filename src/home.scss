@@ -92,6 +92,8 @@ $homeBorderRadius: 15vw;
   .title-section {
     .MuiPaper-root {
       background-color: white;
+      background-image: url(../public/images/bg-pattern.png);
+      background-repeat: repeat;
       line-height: 1.5;
       display: flex;
       flex-direction: column;
