@@ -52,6 +52,8 @@ export function Home() {
               hairy or shaved, freckled or veiny,
               <br />
               all dicks deserve to be appreciated.
+              <br/><br/>
+              So lets create some thoughtful and amusing <i>duckpucs</i>!
             </h3>
             <Button variant="contained" className="call-to-action" onClick={navigateToApp} size="large">Show it to me</Button>
           </Item>

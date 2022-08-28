@@ -2,7 +2,8 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const svgToMiniDataURI = require('mini-svg-data-uri');
+const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
+const { extendDefaultPlugins } = require("svgo");
 
 const appName = 'Duckpuc';
 const duckpuckDescription = 'Duckpuc - Fun & Concensual dickpics';
@@ -26,8 +27,8 @@ module.exports = {
                 exclude: /node_modules/,
             },
             {
-              test: /\.html$/i,
-              loader: "html-loader",
+                test: /\.html$/i,
+                loader: "html-loader",
             },
             {
                 test: /\.s[ac]ss$/i,
@@ -50,18 +51,11 @@ module.exports = {
             },
             {
                 test: /\.svg$/i,
-                type: 'asset/resource'
-                // type: 'asset/inline',
-                // generator: {
-                //     dataUrl: content => {
-                //       content = content.toString();
-                //       return svgToMiniDataURI(content);
-                //     }
-                //   },
+                type: 'asset'
             },
             {
                 test: /\.(png|jpg|jpeg|gif)$/i,
-                type: 'asset/resource'
+                type: 'asset'
             },
             {
                 test: /\.(woff|woff2|eot|ttf|otf)$/i,
@@ -78,21 +72,21 @@ module.exports = {
         new CopyWebpackPlugin({
             patterns: [
                 {
-                    context: 'public/', 
+                    context: 'public/',
                     from: 'banners/*'
                 },
                 {
-                    context: 'public/', 
+                    context: 'public/',
                     from: 'images/*'
                 },
                 {
-                    context: 'public/', 
+                    context: 'public/',
                     from: 'models/*'
                 },
                 {
-                    context: 'public/', 
+                    context: 'public/',
                     from: 'tflite/*'
-                },{
+                }, {
                     context: 'public/',
                     from: 'duckpuc*.(data|wasm|js)'
                 },
@@ -109,7 +103,7 @@ module.exports = {
                 'og:type': { property: 'og:type', content: 'article' },
                 'og:url': { property: 'og:url', content: 'https://duckpuc.com/' },
                 'og:image': { property: 'og:image', content: 'https://duckpuc.com/duckpuc-og-banner.jpg', itemprop: "image" },
-                'og:locale': { property: 'og:locale', content: "en_US"},
+                'og:locale': { property: 'og:locale', content: "en_US" },
                 'twitter:card': { name: 'twitter:card', content: 'summary_large_image' },
                 'twitter:title': { name: 'twitter:title', content: appName },
                 'twitter:description': { name: 'twitter:description', content: duckpuckDescription },
@@ -144,4 +138,40 @@ module.exports = {
             "os": require.resolve("os-browserify/browser"),
         }
     },
+    // optimization: {
+    //     minimizer: [
+    //         new ImageMinimizerPlugin({
+    //             minimizer: {
+    //                 implementation: ImageMinimizerPlugin.imageminMinify,
+    //                 options: {
+    //                     // Lossless optimization with custom option
+    //                     // Feel free to experiment with options for better result for you
+    //                     plugins: [
+    //                         ["jpegtran", { progressive: true }],
+    //                         ["optipng", { optimizationLevel: 5 }],
+    //                         // Svgo configuration here https://github.com/svg/svgo#configuration
+    //                         // [
+    //                         //     "svgo",
+    //                         //     {
+    //                         //         plugins: {
+    //                         //             name: 'preset-default',
+    //                         //             overrides: {
+    //                         //                 removeViewBox: {
+    //                         //                     active: false,
+    //                         //                 },
+    //                         //                 addAttributesToSVGElement: {
+    //                         //                     params: {
+    //                         //                         attributes: [{ xmlns: "http://www.w3.org/2000/svg" }],
+    //                         //                     }
+    //                         //                 }
+    //                         //             }
+    //                         //         },
+    //                         //     },
+    //                         // ],
+    //                     ],
+    //                 },
+    //             },
+    //         }),
+    //     ],
+    // },
 };
