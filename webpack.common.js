@@ -100,12 +100,15 @@ module.exports = {
                 'keyword': 'duckpuc, dickpic, dick, penis, photo, fun, Consensual, conscent',
                 'og:title': appName,
                 'og:description': { property: 'og:description', content: duckpuckDescription },
-                'og:type': { property: 'og:type', content: 'article' },
+                'og:type': { property: 'og:type', content: 'website' },
                 'og:url': { property: 'og:url', content: 'https://duckpuc.com/' },
-                'og:image': { property: 'og:image', content: 'https://duckpuc.com/banners/duckpuc-og-banner.jpg', itemprop: "image" },
+                'og:image': { property: 'og:image', content: 'https://duckpuc.com/banners/duckpuc-og-banner1.jpg', itemprop: "image primaryImageOfPage" },
+                'og:image:width': {property: 'og:image:width', content: 1200},
+                'og:image:height': {property: 'og:image:height', content: 630},
                 'og:locale': { property: 'og:locale', content: "en_US" },
                 'twitter:card': { name: 'twitter:card', content: 'summary_large_image' },
                 'twitter:title': { name: 'twitter:title', content: appName },
+                'twitter:site': { name: 'twitter:title', content: '@duckpuc' },
                 'twitter:description': { name: 'twitter:description', content: duckpuckDescription },
                 'twitter:image': { name: 'twitter:image', content: 'https://duckpuc.com/banners/duckpuc-twitter-banner.jpg' }
             }
