@@ -102,12 +102,12 @@ module.exports = {
                 'og:description': { property: 'og:description', content: duckpuckDescription },
                 'og:type': { property: 'og:type', content: 'article' },
                 'og:url': { property: 'og:url', content: 'https://duckpuc.com/' },
-                'og:image': { property: 'og:image', content: 'https://duckpuc.com/duckpuc-og-banner.jpg', itemprop: "image" },
+                'og:image': { property: 'og:image', content: 'https://duckpuc.com/banners/duckpuc-og-banner.jpg', itemprop: "image" },
                 'og:locale': { property: 'og:locale', content: "en_US" },
                 'twitter:card': { name: 'twitter:card', content: 'summary_large_image' },
                 'twitter:title': { name: 'twitter:title', content: appName },
                 'twitter:description': { name: 'twitter:description', content: duckpuckDescription },
-                'twitter:image': { name: 'twitter:image', content: 'https://duckpuc.com/duckpuc-twitter-banner.jpg' }
+                'twitter:image': { name: 'twitter:image', content: 'https://duckpuc.com/banners/duckpuc-twitter-banner.jpg' }
             }
         }),
         new FaviconsWebpackPlugin({
