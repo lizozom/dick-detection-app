@@ -12,7 +12,7 @@ message(STATUS "build for: ${BUILD_FOR}")
 
 if (BUILD_FOR MATCHES "android")
     # for android
-    set(ncnn_DIR "${CMAKE_CURRENT_SOURCE_DIR}/cpp/ncnn/lib/cmake/ncnn")
+    set(ncnn_DIR "${CMAKE_CURRENT_SOURCE_DIR}/cpp/ncnn-base/lib/cmake/ncnn")
     set(WITH_THREADS true)
 elseif(BUILD_FOR MATCHES "ios-new") 
     set(ncnn_DIR "${CMAKE_CURRENT_SOURCE_DIR}/cpp/ncnn-ios-new/lib/cmake/ncnn")
@@ -45,13 +45,13 @@ set(CMAKE_EXECUTBLE_LINKER_FLAGS "${CMAKE_EXECUTBLE_LINKER_FLAGS} -sMODULARIZE=1
 
 if (BUILD_FOR MATCHES "android")
     # for android
-    add_executable(duckpuc cpp/duckpuc.cpp)
+    add_executable(duckpuc cpp/model-helpers.cpp cpp/model.cpp)
     target_link_libraries(duckpuc ncnn pthread)
 elseif(BUILD_FOR MATCHES "ios-new") 
-    add_executable(duckpuc-ios-new cpp/duckpuc-ios-new.cpp)
+    add_executable(duckpuc-ios-new cpp/model-helpers.cpp cpp/model-ios-new.cpp)
     target_link_libraries(duckpuc-ios-new ncnn pthread)
 elseif(BUILD_FOR MATCHES "ios-old") 
-    add_executable(duckpuc-ios-old cpp/duckpuc-ios-old.cpp)
+    add_executable(duckpuc-ios-old cpp/model-helpers.cpp cpp/model-ios-old.cpp)
     target_link_libraries(duckpuc-ios-old ncnn)
 endif()
 

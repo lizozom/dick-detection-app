@@ -11,9 +11,9 @@ module.exports = merge(common, {
             'all'
         ],
         https: {
-            key: fs.readFileSync("cert.key"),
-            cert: fs.readFileSync("cert.crt"),
-            ca: fs.readFileSync("ca.crt"),
+            key: fs.readFileSync("keys/cert.key"),
+            cert: fs.readFileSync("keys/cert.crt"),
+            ca: fs.readFileSync("keys/ca.crt"),
         },
 
         static: {
